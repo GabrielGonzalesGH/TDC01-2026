@@ -3,11 +3,9 @@
 
 #include "Tree.h"
 
-Tdata	ini_set(void);
-Tdata 	ini_list(void);
-
+Tdata	ini_branch(void);
 Tdata	create_list(void);
-Tdata	create_list(void);
+Tdata	create_set(void);
 Tdata	createDT(char *);
 
 Tdata	copy_list(Tdata);
@@ -22,6 +20,7 @@ Tdata	prod_cartesiano(Tdata, Tdata);
 int		search(Tdata, Tdata);
 int		belongs(Tdata, Tdata);
 int		equals_set(Tdata, Tdata);
+int		equals_tdata(Tdata, Tdata);
 int		subset(Tdata, Tdata);
 char	*conversion_str(Tdata);
 
