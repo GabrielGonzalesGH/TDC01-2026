@@ -790,8 +790,314 @@ buildStatesP2();
 </script>
 
 <hr class="divider" />
+<!-- ================= PROPUESTA 3 ================= -->
+<h2 class="prop-title">📦 Propuesta 3 — Delta como Matriz Dispersa</h2>
 
-<!-- Aquí puedes seguir agregando Propuesta 3, 4, 5 más abajo -->
+<div style="padding: 16px 0;">
+    <!-- TABS para Propuesta 3 -->
+    <div class="tabs">
+        <button class="tab-btn active" onclick="showTab('p3', 'estructuras3')">Estructuras</button>
+        <button class="tab-btn" onclick="showTab('p3', 'matriz')">Matriz de transiciones</button>
+        <button class="tab-btn" onclick="showTab('p3', 'automata3')">Autómata completo</button>
+        <button class="tab-btn" onclick="showTab('p3', 'delta3')">Cómo funciona δ (O(1))</button>
+    </div>
+
+    <!-- TAB Estructuras -->
+    <div id="p3-estructuras3" class="tab-content active">
+        <div class="card">
+            <div class="section-label">Numeración de estados y símbolos</div>
+            <div class="struct-row">
+                <div class="struct-box">
+                    <div class="struct-header">Estados</div>
+                    <div class="struct-field">q0 → 0</div>
+                    <div class="struct-field">q1 → 1</div>
+                    <div class="struct-field">q2 → 2</div>
+                </div>
+                <div class="struct-box">
+                    <div class="struct-header">Símbolos</div>
+                    <div class="struct-field">a → 0</div>
+                    <div class="struct-field">b → 1</div>
+                </div>
+                <div style="font-family:var(--font-sans);font-size:12px;color:var(--color-text-secondary);padding:12px 0;align-self:center;max-width:220px;">
+                    Se asigna un índice entero a cada estado y a cada símbolo para acceder rápidamente a la matriz.
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="section-label">Entrada de transición (arreglo disperso)</div>
+            <div class="struct-row">
+                <div class="struct-box">
+                    <div class="struct-header">struct TransitionEntry</div>
+                    <div class="struct-field"><span class="type-kw">int</span>&nbsp;<span class="field-name">from</span></div>
+                    <div class="struct-field"><span class="type-kw">int</span>&nbsp;<span class="field-name">symbol</span></div>
+                    <div class="struct-field"><span class="type-kw">Tdata</span>&nbsp;<span class="field-name">to</span></div>
+                </div>
+                <div style="font-family:var(--font-sans);font-size:12px;color:var(--color-text-secondary);padding:12px 0;align-self:center;max-width:240px;">
+                    Cada entrada representa δ(q<sub>i</sub>, a<sub>j</sub>) = conjunto de destinos. Solo se almacenan las transiciones definidas (matriz dispersa).
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="section-label">Autómata (con arreglo de entradas)</div>
+            <div class="struct-row">
+                <div class="struct-box">
+                    <div class="struct-header">struct Automata</div>
+                    <div class="struct-field"><span class="type-kw">Tdata</span>&nbsp;<span class="field-name">Q</span></div>
+                    <div class="struct-field"><span class="type-kw">Tdata</span>&nbsp;<span class="field-name">Sigma</span></div>
+                    <div class="struct-field"><span class="type-kw">TransitionEntry*</span>&nbsp;<span class="field-name">delta</span></div>
+                    <div class="struct-field"><span class="type-kw">int</span>&nbsp;<span class="field-name">deltaSize</span></div>
+                    <div class="struct-field"><span class="type-kw">int</span>&nbsp;<span class="field-name">q0</span></div>
+                    <div class="struct-field"><span class="type-kw">Tdata</span>&nbsp;<span class="field-name">F</span></div>
+                </div>
+                <div style="font-family:var(--font-sans);font-size:12px;color:var(--color-text-secondary);padding:12px 0;align-self:center;max-width:240px;">
+                    Q y Sigma siguen siendo conjuntos (Tdata). Delta es un arreglo de entradas con su tamaño. q0 es un índice.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- TAB Matriz de transiciones (tabla interactiva) -->
+    <div id="p3-matriz" class="tab-content">
+        <div class="card">
+            <div class="section-label">Representación matricial (AFND ejemplo)</div>
+            <div style="font-family:var(--font-sans);font-size:12px;color:var(--color-text-secondary);margin-bottom:14px;">
+                La matriz δ: filas = estados (0..2), columnas = símbolos (0:a, 1:b). Cada celda muestra el conjunto destino.
+            </div>
+            <div style="overflow-x:auto;">
+                <table style="width:100%; border-collapse: collapse; background: var(--color-background-secondary); border-radius: 8px; overflow: hidden;">
+                    <thead>
+                        <tr style="background: var(--color-background-primary);">
+                            <th style="padding: 8px; border: 1px solid var(--color-border-tertiary);">δ</th>
+                            <th style="padding: 8px; border: 1px solid var(--color-border-tertiary);">a (índice 0)</th>
+                            <th style="padding: 8px; border: 1px solid var(--color-border-tertiary);">b (índice 1)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td style="padding: 8px; border: 1px solid var(--color-border-tertiary); font-weight: bold;">q0 (0)</td>
+                            <td style="padding: 8px; border: 1px solid var(--color-border-tertiary); background: #7ee78710;">{q1, q2}</td>
+                            <td style="padding: 8px; border: 1px solid var(--color-border-tertiary);">{q0}</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 8px; border: 1px solid var(--color-border-tertiary); font-weight: bold;">q1 (1)</td>
+                            <td style="padding: 8px; border: 1px solid var(--color-border-tertiary);">{q2}</td>
+                            <td style="padding: 8px; border: 1px solid var(--color-border-tertiary);">{ }</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 8px; border: 1px solid var(--color-border-tertiary); font-weight: bold;">q2 (2)</td>
+                            <td style="padding: 8px; border: 1px solid var(--color-border-tertiary);">{ }</td>
+                            <td style="padding: 8px; border: 1px solid var(--color-border-tertiary);">{q0}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div style="margin-top: 12px; font-size: 12px; color: var(--color-text-secondary);">
+                Nota: Las celdas vacías representan el conjunto vacío ({ }). En una implementación de matriz dispersa solo se almacenan las entradas no vacías.
+            </div>
+        </div>
+        <div class="card">
+            <div class="section-label">Entradas almacenadas en el arreglo disperso</div>
+            <div class="ll-container" id="ll-container-p3"></div>
+            <div class="detail-panel" id="detail-panel-p3">Hacé clic en una entrada para ver detalles.</div>
+        </div>
+    </div>
+
+    <!-- TAB Autómata completo (estructura en memoria) -->
+    <div id="p3-automata3" class="tab-content">
+        <div class="card">
+            <div class="section-label">Diagrama de estados (mismo AFND)</div>
+            <svg width="100%" viewBox="0 0 520 220" role="img">
+                <defs>
+                    <marker id="arr4" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                        <path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </marker>
+                </defs>
+                <line x1="30" y1="110" x2="68" y2="110" stroke="var(--color-text-secondary)" stroke-width="1.2" marker-end="url(#arr4)"/>
+                <circle cx="100" cy="110" r="28" fill="none" stroke="#ff7b72" stroke-width="1.5"/>
+                <text x="100" y="115" text-anchor="middle" font-size="13" fill="#ff7b72">q0</text>
+                <circle cx="280" cy="50" r="28" fill="none" stroke="var(--color-border-primary)" stroke-width="1.5"/>
+                <text x="280" y="55" text-anchor="middle" font-size="13" fill="var(--color-text-primary)">q1</text>
+                <circle cx="400" cy="140" r="28" fill="none" stroke="#f0883e" stroke-width="1.5"/>
+                <circle cx="400" cy="140" r="22" fill="none" stroke="#f0883e" stroke-width="0.8"/>
+                <text x="400" y="145" text-anchor="middle" font-size="13" fill="#f0883e">q2</text>
+                <path d="M124 90 Q200 30 252 50" fill="none" stroke="#79c0ff" stroke-width="1.3" marker-end="url(#arr4)"/>
+                <text x="182" y="42" text-anchor="middle" font-size="12" fill="#79c0ff">a</text>
+                <path d="M126 120 Q240 200 372 148" fill="none" stroke="#79c0ff" stroke-width="1.3" marker-end="url(#arr4)"/>
+                <text x="250" y="200" text-anchor="middle" font-size="12" fill="#79c0ff">a</text>
+                <path d="M302 68 Q370 80 380 114" fill="none" stroke="var(--color-text-secondary)" stroke-width="1.3" marker-end="url(#arr4)"/>
+                <text x="360" y="82" text-anchor="middle" font-size="12" fill="var(--color-text-secondary)">b</text>
+                <path d="M376 120 Q240 20 128 92" fill="none" stroke="#7ee787" stroke-width="1.3" marker-end="url(#arr4)"/>
+                <text x="250" y="26" text-anchor="middle" font-size="12" fill="#7ee787">a</text>
+                <circle cx="30" cy="185" r="6" fill="none" stroke="#f0883e" stroke-width="1.2"/>
+                <circle cx="30" cy="185" r="4" fill="none" stroke="#f0883e" stroke-width="0.8"/>
+                <text x="42" y="189" font-size="11" fill="var(--color-text-secondary)">Estado de aceptación</text>
+                <line x1="180" y1="185" x2="196" y2="185" stroke="var(--color-text-secondary)" stroke-width="1.2" marker-end="url(#arr4)"/>
+                <text x="202" y="189" font-size="11" fill="var(--color-text-secondary)">Estado inicial</text>
+            </svg>
+        </div>
+        <div class="card">
+            <div class="section-label">Estructura en memoria (arreglo disperso)</div>
+            <div class="auto-grid">
+                <div class="auto-field">
+                    <div class="auto-field-label">Q (conjunto)</div>
+                    <div class="auto-field-val">{"q0", "q1", "q2"}</div>
+                </div>
+                <div class="auto-field">
+                    <div class="auto-field-label">Sigma (conjunto)</div>
+                    <div class="auto-field-val">{"a", "b"}</div>
+                </div>
+                <div class="auto-field" style="grid-column:span 2">
+                    <div class="auto-field-label">Delta (arreglo de TransitionEntry)</div>
+                    <div class="auto-field-val" style="font-size:11px;">[ {0,0,{q1,q2}}, {0,1,{q0}}, {1,0,{q2}}, {2,1,{q0}} ]</div>
+                </div>
+                <div class="auto-field">
+                    <div class="auto-field-label">deltaSize</div>
+                    <div class="auto-field-val">4</div>
+                </div>
+                <div class="auto-field">
+                    <div class="auto-field-label">q0 (índice)</div>
+                    <div class="auto-field-val">0</div>
+                </div>
+                <div class="auto-field">
+                    <div class="auto-field-label">F (conjunto)</div>
+                    <div class="auto-field-val">{"q2"} → índice 2</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- TAB Cómo funciona δ (acceso O(1) mediante matriz) -->
+    <div id="p3-delta3" class="tab-content">
+        <div class="card">
+            <div class="section-label">Acceso directo a la matriz (ideal) y búsqueda en arreglo disperso</div>
+            <div style="font-family:var(--font-sans);font-size:13px;color:var(--color-text-secondary);margin-bottom:14px;">
+                Seleccioná estado y símbolo. Se simula la búsqueda lineal sobre el arreglo disperso (similar a como se implementaría si no se usara una matriz completa).
+            </div>
+            <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px;">
+                <div>
+                    <div style="font-size:11px;color:var(--color-text-secondary);margin-bottom:4px;">Estado q</div>
+                    <select id="sel-q-p3" style="font-size:13px;padding:5px 8px;border-radius:6px;border:0.5px solid var(--color-border-secondary);background:var(--color-background-secondary);color:var(--color-text-primary);">
+                        <option value="0">q0 (0)</option>
+                        <option value="1">q1 (1)</option>
+                        <option value="2">q2 (2)</option>
+                    </select>
+                </div>
+                <div>
+                    <div style="font-size:11px;color:var(--color-text-secondary);margin-bottom:4px;">Símbolo a</div>
+                    <select id="sel-a-p3" style="font-size:13px;padding:5px 8px;border-radius:6px;border:0.5px solid var(--color-border-secondary);background:var(--color-background-secondary);color:var(--color-text-primary);">
+                        <option value="0">a (0)</option>
+                        <option value="1">b (1)</option>
+                    </select>
+                </div>
+                <div style="align-self:flex-end;">
+                    <button onclick="runDeltaP3()" style="font-size:13px;padding:5px 16px;border-radius:6px;border:0.5px solid var(--color-border-secondary);background:transparent;color:var(--color-text-primary);cursor:pointer;">Buscar en arreglo</button>
+                </div>
+            </div>
+            <div id="delta-trace-p3" style="font-size:12px;font-family:var(--font-mono);">
+                <div style="color:var(--color-text-secondary);">Presioná "Buscar en arreglo" para recorrer las entradas.</div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="section-label">Pseudocódigo (búsqueda lineal en arreglo disperso)</div>
+            <pre style="font-size:12px;line-height:1.7;color:var(--color-text-primary);overflow-x:auto;"><span style="color:var(--color-text-secondary)">// Busca en el arreglo una entrada que coincida con from y symbol</span>
+<span style="color:#79c0ff">Tdata</span> <span style="color:#7ee787">delta</span>(<span style="color:#79c0ff">Automata</span>* A, <span style="color:#79c0ff">int</span> q_idx, <span style="color:#79c0ff">int</span> a_idx) {
+  <span style="color:#ff7b72">for</span> (<span style="color:#79c0ff">int</span> i = 0; i < A->deltaSize; i++) {
+    <span style="color:#ff7b72">if</span> (A->delta[i].from == q_idx && A->delta[i].symbol == a_idx)
+      <span style="color:#ff7b72">return</span> A->delta[i].to;
+  }
+  <span style="color:#ff7b72">return</span> NULL;  <span style="color:var(--color-text-secondary)">// conjunto vacío</span>
+}</pre>
+            <div style="margin-top:12px; font-family:var(--font-sans); font-size:12px; color:var(--color-text-secondary);">
+                <strong>Ventaja principal:</strong> Si se usara una matriz completa (|Q| x |Σ|), el acceso sería O(1) directamente por índices. En la práctica, se suele implementar como una matriz de punteros.
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// Datos para Propuesta 3: entradas dispersas (from, symbol, to_str)
+const entries_p3 = [
+    { from: "q0 (0)", sym: "a (0)", to: "{q1,q2}" },
+    { from: "q0 (0)", sym: "b (1)", to: "{q0}" },
+    { from: "q1 (1)", sym: "a (0)", to: "{q2}" },
+    { from: "q2 (2)", sym: "b (1)", to: "{q0}" }
+];
+
+function buildEntriesP3() {
+    const container = document.getElementById('ll-container-p3');
+    if (!container) return;
+    container.innerHTML = '';
+    entries_p3.forEach((entry, i) => {
+        const node = document.createElement('div');
+        node.className = 'll-node';
+        const isLast = i === entries_p3.length - 1;
+        node.innerHTML = `
+            <div class="ll-box" id="entry-p3-${i}" onclick="selectEntryP3(${i})">
+                <div class="ll-title">TransitionEntry[${i}]</div>
+                <div class="ll-field"><span class="ll-key">from</span><span class="ll-val from-val">${entry.from}</span></div>
+                <div class="ll-field"><span class="ll-key">symbol</span><span class="ll-val sym-val">${entry.sym}</span></div>
+                <div class="ll-field"><span class="ll-key">to</span><span class="ll-val to-val">${entry.to}</span></div>
+                <div class="ll-field"><span class="ll-key">(siguiente)</span><span class="ll-val next-val">${isLast ? 'fin del arreglo' : 'índice '+(i+1)}</span></div>
+            </div>
+        `;
+        container.appendChild(node);
+        if (!isLast) {
+            const arrow = document.createElement('div');
+            arrow.className = 'll-arrow';
+            arrow.textContent = '→';
+            container.appendChild(arrow);
+        } else {
+            const nullBox = document.createElement('div');
+            nullBox.innerHTML = '<div class="ll-arrow">→</div><div class="null-box">fin</div>';
+            nullBox.style.display = 'flex';
+            nullBox.style.alignItems = 'center';
+            container.appendChild(nullBox);
+        }
+    });
+}
+
+function selectEntryP3(i) {
+    document.querySelectorAll('#ll-container-p3 .ll-box').forEach(b => b.classList.remove('active'));
+    document.getElementById(`entry-p3-${i}`).classList.add('active');
+    const e = entries_p3[i];
+    document.getElementById('detail-panel-p3').innerHTML = `
+        <strong>TransitionEntry[${i}]</strong><br>
+        from = ${e.from}<br>
+        symbol = ${e.sym}<br>
+        to = ${e.to}<br>
+        Representa δ(${e.from.split(' ')[0]}, ${e.sym.split(' ')[0]}) = ${e.to}.
+    `;
+}
+
+function runDeltaP3() {
+    const qIdx = parseInt(document.getElementById('sel-q-p3').value);
+    const aIdx = parseInt(document.getElementById('sel-a-p3').value);
+    const qName = (qIdx === 0 ? 'q0' : qIdx === 1 ? 'q1' : 'q2');
+    const aName = (aIdx === 0 ? 'a' : 'b');
+    const traceDiv = document.getElementById('delta-trace-p3');
+    let html = `<div style="margin-bottom:8px;color:var(--color-text-secondary)">Buscando δ(${qName}, ${aName}) en arreglo de entradas:</div>`;
+    let found = false;
+    entries_p3.forEach((entry, i) => {
+        const entryFromIdx = (entry.from.includes('0') ? 0 : entry.from.includes('1') ? 1 : 2);
+        const entrySymIdx = (entry.sym.includes('0') ? 0 : 1);
+        const match = (entryFromIdx === qIdx && entrySymIdx === aIdx);
+        const checkFrom = (entryFromIdx === qIdx) ? '✓' : '✗';
+        const checkSym = (entrySymIdx === aIdx) ? '✓' : '✗';
+        const color = match ? '#7ee787' : 'var(--color-text-secondary)';
+        html += `<div style="padding:5px 8px;margin:3px 0;border-radius:5px;border:0.5px solid ${match ? '#7ee78740':'var(--color-border-tertiary)'};background:${match ? '#7ee78710':'transparent'};color:${color}">
+          entry[${i}]: from=${entry.from} ${checkFrom}  symbol=${entry.sym} ${checkSym}
+          ${match ? ` <strong>→ MATCH → retorna ${entry.to}</strong>` : ''}
+        </div>`;
+        if (match) found = true;
+    });
+    if (!found) html += `<div style="margin-top:8px;color:#ff7b72">No se encontró ninguna entrada → retorna NULL (conjunto vacío)</div>`;
+    traceDiv.innerHTML = html;
+}
+
+buildEntriesP3();
+</script>
+
+<hr class="divider" />
 
 </body>
 </html>
