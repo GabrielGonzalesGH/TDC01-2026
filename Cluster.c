@@ -1,12 +1,8 @@
 #include "Cluster.h"
 int contains_deep(Tdata, Tdata);
-int equals_tdata(Tdata, Tdata);
 char * str_Branch(Tdata, char, char);
 
-Tdata ini_set(void) {
-	return NULL;
-}
-Tdata ini_list(void) {
+Tdata ini_branch(void) {
 	return NULL;
 }
 Tdata create_list(){
@@ -54,51 +50,29 @@ int search(Tdata list, Tdata elem) {
 }
 
 int belongs(Tdata set, Tdata elem) {
-		if (set == NULL || elem == NULL)
-			return 0;
-		return contains_deep(set, elem);  // maneja STR, SET y LIST
-	
-	/*
-	if (cluster == NULL || elem == NULL) return 0;
-	if (elem->nodeType != STR) return 0;
-	
-	Tdata aux = cluster;
-	while (aux != NULL) {
-		if (aux->data != NULL && aux->data->nodeType == STR) {
-			if (compara_str(aux->data->string, elem->string) == 0)
-				return 1;
-		}
-		aux = aux->next;
-	}
-	return 0;*/
+	if (set == NULL)
+		return 0;
+	// Se elimina la línea que devuelve 0 cuando elem == NULL
+	return contains_deep(set, elem);
 }
 void remove_set(Tdata *set, Tdata elem) {
-	if (*set == NULL || elem == NULL)
-		return;
-	if (elem->nodeType != STR)
-		return;
-	
-	Tdata prev = NULL;
-	Tdata aux = *set;
-	
-	while (aux != NULL) {
-		if (aux->data != NULL && aux->data->nodeType == STR) {
-			if (compara_str(aux->data->string, elem->string) == 0) {
-				
-				if (prev == NULL)
-					*set = aux->next;
-				else
-					prev->next = aux->next;
-				
-				free_str(aux->data->string);
-				free(aux->data);
-				free(aux);
-				return;
-			}
-		}
-		prev = aux;
-		aux = aux->next;
-	}
+    Tdata prev = NULL;
+    Tdata aux = *set;
+    
+    while (aux != NULL) {
+        if (equals_tdata(aux->data, elem)) {
+            if (prev == NULL)
+                *set = aux->next;
+            else
+                prev->next = aux->next;
+            
+            free_tree(aux->data);
+            free(aux);
+            return;
+        }
+        prev = aux;
+        aux = aux->next;
+    }
 }
 void insert_set(Tdata *set, Tdata elem) {
 	if (belongs(*set, elem))
@@ -173,6 +147,12 @@ Tdata createDT(char *ingreso) {
 	Tdata cluster = NULL;
 	char *cad = saca_extremos(ingreso);
 	
+	if (cad == NULL || cad[0] == '\0') {
+		free(cad);
+		// Devolver nodo tipado en lugar de NULL
+		return create_node(type);   // type es SET o LIST, ¡vacío!
+	}
+	
 	while (cad != NULL && cad[0] != '\0') {
 		char *aux = dev_elem(cad);
 		poda_elem_ini(aux, cad);
@@ -199,27 +179,23 @@ Tdata createDT(char *ingreso) {
 	return cluster;
 }
 Tdata union_set(Tdata A, Tdata B) {
-	if (A == NULL && B == NULL)
-		return NULL;
-	if (A == NULL)
-		return clone(B);
-	if (B == NULL)
-		return clone(A);
-	if (A->nodeType != SET || B->nodeType != SET)
-		return NULL;
-	
-	Tdata result = clone(A);   // copia profunda de A como base
-	
-	Tdata aux = B;
-	while (aux != NULL) {
-		append_set(&result, aux->data);  // belongs() filtra duplicados
-		aux = aux->next;
-	}
-	return result;
+    if (is_empty_set(A) && is_empty_set(B)) return create_set();  // vacío
+    if (is_empty_set(A)) return clone(B);
+    if (is_empty_set(B)) return clone(A);
+    if (A->nodeType != SET || B->nodeType != SET) return NULL;
+
+    Tdata result = clone(A);
+    Tdata aux = B;
+    while (aux != NULL) {
+        append_set(&result, aux->data);
+        aux = aux->next;
+    }
+    return result;
 }
 Tdata intersection_set(Tdata A, Tdata B) {
-	if (A == NULL || B == NULL)
-		return NULL;
+    if (is_empty_set(A) || is_empty_set(B)) {
+        return create_set();
+	}
 	if (A->nodeType != SET || B->nodeType != SET)
 		return NULL;
 	
@@ -233,56 +209,89 @@ Tdata intersection_set(Tdata A, Tdata B) {
 	return result;
 }
 Tdata difference_set(Tdata A, Tdata B) {
-	if (A == NULL)
-		return NULL;
-	if (B == NULL)
-		return clone(A);  // A - vac�o = A
+    if (is_empty_set(A)) {
+        // A vacío ? resultado vacío (da igual si B es vacío o no)
+        return NULL;
+    }
+    if (is_empty_set(B)) {
+        return clone(A);   // A - vacío = A
+    }
 	if (A->nodeType != SET || B->nodeType != SET)
 		return NULL;
 	
 	Tdata result = NULL;
 	Tdata aux = A;
 	while (aux != NULL) {
-		if (!contains_deep(B, aux->data))   // solo lo que NO est� en B
+		if (!contains_deep(B, aux->data))   // solo lo que NO está en B
 			append_set(&result, aux->data);
 		aux = aux->next;
 	}
 	return result;
 }
 int subset(Tdata A, Tdata B) {
-	if (A == NULL)
-		return 1;    // vac�o es subconjunto de cualquier cosa
-	if (B == NULL)
-		return 0;
+    if (is_empty_set(A)) {  // conjunto vacío siempre es subconjunto
+        return 1;
+	}
+    if (is_empty_set(B)) {  // A no vacío y B vacío ? no puede ser subconjunto
+        return 0;
+	}
 	if (A->nodeType != SET || B->nodeType != SET)
 		return 0;
 	
 	Tdata aux = A;
 	while (aux != NULL) {
 		if (!contains_deep(B, aux->data))
-			return 0;  // encontr� uno que no est�
+			return 0;  // encontré uno que no está
 		aux = aux->next;
 	}
 	return 1;
 }
 Tdata prod_cartesiano(Tdata A, Tdata B) {
-	Tdata prod = NULL;
-	printf("\n falta hacer wip ...");
-	return prod;
+    if (A == NULL || B == NULL) return NULL;
+    if (A->nodeType != SET || B->nodeType != SET) return NULL;
+    
+    // Si alguno es vacío, producto vacío
+    if (is_empty_container(A) || is_empty_container(B))
+        return NULL;   // conjunto vacío
+
+    Tdata resultado = NULL;   // ini_set()
+    
+    Tdata auxA = A;
+    while (auxA != NULL) {
+        Tdata a = auxA->data;   // a es un nodo (nunca NULL porque A no vacío)
+        Tdata auxB = B;
+        while (auxB != NULL) {
+            Tdata b = auxB->data;
+            
+            Tdata par = NULL;
+            append_list(&par, a);
+            append_list(&par, b);
+            append_set(&resultado, par);
+            free_tree(par);
+            
+            auxB = auxB->next;
+        }
+        auxA = auxA->next;
+    }
+    return resultado;
 }
 char * conversion_str(Tdata cluster) {
 	if (cluster == NULL)
-		return str_crear("{}");   //luego intentar con �
+		return str_crear("{}");   // solo para el caso raíz NULL (seguridad)
 	
 	switch (cluster->nodeType) {
 	case STR:
-		return str_crear(cluster->string);  // antes er print_string()
+		return str_crear(cluster->string);
 	case SET:
+		if (cluster->data == NULL)   // conjunto vacío
+			return str_crear("{ }");
 		return str_Branch(cluster, '{', '}');
-	case LIST:
-		return str_Branch(cluster, '[', ']');
-	default:
-		return str_crear("");
+		case LIST:
+			if (cluster->data == NULL)   // lista vacía
+				return str_crear("[ ]");
+			return str_Branch(cluster, '[', ']');
+		default:
+			return str_crear("");
 	}
 }
 char * str_Branch(Tdata head, char open, char close) {
