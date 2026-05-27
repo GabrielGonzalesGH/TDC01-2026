@@ -27,5 +27,8 @@ int		length(Tdata);
 void	print_Tree(Tdata);
 void	append_branch(Tdata *, Tdata, int);
 void	free_tree(Tdata);
+int		is_empty_container(Tdata) ;
+int		is_empty_set(Tdata);
+
 
 #endif
