@@ -21,22 +21,25 @@ void print_Branch(Tdata head, char open, char close) {
 }
 
 void print_Tree(Tdata branch) {
-	if(branch == NULL) {
-		printf("%c", 157); // �
-		return;
-	}
-	
-	switch(branch->nodeType) {
-	case STR:
-		print_string(branch->string);
-		break;
-	case SET:
-		print_Branch(branch, '{', '}'); 
-		break;
-	case LIST:
-		print_Branch(branch, '[', ']');
-	break;
-	}
+    if (branch == NULL) {
+        printf("{}");   // caso seguro, no debería darse
+        return;
+    }
+    if (is_empty_container(branch)) {
+        printf(branch->nodeType == SET ? "{ }" : "[ ]");
+        return;
+    }
+    switch (branch->nodeType) {
+    case STR:
+        print_string(branch->string);
+        break;
+    case SET:
+        print_Branch(branch, '{', '}');
+        break;
+    case LIST:
+        print_Branch(branch, '[', ']');
+        break;
+    }
 }
 Tdata create_node(int type) {
 	Tdata n = (Tdata)malloc(sizeof(struct dataType));
@@ -79,7 +82,7 @@ Tdata clone(Tdata n) {
 	}
 	return nuevo;
 }
-// Esta funci�n es la que sabe navegar y clonar cualquier cosa
+// Esta función es la que sabe navegar y clonar cualquier cosa
 void append_branch(Tdata *root, Tdata element, int type) {
 	Tdata nuevo_eslabon = create_node(type);
 	
@@ -98,19 +101,21 @@ void append_branch(Tdata *root, Tdata element, int type) {
 	}
 }
 int length(Tdata branch) {
-	if (branch == NULL)
-		return 0;
-	
-	if (branch->nodeType == STR)
-		return 0;
-	
-	int cont = 0;
-	Tdata aux = branch;
-	while (aux != NULL) {
-		cont++;
-		aux = aux->next;
-	}
-	return cont;
+    if (branch == NULL)
+        return 0;
+    // Si es un contenedor vacío (nodo SET o LIST sin elementos), devolvemos 0
+    if (is_empty_container(branch))
+        return 0;
+    if (branch->nodeType == STR)
+        return 0;
+
+    int cont = 0;
+    Tdata aux = branch;
+    while (aux != NULL) {
+        cont++;
+        aux = aux->next;
+    }
+    return cont;
 }
 void free_tree(Tdata node) {
 	if (node == NULL) return;
@@ -135,4 +140,16 @@ void free_tree(Tdata node) {
 	default:
 		break;
 	}
+}
+int is_empty_container(Tdata node) {
+	return node != NULL && 
+		node->nodeType != STR && 
+		node->data == NULL && 
+		node->next == NULL;
+}
+// Devuelve 1 si es conjunto vacío (NULL o nodo SET sin elementos)
+int is_empty_set(Tdata s) {
+	if (s == NULL) return 1;
+	if (s->nodeType != SET) return 0;  // no es conjunto
+	return (s->data == NULL && s->next == NULL);
 }
