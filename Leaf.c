@@ -53,11 +53,11 @@ char *leeCad(void) {
 void print_string(str s){
 	printf("%s", s);
 }
-// quita el primer y último char: "{abc}" ? "abc"
+// quita el primer y Ãºltimo char: "{abc}" ? "abc"
 char *saca_extremos(char *cad) {
 	int len = strlen(cad);
 	if (len <= 2)
-		return NULL;          // "{}" o "[]" ? vacío
+		return NULL;          // "{}" o "[]" ? vacÃ­o
 	
 	char *nuevo = (char *)malloc(len - 1); // len-2 chars + '\0'
 	for (int i = 0; i < len - 2; i++)
@@ -65,7 +65,7 @@ char *saca_extremos(char *cad) {
 	nuevo[len - 2] = '\0';
 	return nuevo;
 }	
-// calcula el tamaño del primer elemento en la cadena
+// calcula el tamaÃ±o del primer elemento en la cadena
 // con contador de profundidad para estructuras anidadas
 int dev_tam_elem(char *cad) {
 	int ind = 0;
@@ -112,7 +112,7 @@ void poda_elem_ini(char *a_podar, char *orig) {
 		ind++;
 	}
 	
-	// si lo que quedó es igual al elemento, era el último ? vaciar
+	// si lo que quedÃ³ es igual al elemento, era el Ãºltimo ? vaciar
 	if (strcmp(a_podar, orig) == 0)
 		orig[0] = '\0';
 	
