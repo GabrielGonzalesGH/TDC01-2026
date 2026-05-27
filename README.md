@@ -1,7 +1,7 @@
 # TDC01-2026
 **Teoría de la Computación — Grupo 12**  
 Gabriel Gonzales y Natalia Ochoa
-
+Resumen del resto de propuestas: <a href="https://gabrielgonzalesgh.github.io/TDC01-2026/" target="_blank">🔗 Ver análisis de propuestas</a>
 ---
 
 ## Parte 1
