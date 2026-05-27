@@ -257,6 +257,186 @@
     </div>
 </div>
 
+<hr class="divider" />
+
+<!-- ================= PROPUESTA 5 ================= -->
+<h2 class="prop-title">📦 Propuesta 5 — Estados Compuestos para Determinización</h2>
+<div id="prop5" style="padding: 16px 0;">
+    <div class="tabs">
+        <button class="tab-btn active" onclick="showTab('p5', 'concepto')">Concepto</button>
+        <button class="tab-btn" onclick="showTab('p5', 'estructuras5')">Estructuras</button>
+        <button class="tab-btn" onclick="showTab('p5', 'ejemplo5')">Ejemplo de determinización</button>
+        <button class="tab-btn" onclick="showTab('p5', 'automata5')">AFD resultante</button>
+    </div>
+
+    <div id="p5-concepto" class="tab-content active">
+        <div class="card">
+            <div class="section-label">Idea general</div>
+            <div style="font-family:var(--font-sans);font-size:13px;color:var(--color-text-secondary);">
+                Durante la determinización de un AFND a un AFD, <strong>cada estado del AFD es un subconjunto de estados del AFND</strong>.
+                Esta propuesta se enfoca en representar explícitamente esos estados compuestos y las transiciones entre ellos,
+                facilitando la construcción del autómata determinista resultante.
+            </div>
+        </div>
+        <div class="card">
+            <div class="section-label">Representación gráfica</div>
+            <div style="font-family:var(--font-sans);font-size:12px;color:var(--color-text-secondary);">
+                <pre style="background:var(--color-background-secondary); padding:10px; border-radius:6px; overflow-x:auto;">
+        a
++----------------+
+|    {q0,q1}     |
++----------------+
+          |
+          | b
+          v
++----------------+
+|    {q0,q2}     |
++----------------+
+          |
+          | a
+          v
++----------------+
+|   {q0,q1,q2}   |
++----------------+
+                </pre>
+                Cada estado compuesto (subconjunto) se convierte en un nodo del AFD.
+            </div>
+        </div>
+    </div>
+
+    <div id="p5-estructuras5" class="tab-content">
+        <div class="card">
+            <div class="section-label">Estado compuesto</div>
+            <div class="struct-row">
+                <div class="struct-box">
+                    <div class="struct-header">struct CompositeState</div>
+                    <div class="struct-field"><span class="type-kw">Tdata</span>&nbsp;<span class="field-name">subset</span>&nbsp;<span class="comment">// SET de estados</span></div>
+                </div>
+                <div style="font-family:var(--font-sans);font-size:12px;color:var(--color-text-secondary);padding:12px 0;align-self:center;max-width:240px;">
+                    Un estado del AFD es un conjunto (SET) de estados del AFND original.
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="section-label">Transición determinizada</div>
+            <div class="struct-row">
+                <div class="struct-box">
+                    <div class="struct-header">struct DFA_Transition</div>
+                    <div class="struct-field"><span class="type-kw">CompositeState</span>&nbsp;<span class="field-name">from</span></div>
+                    <div class="struct-field"><span class="type-kw">Symbol</span>&nbsp;<span class="field-name">symbol</span></div>
+                    <div class="struct-field"><span class="type-kw">CompositeState</span>&nbsp;<span class="field-name">to</span></div>
+                </div>
+                <div style="font-family:var(--font-sans);font-size:12px;color:var(--color-text-secondary);padding:12px 0;align-self:center;max-width:240px;">
+                    Una transición entre dos estados compuestos, etiquetada con un símbolo.
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="section-label">AFD resultante</div>
+            <div class="struct-row">
+                <div class="struct-box">
+                    <div class="struct-header">struct DFA</div>
+                    <div class="struct-field"><span class="type-kw">Tdata</span>&nbsp;<span class="field-name">states</span>&nbsp;<span class="comment">// SET de CompositeState</span></div>
+                    <div class="struct-field"><span class="type-kw">DFA_Transition*</span>&nbsp;<span class="field-name">delta</span></div>
+                    <div class="struct-field"><span class="type-kw">int</span>&nbsp;<span class="field-name">deltaCount</span></div>
+                    <div class="struct-field"><span class="type-kw">CompositeState</span>&nbsp;<span class="field-name">q0</span></div>
+                    <div class="struct-field"><span class="type-kw">Tdata</span>&nbsp;<span class="field-name">F</span>&nbsp;<span class="comment">// SET de CompositeState finales</span></div>
+                </div>
+                <div style="font-family:var(--font-sans);font-size:12px;color:var(--color-text-secondary);padding:12px 0;align-self:center;max-width:240px;">
+                    El AFD construido explícitamente a partir de la construcción por subconjuntos.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="p5-ejemplo5" class="tab-content">
+        <div class="card">
+            <div class="section-label">Construcción paso a paso (usando el AFND ejemplo)</div>
+            <div style="font-family:var(--font-sans);font-size:12px;color:var(--color-text-secondary);">
+                <ol style="margin-left:20px;">
+                    <li><strong>Estado inicial:</strong> {q0}</li>
+                    <li><strong>Desde {q0}:</strong><br>
+                        &nbsp;&nbsp;- Con 'a' → {q1,q2}<br>
+                        &nbsp;&nbsp;- Con 'b' → {q0}
+                    </li>
+                    <li><strong>Desde {q1,q2}:</strong><br>
+                        &nbsp;&nbsp;- Con 'a' → δ(q1,a) ∪ δ(q2,a) = {q2} ∪ {} = {q2}<br>
+                        &nbsp;&nbsp;- Con 'b' → δ(q1,b) ∪ δ(q2,b) = {} ∪ {q0} = {q0}
+                    </li>
+                    <li><strong>Desde {q2}:</strong><br>
+                        &nbsp;&nbsp;- Con 'a' → {} (vacío)<br>
+                        &nbsp;&nbsp;- Con 'b' → {q0}
+                    </li>
+                </ol>
+                <p style="margin-top:12px;">Los subconjuntos alcanzables son: {q0}, {q1,q2}, {q2}. El estado {q2} es final porque contiene q2 (estado final original).</p>
+            </div>
+        </div>
+        <div class="card">
+            <div class="section-label">Transiciones del AFD resultante</div>
+            <div style="overflow-x:auto;">
+                <table style="width:100%; border-collapse: collapse; background: var(--color-background-secondary); border-radius: 8px;">
+                    <thead>
+                        <tr style="background: var(--color-background-primary);">
+                            <th style="padding: 8px; border: 1px solid var(--color-border-tertiary);">Estado (subset)</th>
+                            <th style="padding: 8px; border: 1px solid var(--color-border-tertiary);">a</th>
+                            <th style="padding: 8px; border: 1px solid var(--color-border-tertiary);">b</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td style="padding: 8px; border: 1px solid var(--color-border-tertiary);">{q0}</td><td style="padding: 8px; border: 1px solid var(--color-border-tertiary);">{q1,q2}</td><td style="padding: 8px; border: 1px solid var(--color-border-tertiary);">{q0}</td></tr>
+                        <tr><td style="padding: 8px; border: 1px solid var(--color-border-tertiary);">{q1,q2}</td><td style="padding: 8px; border: 1px solid var(--color-border-tertiary);">{q2}</td><td style="padding: 8px; border: 1px solid var(--color-border-tertiary);">{q0}</td></tr>
+                        <tr><td style="padding: 8px; border: 1px solid var(--color-border-tertiary);">{q2}</td><td style="padding: 8px; border: 1px solid var(--color-border-tertiary);">{}</td><td style="padding: 8px; border: 1px solid var(--color-border-tertiary);">{q0}</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div id="p5-automata5" class="tab-content">
+        <div class="card">
+            <div class="section-label">Estructura del AFD construido</div>
+            <div class="auto-grid">
+                <div class="auto-field">
+                    <div class="auto-field-label">states (conjunto de subconjuntos)</div>
+                    <div class="auto-field-val">{ {q0}, {q1,q2}, {q2} }</div>
+                </div>
+                <div class="auto-field">
+                    <div class="auto-field-label">q0 (estado compuesto inicial)</div>
+                    <div class="auto-field-val">{q0}</div>
+                </div>
+                <div class="auto-field">
+                    <div class="auto-field-label">F (subconjuntos finales)</div>
+                    <div class="auto-field-val">{ {q2} }</div>
+                </div>
+                <div class="auto-field" style="grid-column:span 2">
+                    <div class="auto-field-label">Transiciones (delta)</div>
+                    <div class="auto-field-val" style="font-size:11px;">
+                        [{q0}, a, {q1,q2}], [{q0}, b, {q0}],<br>
+                        [{q1,q2}, a, {q2}], [{q1,q2}, b, {q0}],<br>
+                        [{q2}, a, {}], [{q2}, b, {q0}]
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="section-label">Ventajas</div>
+            <ul style="margin-left:20px; font-family:var(--font-sans); font-size:12px; color:var(--color-text-secondary);">
+                <li>✅ Ideal para implementar determinización (construcción por subconjuntos).</li>
+                <li>✅ Muy alineado con la teoría formal de autómatas.</li>
+                <li>✅ Facilita la conversión automática de AFND a AFD.</li>
+                <li>✅ Reutiliza los TADs SET para representar subconjuntos.</li>
+            </ul>
+            <div class="section-label" style="margin-top:16px;">Desventajas</div>
+            <ul style="margin-left:20px; font-family:var(--font-sans); font-size:12px; color:var(--color-text-secondary);">
+                <li>❌ Requiere estructuras adicionales para manejar estados compuestos.</li>
+                <li>❌ La comparación de subconjuntos puede ser costosa si no se usan representaciones canónicas (como cadenas ordenadas).</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<hr class="divider" />
+
 <script>
 // ---------- Datos comunes ----------
 const transitions_p1 = [
@@ -444,190 +624,6 @@ function runDeltaP4(){
     document.getElementById('delta-trace-p4').innerHTML=html;
 }
 
-<!-- ================= PROPUESTA 5 ================= -->
-<h2 class="prop-title">📦 Propuesta 5 — Estados Compuestos para Determinización</h2>
-
-<div id="prop5" style="padding: 16px 0;">
-    <!-- TABS para Propuesta 5 -->
-    <div class="tabs">
-        <button class="tab-btn active" onclick="showTab('p5', 'concepto')">Concepto</button>
-        <button class="tab-btn" onclick="showTab('p5', 'estructuras5')">Estructuras</button>
-        <button class="tab-btn" onclick="showTab('p5', 'ejemplo5')">Ejemplo de determinización</button>
-        <button class="tab-btn" onclick="showTab('p5', 'automata5')">AFD resultante</button>
-    </div>
-
-    <!-- TAB Concepto -->
-    <div id="p5-concepto" class="tab-content active">
-        <div class="card">
-            <div class="section-label">Idea general</div>
-            <div style="font-family:var(--font-sans);font-size:13px;color:var(--color-text-secondary);">
-                Durante la determinización de un AFND a un AFD, <strong>cada estado del AFD es un subconjunto de estados del AFND</strong>.
-                Esta propuesta se enfoca en representar explícitamente esos estados compuestos y las transiciones entre ellos,
-                facilitando la construcción del autómata determinista resultante.
-            </div>
-        </div>
-        <div class="card">
-            <div class="section-label">Representación gráfica</div>
-            <div style="font-family:var(--font-sans);font-size:12px;color:var(--color-text-secondary);">
-                <pre style="background:var(--color-background-secondary); padding:10px; border-radius:6px; overflow-x:auto;">
-        a
-+----------------+
-|    {q0,q1}     |
-+----------------+
-          |
-          | b
-          v
-+----------------+
-|    {q0,q2}     |
-+----------------+
-          |
-          | a
-          v
-+----------------+
-|   {q0,q1,q2}   |
-+----------------+
-                </pre>
-                Cada estado compuesto (subconjunto) se convierte en un nodo del AFD.
-            </div>
-        </div>
-    </div>
-
-    <!-- TAB Estructuras -->
-    <div id="p5-estructuras5" class="tab-content">
-        <div class="card">
-            <div class="section-label">Estado compuesto</div>
-            <div class="struct-row">
-                <div class="struct-box">
-                    <div class="struct-header">struct CompositeState</div>
-                    <div class="struct-field"><span class="type-kw">Tdata</span>&nbsp;<span class="field-name">subset</span>&nbsp;<span class="comment">// SET de estados</span></div>
-                </div>
-                <div style="font-family:var(--font-sans);font-size:12px;color:var(--color-text-secondary);padding:12px 0;align-self:center;max-width:240px;">
-                    Un estado del AFD es un conjunto (SET) de estados del AFND original.
-                </div>
-            </div>
-        </div>
-        <div class="card">
-            <div class="section-label">Transición determinizada</div>
-            <div class="struct-row">
-                <div class="struct-box">
-                    <div class="struct-header">struct DFA_Transition</div>
-                    <div class="struct-field"><span class="type-kw">CompositeState</span>&nbsp;<span class="field-name">from</span></div>
-                    <div class="struct-field"><span class="type-kw">Symbol</span>&nbsp;<span class="field-name">symbol</span></div>
-                    <div class="struct-field"><span class="type-kw">CompositeState</span>&nbsp;<span class="field-name">to</span></div>
-                </div>
-                <div style="font-family:var(--font-sans);font-size:12px;color:var(--color-text-secondary);padding:12px 0;align-self:center;max-width:240px;">
-                    Una transición entre dos estados compuestos, etiquetada con un símbolo.
-                </div>
-            </div>
-        </div>
-        <div class="card">
-            <div class="section-label">AFD resultante</div>
-            <div class="struct-row">
-                <div class="struct-box">
-                    <div class="struct-header">struct DFA</div>
-                    <div class="struct-field"><span class="type-kw">Tdata</span>&nbsp;<span class="field-name">states</span>&nbsp;<span class="comment">// SET de CompositeState</span></div>
-                    <div class="struct-field"><span class="type-kw">DFA_Transition*</span>&nbsp;<span class="field-name">delta</span></div>
-                    <div class="struct-field"><span class="type-kw">int</span>&nbsp;<span class="field-name">deltaCount</span></div>
-                    <div class="struct-field"><span class="type-kw">CompositeState</span>&nbsp;<span class="field-name">q0</span></div>
-                    <div class="struct-field"><span class="type-kw">Tdata</span>&nbsp;<span class="field-name">F</span>&nbsp;<span class="comment">// SET de CompositeState finales</span></div>
-                </div>
-                <div style="font-family:var(--font-sans);font-size:12px;color:var(--color-text-secondary);padding:12px 0;align-self:center;max-width:240px;">
-                    El AFD construido explícitamente a partir de la construcción por subconjuntos.
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- TAB Ejemplo de determinización -->
-    <div id="p5-ejemplo5" class="tab-content">
-        <div class="card">
-            <div class="section-label">Construcción paso a paso (usando el AFND ejemplo)</div>
-            <div style="font-family:var(--font-sans);font-size:12px;color:var(--color-text-secondary);">
-                <ol style="margin-left:20px;">
-                    <li><strong>Estado inicial:</strong> {q0}</li>
-                    <li><strong>Desde {q0}:</strong><br>
-                        &nbsp;&nbsp;- Con 'a' → {q1,q2}<br>
-                        &nbsp;&nbsp;- Con 'b' → {q0}
-                    </li>
-                    <li><strong>Desde {q1,q2}:</strong><br>
-                        &nbsp;&nbsp;- Con 'a' → δ(q1,a) ∪ δ(q2,a) = {q2} ∪ {} = {q2}<br>
-                        &nbsp;&nbsp;- Con 'b' → δ(q1,b) ∪ δ(q2,b) = {} ∪ {q0} = {q0}
-                    </li>
-                    <li><strong>Desde {q2}:</strong><br>
-                        &nbsp;&nbsp;- Con 'a' → {} (vacío)<br>
-                        &nbsp;&nbsp;- Con 'b' → {q0}
-                    </li>
-                </ol>
-                <p style="margin-top:12px;">Los subconjuntos alcanzables son: {q0}, {q1,q2}, {q2}. El estado {q2} es final porque contiene q2 (estado final original).</p>
-            </div>
-        </div>
-        <div class="card">
-            <div class="section-label">Transiciones del AFD resultante</div>
-            <div style="overflow-x:auto;">
-                <table style="width:100%; border-collapse: collapse; background: var(--color-background-secondary); border-radius: 8px;">
-                    <thead>
-                        <tr style="background: var(--color-background-primary);">
-                            <th style="padding: 8px; border: 1px solid var(--color-border-tertiary);">Estado (subset)</th>
-                            <th style="padding: 8px; border: 1px solid var(--color-border-tertiary);">a</th>
-                            <th style="padding: 8px; border: 1px solid var(--color-border-tertiary);">b</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr><td style="padding: 8px; border: 1px solid var(--color-border-tertiary);">{q0}</td><td style="padding: 8px; border: 1px solid var(--color-border-tertiary);">{q1,q2}</td><td style="padding: 8px; border: 1px solid var(--color-border-tertiary);">{q0}</td></tr>
-                        <tr><td style="padding: 8px; border: 1px solid var(--color-border-tertiary);">{q1,q2}</td><td style="padding: 8px; border: 1px solid var(--color-border-tertiary);">{q2}</td><td style="padding: 8px; border: 1px solid var(--color-border-tertiary);">{q0}</td></tr>
-                        <tr><td style="padding: 8px; border: 1px solid var(--color-border-tertiary);">{q2}</td><td style="padding: 8px; border: 1px solid var(--color-border-tertiary);">{}</td><td style="padding: 8px; border: 1px solid var(--color-border-tertiary);">{q0}</td></tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-
-    <!-- TAB AFD resultante (estructura en memoria) -->
-    <div id="p5-automata5" class="tab-content">
-        <div class="card">
-            <div class="section-label">Estructura del AFD construido</div>
-            <div class="auto-grid">
-                <div class="auto-field">
-                    <div class="auto-field-label">states (conjunto de subconjuntos)</div>
-                    <div class="auto-field-val">{ {q0}, {q1,q2}, {q2} }</div>
-                </div>
-                <div class="auto-field">
-                    <div class="auto-field-label">q0 (estado compuesto inicial)</div>
-                    <div class="auto-field-val">{q0}</div>
-                </div>
-                <div class="auto-field">
-                    <div class="auto-field-label">F (subconjuntos finales)</div>
-                    <div class="auto-field-val">{ {q2} }</div>
-                </div>
-                <div class="auto-field" style="grid-column:span 2">
-                    <div class="auto-field-label">Transiciones (delta)</div>
-                    <div class="auto-field-val" style="font-size:11px;">
-                        [{q0}, a, {q1,q2}], [{q0}, b, {q0}],<br>
-                        [{q1,q2}, a, {q2}], [{q1,q2}, b, {q0}],<br>
-                        [{q2}, a, {}], [{q2}, b, {q0}]
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="card">
-            <div class="section-label">Ventajas</div>
-            <ul style="margin-left:20px; font-family:var(--font-sans); font-size:12px; color:var(--color-text-secondary);">
-                <li>✅ Ideal para implementar determinización (construcción por subconjuntos).</li>
-                <li>✅ Muy alineado con la teoría formal de autómatas.</li>
-                <li>✅ Facilita la conversión automática de AFND a AFD.</li>
-                <li>✅ Reutiliza los TADs SET para representar subconjuntos.</li>
-            </ul>
-            <div class="section-label" style="margin-top:16px;">Desventajas</div>
-            <ul style="margin-left:20px; font-family:var(--font-sans); font-size:12px; color:var(--color-text-secondary);">
-                <li>❌ Requiere estructuras adicionales para manejar estados compuestos.</li>
-                <li>❌ La comparación de subconjuntos puede ser costosa si no se usan representaciones canónicas (como cadenas ordenadas).</li>
-            </ul>
-        </div>
-    </div>
-</div>
-
-<hr class="divider" />
-
 // Inicializar
 buildLinkedListP1();
 buildStatesP2();
@@ -635,6 +631,5 @@ buildEntriesP3();
 buildEntriesP4();
 </script>
 
-<hr class="divider" />
 </body>
 </html>
