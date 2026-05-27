@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Propuesta 1 - Modelado de Autómatas</title>
+    <title>Propuestas de modelado de autómatas</title>
     <style>
         :root {
             /* Tema oscuro azulado (fácil para la vista) */
@@ -26,7 +26,6 @@
             max-width: 1200px;
             margin: 0 auto;
         }
-        /* Título principal */
         .main-title {
             text-align: center;
             font-size: 2rem;
@@ -39,8 +38,18 @@
             background-clip: text;
             color: transparent;
         }
+        .prop-title {
+            text-align: center;
+            font-size: 1.6rem;
+            font-weight: 500;
+            font-family: var(--font-sans);
+            margin: 40px 0 20px;
+            color: #79c0ff;
+            border-bottom: 1px solid var(--color-border-secondary);
+            padding-bottom: 8px;
+        }
         hr.divider {
-            margin: 30px 0 20px;
+            margin: 40px 0 20px;
             border: 0;
             height: 1px;
             background: var(--color-border-secondary);
@@ -200,29 +209,59 @@
         .tab-btn.active { background:var(--color-background-secondary); color:var(--color-text-primary); border-color:var(--color-border-primary); }
         .tab-content { display:none; }
         .tab-content.active { display:block; }
-        /* Ajustes para SVG en modo oscuro */
+        /* Ajustes para SVG */
         svg text { fill: var(--color-text-primary); }
         svg circle, svg line, svg path { stroke: var(--color-text-secondary); }
-        .from-val-svg { fill: #ff7b72; }
-        .sym-val-svg  { fill: #79c0ff; }
-        .to-val-svg   { fill: #7ee787; }
+        /* Estilos específicos para Propuesta 2 */
+        .state-node {
+            background: var(--color-background-secondary);
+            border: 1px solid var(--color-border-tertiary);
+            border-radius: 8px;
+            margin-bottom: 12px;
+            padding: 10px;
+        }
+        .state-name {
+            font-weight: bold;
+            color: #ff7b72;
+            cursor: pointer;
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 4px;
+            transition: background 0.2s;
+        }
+        .state-name:hover { background: #ff7b7220; }
+        .trans-list {
+            margin-left: 20px;
+            margin-top: 8px;
+            font-size: 12px;
+            font-family: var(--font-mono);
+        }
+        .trans-item {
+            margin: 4px 0;
+            color: var(--color-text-secondary);
+        }
+        .trans-sym { color: #79c0ff; }
+        .trans-to { color: #7ee787; }
     </style>
 </head>
 <body>
 
-<h1 class="main-title">📌 PROPUESTA 1 — Delta como Lista de Transiciones</h1>
+<h1 class="main-title">📌 Análisis de propuestas de modelado de autómatas</h1>
+
+<!-- ================= PROPUESTA 1 ================= -->
+<h2 class="prop-title">📦 Propuesta 1 — Delta como Lista de Transiciones</h2>
 
 <div style="padding: 16px 0;">
-    <!-- TABS -->
+    <!-- TABS para Propuesta 1 -->
     <div class="tabs">
-        <button class="tab-btn active" onclick="showTab('structs')">Estructuras</button>
-        <button class="tab-btn" onclick="showTab('lista')">Lista de transiciones</button>
-        <button class="tab-btn" onclick="showTab('automata')">Autómata completo</button>
-        <button class="tab-btn" onclick="showTab('delta')">Cómo funciona δ</button>
+        <button class="tab-btn active" onclick="showTab('p1', 'structs')">Estructuras</button>
+        <button class="tab-btn" onclick="showTab('p1', 'lista')">Lista de transiciones</button>
+        <button class="tab-btn" onclick="showTab('p1', 'automata')">Autómata completo</button>
+        <button class="tab-btn" onclick="showTab('p1', 'delta')">Cómo funciona δ</button>
     </div>
 
-    <!-- TAB 1: Structs -->
-    <div id="tab-structs" class="tab-content active">
+    <!-- Contenido de las pestañas (Propuesta 1) -->
+    <div id="p1-structs" class="tab-content active">
         <div class="card">
             <div class="section-label">Tipos base</div>
             <div class="struct-row">
@@ -232,7 +271,7 @@
                     <div class="struct-field"><span class="type-kw">str</span>&nbsp;<span class="field-name">Symbol</span></div>
                 </div>
                 <div style="font-family:var(--font-sans);font-size:12px;color:var(--color-text-secondary);padding:12px 0;align-self:center;max-width:220px;">
-                    Un estado y un símbolo son simplemente <strong>strings</strong>.<br>Por ejemplo: <code style="font-size:11px">"q0"</code>, <code style="font-size:11px">"q1"</code>, <code style="font-size:11px">"a"</code>, <code style="font-size:11px">"b"</code>.
+                    Un estado y un símbolo son simplemente <strong>strings</strong>.<br>Por ejemplo: <code>"q0"</code>, <code>"q1"</code>, <code>"a"</code>, <code>"b"</code>.
                 </div>
             </div>
         </div>
@@ -263,26 +302,24 @@
                 </div>
                 <div style="font-family:var(--font-sans);font-size:12px;color:var(--color-text-secondary);padding:12px 0;align-self:center;max-width:240px;">
                     El "envoltorio" que convierte cada transición en un eslabón de la cadena.<br><br>
-                    <span style="color:#d2a8ff">next</span> apunta al siguiente nodo, o <code style="font-size:11px">NULL</code> si es el último.
+                    <span style="color:#d2a8ff">next</span> apunta al siguiente nodo, o <code>NULL</code> si es el último.
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- TAB 2: Lista enlazada -->
-    <div id="tab-lista" class="tab-content">
+    <div id="p1-lista" class="tab-content">
         <div class="card">
             <div class="section-label">AFND de ejemplo — lista Delta en memoria</div>
             <div style="font-family:var(--font-sans);font-size:12px;color:var(--color-text-secondary);margin-bottom:14px;">
                 Hacé click en un nodo para ver los detalles. La lista vive en el heap; cada nodo apunta al siguiente.
             </div>
-            <div class="ll-container" id="ll-container"></div>
-            <div class="detail-panel" id="detail-panel">Seleccioná un nodo para ver qué transición representa.</div>
+            <div class="ll-container" id="ll-container-p1"></div>
+            <div class="detail-panel" id="detail-panel-p1">Seleccioná un nodo para ver qué transición representa.</div>
         </div>
     </div>
 
-    <!-- TAB 3: Autómata completo -->
-    <div id="tab-automata" class="tab-content">
+    <div id="p1-automata" class="tab-content">
         <div class="card">
             <div class="section-label">struct Automata — los 5 componentes de (Q, Σ, δ, q0, F)</div>
             <div class="auto-grid">
@@ -308,7 +345,7 @@
                 </div>
                 <div class="auto-field" style="grid-column:span 2">
                     <div class="auto-field-label">deterministic</div>
-                    <div class="auto-field-val">0 &nbsp;<span style="color:var(--color-text-secondary);font-size:11px;font-family:var(--font-sans)">→ es AFND</span></div>
+                    <div class="auto-field-val">0 &nbsp;<span style="color:var(--color-text-secondary);font-size:11px;">→ es AFND</span></div>
                 </div>
             </div>
         </div>
@@ -321,36 +358,22 @@
                         <path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                     </marker>
                 </defs>
-                <!-- entrada -->
                 <line x1="30" y1="110" x2="68" y2="110" stroke="var(--color-text-secondary)" stroke-width="1.2" marker-end="url(#arr2)"/>
-                <!-- q0 -->
                 <circle cx="100" cy="110" r="28" fill="none" stroke="#ff7b72" stroke-width="1.5"/>
                 <text x="100" y="115" text-anchor="middle" font-size="13" font-family="var(--font-mono)" fill="#ff7b72">q0</text>
-                <!-- q1 -->
                 <circle cx="280" cy="50" r="28" fill="none" stroke="var(--color-border-primary)" stroke-width="1.5"/>
                 <text x="280" y="55" text-anchor="middle" font-size="13" font-family="var(--font-mono)" fill="var(--color-text-primary)">q1</text>
-                <!-- q2 — aceptación, doble círculo -->
                 <circle cx="400" cy="140" r="28" fill="none" stroke="#f0883e" stroke-width="1.5"/>
                 <circle cx="400" cy="140" r="22" fill="none" stroke="#f0883e" stroke-width="0.8"/>
                 <text x="400" y="145" text-anchor="middle" font-size="13" font-family="var(--font-mono)" fill="#f0883e">q2</text>
-
-                <!-- q0 --a--> q1 -->
                 <path d="M124 90 Q200 30 252 50" fill="none" stroke="#79c0ff" stroke-width="1.3" marker-end="url(#arr2)"/>
                 <text x="182" y="42" text-anchor="middle" font-size="12" font-family="var(--font-mono)" fill="#79c0ff">a</text>
-
-                <!-- q0 --a--> q2 -->
                 <path d="M126 120 Q240 200 372 148" fill="none" stroke="#79c0ff" stroke-width="1.3" marker-end="url(#arr2)"/>
                 <text x="250" y="200" text-anchor="middle" font-size="12" font-family="var(--font-mono)" fill="#79c0ff">a</text>
-
-                <!-- q1 --b--> q2 -->
                 <path d="M302 68 Q370 80 380 114" fill="none" stroke="var(--color-text-secondary)" stroke-width="1.3" marker-end="url(#arr2)"/>
                 <text x="360" y="82" text-anchor="middle" font-size="12" font-family="var(--font-mono)" fill="var(--color-text-secondary)">b</text>
-
-                <!-- q2 --a--> q0 -->
                 <path d="M376 120 Q240 20 128 92" fill="none" stroke="#7ee787" stroke-width="1.3" marker-end="url(#arr2)"/>
                 <text x="250" y="26" text-anchor="middle" font-size="12" font-family="var(--font-mono)" fill="#7ee787">a</text>
-
-                <!-- leyenda -->
                 <circle cx="30" cy="185" r="6" fill="none" stroke="#f0883e" stroke-width="1.2"/>
                 <circle cx="30" cy="185" r="4" fill="none" stroke="#f0883e" stroke-width="0.8"/>
                 <text x="42" y="189" font-size="11" font-family="var(--font-sans)" fill="var(--color-text-secondary)">Estado de aceptación</text>
@@ -360,32 +383,31 @@
         </div>
     </div>
 
-    <!-- TAB 4: Cómo funciona delta -->
-    <div id="tab-delta" class="tab-content">
+    <div id="p1-delta" class="tab-content">
         <div class="card">
             <div class="section-label">Búsqueda en la lista — delta(A, q, a)</div>
             <div style="font-family:var(--font-sans);font-size:13px;color:var(--color-text-secondary);margin-bottom:14px;">
-                Simulá la función <code style="font-size:12px">delta()</code>. Elegí estado y símbolo:
+                Simulá la función <code>delta()</code> (Propuesta 1). Elegí estado y símbolo:
             </div>
             <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px;">
                 <div>
-                    <div style="font-size:11px;color:var(--color-text-secondary);margin-bottom:4px;font-family:var(--font-sans)">Estado q</div>
-                    <select id="sel-q" style="font-size:13px;padding:5px 8px;border-radius:6px;border:0.5px solid var(--color-border-secondary);background:var(--color-background-secondary);color:var(--color-text-primary);">
+                    <div style="font-size:11px;color:var(--color-text-secondary);margin-bottom:4px;">Estado q</div>
+                    <select id="sel-q-p1" style="font-size:13px;padding:5px 8px;border-radius:6px;border:0.5px solid var(--color-border-secondary);background:var(--color-background-secondary);color:var(--color-text-primary);">
                         <option>q0</option><option>q1</option><option>q2</option>
                     </select>
                 </div>
                 <div>
-                    <div style="font-size:11px;color:var(--color-text-secondary);margin-bottom:4px;font-family:var(--font-sans)">Símbolo a</div>
-                    <select id="sel-a" style="font-size:13px;padding:5px 8px;border-radius:6px;border:0.5px solid var(--color-border-secondary);background:var(--color-background-secondary);color:var(--color-text-primary);">
+                    <div style="font-size:11px;color:var(--color-text-secondary);margin-bottom:4px;">Símbolo a</div>
+                    <select id="sel-a-p1" style="font-size:13px;padding:5px 8px;border-radius:6px;border:0.5px solid var(--color-border-secondary);background:var(--color-background-secondary);color:var(--color-text-primary);">
                         <option>a</option><option>b</option>
                     </select>
                 </div>
                 <div style="align-self:flex-end;">
-                    <button onclick="runDelta()" style="font-size:13px;padding:5px 16px;border-radius:6px;border:0.5px solid var(--color-border-secondary);background:transparent;color:var(--color-text-primary);cursor:pointer;font-family:var(--font-sans);">Ejecutar δ ↗</button>
+                    <button onclick="runDeltaP1()" style="font-size:13px;padding:5px 16px;border-radius:6px;border:0.5px solid var(--color-border-secondary);background:transparent;color:var(--color-text-primary);cursor:pointer;">Ejecutar δ</button>
                 </div>
             </div>
-            <div id="delta-trace" style="font-size:12px;font-family:var(--font-mono);">
-                <div style="color:var(--color-text-secondary);font-family:var(--font-sans);font-size:12px;">Presioná "Ejecutar δ" para ver el recorrido nodo por nodo.</div>
+            <div id="delta-trace-p1" style="font-size:12px;font-family:var(--font-mono);">
+                <div style="color:var(--color-text-secondary);">Presioná "Ejecutar δ" para ver el recorrido nodo por nodo.</div>
             </div>
         </div>
         <div class="card">
@@ -395,10 +417,10 @@
   <span style="color:#79c0ff">TransitionNode</span>* curr = A->Delta;
   <span style="color:#ff7b72">while</span> (curr != NULL) {
     <span style="color:#ff7b72">if</span> (curr->t.from == q && curr->t.symbol == a)
-      <span style="color:#ff7b72">return</span> curr->t.to;  <span style="color:var(--color-text-secondary)">// SET de destinos</span>
+      <span style="color:#ff7b72">return</span> curr->t.to;
     curr = curr->next;
   }
-  <span style="color:#ff7b72">return</span> NULL;  <span style="color:var(--color-text-secondary)">// transición no definida</span>
+  <span style="color:#ff7b72">return</span> NULL;
 }</pre>
         </div>
     </div>
@@ -406,29 +428,226 @@
 
 <hr class="divider" />
 
+<!-- ================= PROPUESTA 2 ================= -->
+<h2 class="prop-title">📦 Propuesta 2 — Delta Indexado por Estado</h2>
+
+<div style="padding: 16px 0;">
+    <!-- TABS para Propuesta 2 -->
+    <div class="tabs">
+        <button class="tab-btn active" onclick="showTab('p2', 'estructuras')">Estructuras</button>
+        <button class="tab-btn" onclick="showTab('p2', 'ejemplo')">Ejemplo interactivo</button>
+        <button class="tab-btn" onclick="showTab('p2', 'automata2')">Autómata completo</button>
+        <button class="tab-btn" onclick="showTab('p2', 'delta2')">Cómo funciona δ</button>
+    </div>
+
+    <!-- TAB Estructuras -->
+    <div id="p2-estructuras" class="tab-content active">
+        <div class="card">
+            <div class="section-label">Transición — por estado</div>
+            <div class="struct-row">
+                <div class="struct-box">
+                    <div class="struct-header">struct transition</div>
+                    <div class="struct-field"><span class="type-kw">Symbol</span>&nbsp;<span class="field-name">symbol</span></div>
+                    <div class="struct-field"><span class="type-kw">Tdata</span>&nbsp;<span class="field-name">to</span>&nbsp;<span class="comment">// SET de estados</span></div>
+                    <div class="struct-field"><span class="type-kw">struct transition*</span>&nbsp;<span class="field-name">next</span></div>
+                </div>
+                <div style="font-family:var(--font-sans);font-size:12px;color:var(--color-text-secondary);padding:12px 0;align-self:center;max-width:240px;">
+                    Cada transición guarda el símbolo, el conjunto de destinos y un puntero al siguiente (lista interna del estado).
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="section-label">Estado — nodo con su lista de transiciones</div>
+            <div class="struct-row">
+                <div class="struct-box">
+                    <div class="struct-header">struct stateNode</div>
+                    <div class="struct-field"><span class="type-kw">State</span>&nbsp;<span class="field-name">name</span></div>
+                    <div class="struct-field"><span class="type-kw">Transition*</span>&nbsp;<span class="field-name">transitions</span></div>
+                    <div class="struct-field"><span class="type-kw">int</span>&nbsp;<span class="field-name">isFinal</span></div>
+                    <div class="struct-field"><span class="type-kw">struct stateNode*</span>&nbsp;<span class="field-name">next</span></div>
+                </div>
+                <div style="font-family:var(--font-sans);font-size:12px;color:var(--color-text-secondary);padding:12px 0;align-self:center;max-width:240px;">
+                    Cada estado conoce sus propias transiciones. El autómata es una lista enlazada de estos nodos.
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="section-label">Autómata (cabecera)</div>
+            <div class="struct-row">
+                <div class="struct-box">
+                    <div class="struct-header">struct Automata</div>
+                    <div class="struct-field"><span class="type-kw">StateNode*</span>&nbsp;<span class="field-name">states</span></div>
+                    <div class="struct-field"><span class="type-kw">State</span>&nbsp;<span class="field-name">q0</span></div>
+                    <div class="struct-field"><span class="type-kw">int</span>&nbsp;<span class="field-name">deterministic</span></div>
+                </div>
+                <div style="font-family:var(--font-sans);font-size:12px;color:var(--color-text-secondary);padding:12px 0;align-self:center;max-width:240px;">
+                    Ya no se almacenan Q, Σ, F como conjuntos separados; se deducen de los estados.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- TAB Ejemplo interactivo (lista de estados con transiciones) -->
+    <div id="p2-ejemplo" class="tab-content">
+        <div class="card">
+            <div class="section-label">AFND de ejemplo — Estados con sus transiciones</div>
+            <div style="font-family:var(--font-sans);font-size:12px;color:var(--color-text-secondary);margin-bottom:14px;">
+                Hacé clic en un estado para ver sus transiciones internas.
+            </div>
+            <div id="states-container-p2"></div>
+            <div class="detail-panel" id="detail-panel-p2">Seleccioná un estado para ver sus transiciones.</div>
+        </div>
+    </div>
+
+    <!-- TAB Autómata completo (diagrama + tabla) -->
+    <div id="p2-automata2" class="tab-content">
+        <div class="card">
+            <div class="section-label">Diagrama de estados del AFND (mismo ejemplo)</div>
+            <svg width="100%" viewBox="0 0 520 220" role="img" class="svg-wrap">
+                <use href="#p1-automata svg" />  <!-- reutiliza el mismo SVG que en Propuesta 1 -->
+            </svg>
+            <!-- Reutilizamos el mismo SVG que ya está definido antes, pero no funciona con <use> tan fácil. Mejor copiamos de nuevo el SVG -->
+            <svg width="100%" viewBox="0 0 520 220" role="img">
+                <defs>
+                    <marker id="arr3" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                        <path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </marker>
+                </defs>
+                <line x1="30" y1="110" x2="68" y2="110" stroke="var(--color-text-secondary)" stroke-width="1.2" marker-end="url(#arr3)"/>
+                <circle cx="100" cy="110" r="28" fill="none" stroke="#ff7b72" stroke-width="1.5"/>
+                <text x="100" y="115" text-anchor="middle" font-size="13" fill="#ff7b72">q0</text>
+                <circle cx="280" cy="50" r="28" fill="none" stroke="var(--color-border-primary)" stroke-width="1.5"/>
+                <text x="280" y="55" text-anchor="middle" font-size="13" fill="var(--color-text-primary)">q1</text>
+                <circle cx="400" cy="140" r="28" fill="none" stroke="#f0883e" stroke-width="1.5"/>
+                <circle cx="400" cy="140" r="22" fill="none" stroke="#f0883e" stroke-width="0.8"/>
+                <text x="400" y="145" text-anchor="middle" font-size="13" fill="#f0883e">q2</text>
+                <path d="M124 90 Q200 30 252 50" fill="none" stroke="#79c0ff" stroke-width="1.3" marker-end="url(#arr3)"/>
+                <text x="182" y="42" text-anchor="middle" font-size="12" fill="#79c0ff">a</text>
+                <path d="M126 120 Q240 200 372 148" fill="none" stroke="#79c0ff" stroke-width="1.3" marker-end="url(#arr3)"/>
+                <text x="250" y="200" text-anchor="middle" font-size="12" fill="#79c0ff">a</text>
+                <path d="M302 68 Q370 80 380 114" fill="none" stroke="var(--color-text-secondary)" stroke-width="1.3" marker-end="url(#arr3)"/>
+                <text x="360" y="82" text-anchor="middle" font-size="12" fill="var(--color-text-secondary)">b</text>
+                <path d="M376 120 Q240 20 128 92" fill="none" stroke="#7ee787" stroke-width="1.3" marker-end="url(#arr3)"/>
+                <text x="250" y="26" text-anchor="middle" font-size="12" fill="#7ee787">a</text>
+                <circle cx="30" cy="185" r="6" fill="none" stroke="#f0883e" stroke-width="1.2"/>
+                <circle cx="30" cy="185" r="4" fill="none" stroke="#f0883e" stroke-width="0.8"/>
+                <text x="42" y="189" font-size="11" fill="var(--color-text-secondary)">Estado de aceptación</text>
+                <line x1="180" y1="185" x2="196" y2="185" stroke="var(--color-text-secondary)" stroke-width="1.2" marker-end="url(#arr3)"/>
+                <text x="202" y="189" font-size="11" fill="var(--color-text-secondary)">Estado inicial</text>
+            </svg>
+        </div>
+        <div class="card">
+            <div class="section-label">Estructura en memoria (lista de estados)</div>
+            <div class="auto-grid">
+                <div class="auto-field">
+                    <div class="auto-field-label">Estados (StateNode*)</div>
+                    <div class="auto-field-val">q0 → q1 → q2 → NULL</div>
+                </div>
+                <div class="auto-field">
+                    <div class="auto-field-label">Estado inicial</div>
+                    <div class="auto-field-val" style="color:#ff7b72">q0</div>
+                </div>
+                <div class="auto-field" style="grid-column:span 2">
+                    <div class="auto-field-label">Transiciones por estado</div>
+                    <div class="auto-field-val">
+                        q0: a→{q1,q2}<br>
+                        q1: b→{q2}<br>
+                        q2: a→{q0}
+                    </div>
+                </div>
+                <div class="auto-field">
+                    <div class="auto-field-label">deterministic</div>
+                    <div class="auto-field-val">0 (AFND)</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- TAB Cómo funciona delta (Propuesta 2) -->
+    <div id="p2-delta2" class="tab-content">
+        <div class="card">
+            <div class="section-label">Búsqueda en el estado — delta(A, q, a)</div>
+            <div style="font-family:var(--font-sans);font-size:13px;color:var(--color-text-secondary);margin-bottom:14px;">
+                Simulá la función <code>delta()</code> para Propuesta 2 (busca el estado y recorre su lista de transiciones).
+            </div>
+            <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px;">
+                <div>
+                    <div style="font-size:11px;color:var(--color-text-secondary);margin-bottom:4px;">Estado q</div>
+                    <select id="sel-q-p2" style="font-size:13px;padding:5px 8px;border-radius:6px;border:0.5px solid var(--color-border-secondary);background:var(--color-background-secondary);color:var(--color-text-primary);">
+                        <option>q0</option><option>q1</option><option>q2</option>
+                    </select>
+                </div>
+                <div>
+                    <div style="font-size:11px;color:var(--color-text-secondary);margin-bottom:4px;">Símbolo a</div>
+                    <select id="sel-a-p2" style="font-size:13px;padding:5px 8px;border-radius:6px;border:0.5px solid var(--color-border-secondary);background:var(--color-background-secondary);color:var(--color-text-primary);">
+                        <option>a</option><option>b</option>
+                    </select>
+                </div>
+                <div style="align-self:flex-end;">
+                    <button onclick="runDeltaP2()" style="font-size:13px;padding:5px 16px;border-radius:6px;border:0.5px solid var(--color-border-secondary);background:transparent;color:var(--color-text-primary);cursor:pointer;">Ejecutar δ</button>
+                </div>
+            </div>
+            <div id="delta-trace-p2" style="font-size:12px;font-family:var(--font-mono);">
+                <div style="color:var(--color-text-secondary);">Presioná "Ejecutar δ" para ver la búsqueda.</div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="section-label">Pseudocódigo (Propuesta 2)</div>
+            <pre style="font-size:12px;line-height:1.7;color:var(--color-text-primary);overflow-x:auto;"><span style="color:var(--color-text-secondary)">// Busca el estado en la lista y luego recorre sus transiciones</span>
+<span style="color:#79c0ff">Tdata</span> <span style="color:#7ee787">delta</span>(<span style="color:#79c0ff">Automata</span>* A, <span style="color:#79c0ff">State</span> q, <span style="color:#79c0ff">Symbol</span> a) {
+  <span style="color:#79c0ff">StateNode</span>* curr = A->states;
+  <span style="color:#ff7b72">while</span> (curr != NULL && curr->name != q)
+    curr = curr->next;
+  <span style="color:#ff7b72">if</span> (curr == NULL) <span style="color:#ff7b72">return</span> NULL;
+  <span style="color:#79c0ff">Transition</span>* t = curr->transitions;
+  <span style="color:#ff7b72">while</span> (t != NULL && t->symbol != a)
+    t = t->next;
+  <span style="color:#ff7b72">return</span> (t != NULL) ? t->to : NULL;
+}</pre>
+        </div>
+    </div>
+</div>
+
 <script>
-const transitions = [
+// ---------- Datos comunes (transiciones) ----------
+const transitions_p1 = [
   { from:"q0", sym:"a", to:"{q1,q2}" },
   { from:"q1", sym:"b", to:"{q2}"    },
   { from:"q2", sym:"a", to:"{q0}"    },
 ];
 
-function showTab(id) {
-  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-  document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-  document.getElementById('tab-'+id).classList.add('active');
+// Datos para Propuesta 2: estados con sus transiciones internas
+const states_p2 = [
+  { name: "q0", isFinal: false, transitions: [{ sym: "a", to: "{q1,q2}" }] },
+  { name: "q1", isFinal: false, transitions: [{ sym: "b", to: "{q2}" }] },
+  { name: "q2", isFinal: true,  transitions: [{ sym: "a", to: "{q0}" }] },
+];
+
+// ---------- Funciones comunes de pestañas ----------
+function showTab(prop, tabId) {
+  // Ocultar todos los contenidos de la prop
+  const propDiv = (prop === 'p1') ? document.querySelector('#p1-structs').parentNode : document.querySelector('#p2-estructuras').parentNode;
+  const tabs = propDiv.querySelectorAll('.tab-content');
+  tabs.forEach(tab => tab.classList.remove('active'));
+  // Mostrar el elegido
+  document.getElementById(`${prop}-${tabId}`).classList.add('active');
+  // Marcar botón activo
+  const btns = propDiv.querySelectorAll('.tab-btn');
+  btns.forEach(btn => btn.classList.remove('active'));
   event.target.classList.add('active');
 }
 
-function buildLinkedList() {
-  const c = document.getElementById('ll-container');
-  c.innerHTML = '';
-  transitions.forEach((t, i) => {
+// ---------- Propuesta 1: lista de transiciones (interactiva) ----------
+function buildLinkedListP1() {
+  const container = document.getElementById('ll-container-p1');
+  if (!container) return;
+  container.innerHTML = '';
+  transitions_p1.forEach((t, i) => {
     const node = document.createElement('div');
     node.className = 'll-node';
-    const isLast = i === transitions.length - 1;
+    const isLast = i === transitions_p1.length - 1;
     node.innerHTML = `
-      <div class="ll-box" id="llnode-${i}" onclick="selectNode(${i})">
+      <div class="ll-box" id="llnode-p1-${i}" onclick="selectNodeP1(${i})">
         <div class="ll-title">TransitionNode[${i}]</div>
         <div class="ll-field"><span class="ll-key">t.from</span><span class="ll-val from-val">"${t.from}"</span></div>
         <div class="ll-field"><span class="ll-key">t.symbol</span><span class="ll-val sym-val">"${t.sym}"</span></div>
@@ -436,50 +655,47 @@ function buildLinkedList() {
         <div class="ll-field"><span class="ll-key">next</span><span class="ll-val next-val">${isLast ? 'NULL' : '→ node['+(i+1)+']'}</span></div>
       </div>
     `;
-    c.appendChild(node);
+    container.appendChild(node);
     if (!isLast) {
       const arrow = document.createElement('div');
       arrow.className = 'll-arrow';
       arrow.textContent = '→';
-      c.appendChild(arrow);
+      container.appendChild(arrow);
     } else {
       const nullBox = document.createElement('div');
       nullBox.innerHTML = '<div class="ll-arrow">→</div><div class="null-box">NULL</div>';
       nullBox.style.display = 'flex';
       nullBox.style.alignItems = 'center';
-      c.appendChild(nullBox);
+      container.appendChild(nullBox);
     }
   });
 }
 
-function selectNode(i) {
+function selectNodeP1(i) {
   document.querySelectorAll('.ll-box').forEach(b => b.classList.remove('active'));
-  document.getElementById('llnode-'+i).classList.add('active');
-  const t = transitions[i];
-  const labels = {
-    'q0':'estado inicial','q1':'estado intermedio','q2':'estado de aceptación'
-  };
-  document.getElementById('detail-panel').innerHTML =
-    `<strong>TransitionNode[${i}]</strong> representa la transición:<br><br>
-     Desde el estado <strong style="color:#ff7b72">${t.from}</strong> (${labels[t.from]}),
-     al leer el símbolo <strong style="color:#79c0ff">"${t.sym}"</strong>,
-     el autómata puede ir a <strong style="color:#7ee787">${t.to}</strong>.
-     ${t.to.includes(',') ? '<br><br>Como tiene más de un destino, <strong>confirmás que es un AFND</strong>.' : ''}
-     ${i < transitions.length-1 ? `<br>El puntero <span style="color:#d2a8ff">next</span> apunta al nodo [${i+1}].` : '<br>El puntero <span style="color:#d2a8ff">next</span> es <strong>NULL</strong> — es el último de la lista.'}`;
+  document.getElementById(`llnode-p1-${i}`).classList.add('active');
+  const t = transitions_p1[i];
+  const labels = { q0:'estado inicial', q1:'estado intermedio', q2:'estado de aceptación' };
+  document.getElementById('detail-panel-p1').innerHTML = `
+    <strong>TransitionNode[${i}]</strong> representa la transición:<br><br>
+    Desde el estado <strong style="color:#ff7b72">${t.from}</strong> (${labels[t.from]}),
+    al leer el símbolo <strong style="color:#79c0ff">"${t.sym}"</strong>,
+    el autómata puede ir a <strong style="color:#7ee787">${t.to}</strong>.
+    ${t.to.includes(',') ? '<br><br>Como tiene más de un destino, <strong>confirmás que es un AFND</strong>.' : ''}
+    ${i < transitions_p1.length-1 ? `<br>El puntero <span style="color:#d2a8ff">next</span> apunta al nodo [${i+1}].` : '<br>El puntero <span style="color:#d2a8ff">next</span> es <strong>NULL</strong> — es el último de la lista.'}
+  `;
 }
 
-function runDelta() {
-  const q = document.getElementById('sel-q').value;
-  const a = document.getElementById('sel-a').value;
-  const trace = document.getElementById('delta-trace');
+function runDeltaP1() {
+  const q = document.getElementById('sel-q-p1').value;
+  const a = document.getElementById('sel-a-p1').value;
+  const traceDiv = document.getElementById('delta-trace-p1');
   let html = `<div style="margin-bottom:8px;color:var(--color-text-secondary)">δ(<span style="color:#ff7b72">${q}</span>, <span style="color:#79c0ff">"${a}"</span>) — recorriendo lista:</div>`;
   let found = false;
-  transitions.forEach((t, i) => {
-    const matchFrom = t.from === q;
-    const matchSym  = t.sym  === a;
-    const match = matchFrom && matchSym;
-    const checkFrom = matchFrom ? '✓' : '✗';
-    const checkSym  = matchSym  ? '✓' : '✗';
+  transitions_p1.forEach((t, i) => {
+    const match = (t.from === q && t.sym === a);
+    const checkFrom = t.from === q ? '✓' : '✗';
+    const checkSym = t.sym === a ? '✓' : '✗';
     const color = match ? '#7ee787' : 'var(--color-text-secondary)';
     html += `<div style="padding:5px 8px;margin:3px 0;border-radius:5px;border:0.5px solid ${match ? '#7ee78740':'var(--color-border-tertiary)'};background:${match ? '#7ee78710':'transparent'};color:${color}">
       node[${i}]: from="${t.from}" ${checkFrom}  sym="${t.sym}" ${checkSym}
@@ -488,11 +704,94 @@ function runDelta() {
     if (match) found = true;
   });
   if (!found) html += `<div style="margin-top:8px;color:#ff7b72">No se encontró transición → retorna NULL</div>`;
-  trace.innerHTML = html;
+  traceDiv.innerHTML = html;
 }
 
-buildLinkedList();
+// ---------- Propuesta 2: lista de estados con transiciones ----------
+function buildStatesP2() {
+  const container = document.getElementById('states-container-p2');
+  if (!container) return;
+  container.innerHTML = '';
+  states_p2.forEach((state, idx) => {
+    const stateDiv = document.createElement('div');
+    stateDiv.className = 'state-node';
+    stateDiv.innerHTML = `
+      <div style="display:flex; justify-content:space-between; align-items:center;">
+        <span class="state-name" onclick="selectStateP2(${idx})">📌 ${state.name} ${state.isFinal ? '(aceptación)' : ''}</span>
+        <span style="color:var(--color-text-secondary); font-size:11px;">▼ haz clic</span>
+      </div>
+      <div id="trans-${idx}" class="trans-list" style="display:none;"></div>
+    `;
+    container.appendChild(stateDiv);
+    // Llenar lista de transiciones (oculta inicialmente)
+    const transContainer = stateDiv.querySelector(`#trans-${idx}`);
+    if (state.transitions.length === 0) {
+      transContainer.innerHTML = '<div class="trans-item">No hay transiciones</div>';
+    } else {
+      state.transitions.forEach(t => {
+        const tItem = document.createElement('div');
+        tItem.className = 'trans-item';
+        tItem.innerHTML = `<span class="trans-sym">${t.sym}</span> → <span class="trans-to">${t.to}</span>`;
+        transContainer.appendChild(tItem);
+      });
+    }
+    // Asociar evento para mostrar/ocultar
+    const nameSpan = stateDiv.querySelector('.state-name');
+    nameSpan.onclick = () => {
+      const transDiv = document.getElementById(`trans-${idx}`);
+      const isVisible = transDiv.style.display === 'block';
+      transDiv.style.display = isVisible ? 'none' : 'block';
+      // Actualizar panel de detalles
+      document.getElementById('detail-panel-p2').innerHTML = `
+        <strong>Estado ${state.name}</strong> ${state.isFinal ? '(aceptación)' : ''}<br>
+        Transiciones: ${state.transitions.map(t => `${t.sym}→${t.to}`).join(', ') || 'ninguna'}
+      `;
+    };
+  });
+}
+
+function selectStateP2(idx) {
+  const state = states_p2[idx];
+  document.getElementById('detail-panel-p2').innerHTML = `
+    <strong>Estado ${state.name}</strong> ${state.isFinal ? '(aceptación)' : ''}<br>
+    Transiciones: ${state.transitions.map(t => `${t.sym}→${t.to}`).join(', ') || 'ninguna'}
+  `;
+  // También mostrar la lista de transiciones
+  const transDiv = document.getElementById(`trans-${idx}`);
+  if (transDiv) transDiv.style.display = 'block';
+}
+
+function runDeltaP2() {
+  const q = document.getElementById('sel-q-p2').value;
+  const a = document.getElementById('sel-a-p2').value;
+  const state = states_p2.find(s => s.name === q);
+  const traceDiv = document.getElementById('delta-trace-p2');
+  if (!state) {
+    traceDiv.innerHTML = `<div style="color:#ff7b72">Estado ${q} no encontrado → retorna NULL</div>`;
+    return;
+  }
+  let html = `<div style="margin-bottom:8px;color:var(--color-text-secondary)">δ(<span style="color:#ff7b72">${q}</span>, <span style="color:#79c0ff">"${a}"</span>) — buscando en estado ${q}:</div>`;
+  const trans = state.transitions.find(t => t.sym === a);
+  if (trans) {
+    html += `<div style="padding:5px 8px;margin:3px 0;border-radius:5px;background:#7ee78710;color:#7ee787">
+      ✓ Transición encontrada: ${a} → ${trans.to}
+    </div>`;
+  } else {
+    html += `<div style="padding:5px 8px;margin:3px 0;border-radius:5px;color:#ff7b72">
+      ✗ No hay transición para el símbolo "${a}" desde ${q} → retorna NULL
+    </div>`;
+  }
+  traceDiv.innerHTML = html;
+}
+
+// Inicializar todo
+buildLinkedListP1();
+buildStatesP2();
 </script>
+
+<hr class="divider" />
+
+<!-- Aquí puedes seguir agregando Propuesta 3, 4, 5 más abajo -->
 
 </body>
 </html>
