@@ -1,7 +1,19 @@
-
 <style>
+  :root {
+    /* Colores para tema claro (compatible con GitHub) */
+    --color-background-primary: #ffffff;
+    --color-background-secondary: #f6f8fa;
+    --color-border-primary: #1f2328;
+    --color-border-secondary: #d0d7de;
+    --color-border-tertiary: #eaeef2;
+    --color-text-primary: #1f2328;
+    --color-text-secondary: #656d76;
+    --font-mono: ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace;
+    --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  }
+
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: var(--font-mono, monospace); }
+  body { font-family: var(--font-mono, monospace); background: var(--color-background-primary); }
   .section-label {
     font-family: var(--font-sans);
     font-size: 11px;
@@ -14,7 +26,7 @@
   .card {
     background: var(--color-background-primary);
     border: 0.5px solid var(--color-border-tertiary);
-    border-radius: var(--border-radius-lg);
+    border-radius: 8px;
     padding: 16px 20px;
     margin-bottom: 16px;
   }
