@@ -16,10 +16,9 @@ void    encolar(Tdata *cola, Tdata elem);
 Tdata   desencolar(Tdata *cola);
 Tdata   AFNDtoAFD(Tdata automata_afnd);
 void print_automata(Tdata aut);
-void print_delta(Tdata);
 Tdata ingresar_automata(void);
 Tdata automata_precargado1(void);
 Tdata automata_precargado2(void);
 Tdata automata_precargado3(void);
-
+void procesar_cadena(Tdata,char*);
 #endif
