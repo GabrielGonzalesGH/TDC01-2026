@@ -1,42 +1,88 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>TP 3.1 - Gramáticas Libres de Contexto</title>
-    <!-- Se carga marked.js directamente desde un CDN confiable y funcional -->
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 2em;
-            line-height: 1.4;
-        }
-        pre {
-            background: #f4f4f4;
-            padding: 0.5em;
-            overflow-x: auto;
-        }
-        table {
-            border-collapse: collapse;
-            width: 100%;
-        }
-        th, td {
-            border: 1px solid #ddd;
-            padding: 8px;
-        }
-        code {
-            background-color: #f4f4f4;
-            padding: 2px 4px;
-            border-radius: 4px;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Untitled Document.md</title>
+  <style>
+  @import url("https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0-alpha2/katex.min.css");
+
+  body {
+    font-family: Georgia, Cambria, serif;
+    font-size: 14px;
+    line-height: 1.7;
+    color: #373D49;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    font-family: "Source Sans Pro", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-weight: 600;
+    margin-top: 1.5em;
+    margin-bottom: 0.5em;
+  }
+  h1 { font-size: 2em; }
+  h2 { font-size: 1.5em; }
+  h3 { font-size: 1.25em; }
+  a { color: #35D7BB; text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  code {
+    font-family: "Ubuntu Mono", Monaco, monospace;
+    background: #F5F7FA;
+    padding: 0.2em 0.4em;
+    border-radius: 3px;
+  }
+  pre {
+    background: #F5F7FA;
+    padding: 1em;
+    border-radius: 3px;
+    overflow-x: auto;
+  }
+  .hljs {
+    display: block;
+    overflow-x: auto;
+    padding: 0;
+    color: #333;
+  }
+  pre code { background: none; padding: 0; }
+  blockquote {
+    border-left: 3px solid #A0AABF;
+    padding-left: 1em;
+    margin-left: 0;
+    font-style: italic;
+    color: #666;
+  }
+  table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+  th, td {
+    border: 1px solid #E8E8E8;
+    padding: 0.5em;
+    text-align: left;
+  }
+  th {
+    background: #F5F7FA;
+    font-weight: 600;
+  }
+  #preview .table {
+    width: auto;
+  }
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+  .katex-display {
+    overflow-x: auto;
+    overflow-y: hidden;
+  }
+</style>
 </head>
-<body>
-    <h1>Trabajo Práctico Nº 3.1 – Diseño de Gramáticas Libres de Contexto</h1>
-    <div id="content"></div>
-<h1 id="trabajo-práctico-nº-31--diseño-de-gramáticas-libres-de-contexto">Trabajo Práctico Nº 3.1 – Diseño de Gramáticas Libres de Contexto</h1>
-<h2 id="actividad-1---exploración-experimental-de-gramáticas-libres-de-contexto">Actividad 1 - Exploración Experimental de Gramáticas Libres de Contexto</h2>
-<table>
+<body id="preview">
+<h1 class="code-line has-line-data" data-line-start="0" data-line-end="1"><a id="Trabajo_Prctico_N_31_Diseo_de_Gramticas_Libres_de_Contexto_0"></a>Trabajo Práctico Nº 3.1 – Diseño de Gramáticas Libres de Contexto</h1>
+<h2 class="code-line has-line-data" data-line-start="2" data-line-end="3"><a id="Actividad_1_Exploracin_Experimental_de_Gramticas_Libres_de_Contexto_2"></a>Actividad 1 - Exploración Experimental de Gramáticas Libres de Contexto</h2>
+<table class="table table-striped table-bordered">
 <thead>
 <tr>
 <th>G₁</th>
@@ -45,91 +91,92 @@
 <th>G₄</th>
 </tr>
 </thead>
-<tbody><tr>
+<tbody>
+<tr>
 <td>S → aSb | A<br>A → bAa | ab | ε</td>
 <td>S → SS | aSb | ε</td>
 <td>E → E + T | T<br>T → T * F | F<br>F → (E) | a</td>
 <td>S → aA | bS | ab<br>A → Sb | aS | bb</td>
 </tr>
-</tbody></table>
-<p>Para cada una:</p>
-<p>a) $\quad$  Genere manualmente al menos 10 cadenas distintas pertenecientes al lenguaje.</p>
-<p>b) $\quad$  Clasifique los patrones observados:</p>
+</tbody>
+</table>
+<p class="has-line-data" data-line-start="8" data-line-end="9">Para cada una:</p>
+<p class="has-line-data" data-line-start="10" data-line-end="11">a) <eq><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mspace width="1em"/></mrow><annotation encoding="application/x-tex">\quad</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0em;"></span><span class="mspace" style="margin-right:1em;"></span></span></span></span></eq>  Genere manualmente al menos 10 cadenas distintas pertenecientes al lenguaje.</p>
+<p class="has-line-data" data-line-start="12" data-line-end="13">b) <eq><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mspace width="1em"/></mrow><annotation encoding="application/x-tex">\quad</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0em;"></span><span class="mspace" style="margin-right:1em;"></span></span></span></span></eq>  Clasifique los patrones observados:</p>
 <blockquote>
-<p>Símbolo terminal inicial.</p>
-<p>Estructuras repetitivas.</p>
-<p>Balanceo entre símbolos.</p>
-<p>Concatenaciones.</p>
-<p>Restricciones aparentes sobre las cadenas generadas.</p>
+<p class="has-line-data" data-line-start="14" data-line-end="15">Símbolo terminal inicial.</p>
+<p class="has-line-data" data-line-start="16" data-line-end="17">Estructuras repetitivas.</p>
+<p class="has-line-data" data-line-start="18" data-line-end="19">Balanceo entre símbolos.</p>
+<p class="has-line-data" data-line-start="20" data-line-end="21">Concatenaciones.</p>
+<p class="has-line-data" data-line-start="22" data-line-end="23">Restricciones aparentes sobre las cadenas generadas.</p>
 </blockquote>
-<p>c) $\quad$ Proponga una descripción informal del lenguaje generado.</p>
-<p>d) $\quad$ Realice el mini-desafío de programación para verificar experimentalmente su hipótesis.</p>
-<h3 id="mini-desafío-1">Mini-desafío 1:</h3>
-<p>a) $\quad$ Represente las gramáticas utilizando diccionarios:</p>
-<pre><code class="language-python">G1 = {
-    &quot;S&quot;: [&quot;aSb&quot;, &quot;A&quot;],
-    &quot;A&quot;: [&quot;bAa&quot;, &quot;ab&quot;, &quot;&quot;]
+<p class="has-line-data" data-line-start="24" data-line-end="25">c) <eq><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mspace width="1em"/></mrow><annotation encoding="application/x-tex">\quad</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0em;"></span><span class="mspace" style="margin-right:1em;"></span></span></span></span></eq> Proponga una descripción informal del lenguaje generado.</p>
+<p class="has-line-data" data-line-start="26" data-line-end="27">d) <eq><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mspace width="1em"/></mrow><annotation encoding="application/x-tex">\quad</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0em;"></span><span class="mspace" style="margin-right:1em;"></span></span></span></span></eq> Realice el mini-desafío de programación para verificar experimentalmente su hipótesis.</p>
+<h3 class="code-line has-line-data" data-line-start="29" data-line-end="30"><a id="Minidesafo_1_29"></a>Mini-desafío 1:</h3>
+<p class="has-line-data" data-line-start="31" data-line-end="32">a) <eq><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mspace width="1em"/></mrow><annotation encoding="application/x-tex">\quad</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0em;"></span><span class="mspace" style="margin-right:1em;"></span></span></span></span></eq> Represente las gramáticas utilizando diccionarios:</p>
+<pre><code class="has-line-data language-python" data-line-start="34" data-line-end="39">G1 = {
+    <span class="hljs-string">&quot;S&quot;</span>: [<span class="hljs-string">&quot;aSb&quot;</span>, <span class="hljs-string">&quot;A&quot;</span>],
+    <span class="hljs-string">&quot;A&quot;</span>: [<span class="hljs-string">&quot;bAa&quot;</span>, <span class="hljs-string">&quot;ab&quot;</span>, <span class="hljs-string">&quot;&quot;</span>]
 }
 </code></pre>
-<p>b) $\quad$ Implemente una función:</p>
-<pre><code class="language-python">generate(grammar, symbol, depth)
+<p class="has-line-data" data-line-start="40" data-line-end="41">b) <eq><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mspace width="1em"/></mrow><annotation encoding="application/x-tex">\quad</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0em;"></span><span class="mspace" style="margin-right:1em;"></span></span></span></span></eq> Implemente una función:</p>
+<pre><code class="has-line-data language-python" data-line-start="43" data-line-end="45">generate(grammar, symbol, depth)
 </code></pre>
-<p>que realice las siguientes tareas (las minúsculas son símbolos terminale sy la smayúsculas variables sintácticas):</p>
+<p class="has-line-data" data-line-start="46" data-line-end="47">que realice las siguientes tareas (las minúsculas son símbolos terminale sy la smayúsculas variables sintácticas):</p>
 <ul>
-<li>Reciba una gramática,</li>
-<li>Genere cadenas derivables hasta cierta profundidad,</li>
-<li>Muestre únicamente cadenas terminales.</li>
+<li class="has-line-data" data-line-start="48" data-line-end="49">Reciba una gramática,</li>
+<li class="has-line-data" data-line-start="49" data-line-end="50">Genere cadenas derivables hasta cierta profundidad,</li>
+<li class="has-line-data" data-line-start="50" data-line-end="52">Muestre únicamente cadenas terminales.</li>
 </ul>
-<p>c) $\quad$ Finalmente:</p>
+<p class="has-line-data" data-line-start="52" data-line-end="53">c) <eq><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mspace width="1em"/></mrow><annotation encoding="application/x-tex">\quad</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0em;"></span><span class="mspace" style="margin-right:1em;"></span></span></span></span></eq> Finalmente:</p>
 <ul>
-<li>Genere nuevas cadenas para cada gramática,</li>
-<li>Compare los resultados con las cadenas construidas manualmente,</li>
-<li>Verifique experimentalmente las hipótesis propuestas en los puntos anteriores.</li>
+<li class="has-line-data" data-line-start="54" data-line-end="55">Genere nuevas cadenas para cada gramática,</li>
+<li class="has-line-data" data-line-start="55" data-line-end="56">Compare los resultados con las cadenas construidas manualmente,</li>
+<li class="has-line-data" data-line-start="56" data-line-end="58">Verifique experimentalmente las hipótesis propuestas en los puntos anteriores.</li>
 </ul>
-<h3 id="formalización">Formalización:</h3>
-<p>A partir de las observaciones realizadas y de los resultados obtenidos experimentalmente, formalice el lenguaje generado por la gramática.</p>
-<h2 id="actividad-2--diseño-de-gramáticas-libres-de-contexto">Actividad 2 — Diseño de Gramáticas Libres de Contexto</h2>
-<p>Para cada uno de los siguientes lenguajes:</p>
-<p>a) $\quad$ Analice la estructura del lenguaje: </p>
+<h3 class="code-line has-line-data" data-line-start="58" data-line-end="59"><a id="Formalizacin_58"></a>Formalización:</h3>
+<p class="has-line-data" data-line-start="60" data-line-end="61">A partir de las observaciones realizadas y de los resultados obtenidos experimentalmente, formalice el lenguaje generado por la gramática.</p>
+<h2 class="code-line has-line-data" data-line-start="62" data-line-end="63"><a id="Actividad_2_Diseo_de_Gramticas_Libres_de_Contexto_62"></a>Actividad 2 — Diseño de Gramáticas Libres de Contexto</h2>
+<p class="has-line-data" data-line-start="64" data-line-end="65">Para cada uno de los siguientes lenguajes:</p>
+<p class="has-line-data" data-line-start="66" data-line-end="67">a) <eq><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mspace width="1em"/></mrow><annotation encoding="application/x-tex">\quad</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0em;"></span><span class="mspace" style="margin-right:1em;"></span></span></span></span></eq> Analice la estructura del lenguaje:</p>
 <blockquote>
-<p>¿Cuál es el caso base?</p>
-<p>¿Cómo crece el lenguaje?</p>
-<p>¿Qué parte se repite?</p>
-<p>¿Qué mantiene el balance o la restricción del lenguaje?</p>
+<p class="has-line-data" data-line-start="68" data-line-end="69">¿Cuál es el caso base?</p>
+<p class="has-line-data" data-line-start="70" data-line-end="71">¿Cómo crece el lenguaje?</p>
+<p class="has-line-data" data-line-start="72" data-line-end="73">¿Qué parte se repite?</p>
+<p class="has-line-data" data-line-start="74" data-line-end="75">¿Qué mantiene el balance o la restricción del lenguaje?</p>
 </blockquote>
-<p>b) $\quad$ Construya una Gramática Libre de Contexto que genere el lenguaje.</p>
-<p><strong>Recomendación:</strong> Aplique las estrategias de diseño desarrolladas en la teoría (Brena). Analice especialmente:</p>
-<p>c) $\quad$ Con cada GLC realice para dos cadenas distintas una derivación por izquierda y una derivación por derecha,</p>
-<p>d) $\quad$ Dibuje los árboles de derivación correspondientes.</p>
-<p>e) $\quad$  Genere manualmente al menos 5 cadenas adicionales para verificar experimentalmente que la gramática produce únicamente cadenas válidas.</p>
-<p>f) $\quad$  Indique si la gramática diseñada podría ser ambigua. Justifique brevemente.</p>
-<h3 id="lenguajes">Lenguajes</h3>
-<h4 id="a--lenguajes-con-simetría-y-recursión-envolvente">A — Lenguajes con simetría y recursión envolvente</h4>
-<p>$\text{A.1} \quad L =$ { $w \in$ { $a,b$ } $^* \mid w = w^R$ }</p>
-<p>$\text{A.2} \quad L =$ { $w \in {(,)}^* \mid w \text{ posee paréntesis balanceados}$ }</p>
-<p>$\text{A.3} \quad L =$ { $a^n b^m a^n \mid n \geq 1 \land m = 2k$ }</p>
-<h4 id="b--lenguajes-con-restricciones-numéricas">B — Lenguajes con restricciones numéricas</h4>
-<p>$\text{B.1} \quad L =$ { $w \in$ { $a,b$ } $^* \mid n_a(w) = 2n_b(w)$ }</p>
-<p>$\text{B.2} \quad L =$ { $a^n b^m \mid n = 2m + 1$ }</p>
-<p>$\text{B.3} \quad L =$ { $a^n b^m \mid n \leq m + 3$ }</p>
-<p>$\text{B.4} \quad L =$ { $a^n b^m \mid 2n \leq m \leq 3n$ }</p>
-<h4 id="c--lenguajes-por-descomposición-o-combinación-de-casos">C — Lenguajes por descomposición o combinación de casos</h4>
-<p>$\text{C.1} \quad L =$ { $a^n b^m \mid n \neq 2m$ }</p>
-<p>$\text{C.2} \quad L =$ { $w \in {a,b}^* \mid n_a(w) \neq n_b(w)$ }</p>
-<h3 id="mini-desafío-de-programación-2">Mini-desafío de programación 2</h3>
-<p>Utilice el generador de cadenas implementado en la Actividad 1 para probar las gramáticas diseñadas en este ejercicio.</p>
-<p>Para cada gramática:</p>
-<p>a) $\quad$ Represente la GLC utilizando la estructura de datos definida anteriormente.</p>
-<p>b) $\quad$ Genere automáticamente cadenas derivables hasta cierta profundidad.</p>
-<p>c) $\quad$ Compare las cadenas obtenidas con las derivaciones realizadas manualmente</p>
-<p>d) $\quad$ Analice experimentalmente:</p>
+<p class="has-line-data" data-line-start="76" data-line-end="77">b) <eq><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mspace width="1em"/></mrow><annotation encoding="application/x-tex">\quad</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0em;"></span><span class="mspace" style="margin-right:1em;"></span></span></span></span></eq> Construya una Gramática Libre de Contexto que genere el lenguaje.</p>
+<p class="has-line-data" data-line-start="78" data-line-end="79"><strong>Recomendación:</strong> Aplique las estrategias de diseño desarrolladas en la teoría (Brena). Analice especialmente:</p>
+<p class="has-line-data" data-line-start="80" data-line-end="81">c) <eq><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mspace width="1em"/></mrow><annotation encoding="application/x-tex">\quad</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0em;"></span><span class="mspace" style="margin-right:1em;"></span></span></span></span></eq> Con cada GLC realice para dos cadenas distintas una derivación por izquierda y una derivación por derecha,</p>
+<p class="has-line-data" data-line-start="82" data-line-end="83">d) <eq><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mspace width="1em"/></mrow><annotation encoding="application/x-tex">\quad</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0em;"></span><span class="mspace" style="margin-right:1em;"></span></span></span></span></eq> Dibuje los árboles de derivación correspondientes.</p>
+<p class="has-line-data" data-line-start="84" data-line-end="85">e) <eq><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mspace width="1em"/></mrow><annotation encoding="application/x-tex">\quad</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0em;"></span><span class="mspace" style="margin-right:1em;"></span></span></span></span></eq>  Genere manualmente al menos 5 cadenas adicionales para verificar experimentalmente que la gramática produce únicamente cadenas válidas.</p>
+<p class="has-line-data" data-line-start="86" data-line-end="87">f) <eq><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mspace width="1em"/></mrow><annotation encoding="application/x-tex">\quad</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0em;"></span><span class="mspace" style="margin-right:1em;"></span></span></span></span></eq>  Indique si la gramática diseñada podría ser ambigua. Justifique brevemente.</p>
+<h3 class="code-line has-line-data" data-line-start="88" data-line-end="89"><a id="Lenguajes_88"></a>Lenguajes</h3>
+<h4 class="code-line has-line-data" data-line-start="89" data-line-end="90"><a id="A_Lenguajes_con_simetra_y_recursin_envolvente_89"></a>A — Lenguajes con simetría y recursión envolvente</h4>
+<p class="has-line-data" data-line-start="91" data-line-end="92"><eq><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>A.1</mtext><mspace width="1em"/><mi>L</mi><mo>=</mo></mrow><annotation encoding="application/x-tex">\text{A.1} \quad L =</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord text"><span class="mord">A.1</span></span><span class="mspace" style="margin-right:1em;"></span><span class="mord mathnormal">L</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span></span></span></span></eq> { <eq><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>w</mi><mo>∈</mo></mrow><annotation encoding="application/x-tex">w \in</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5782em;vertical-align:-0.0391em;"></span><span class="mord mathnormal" style="margin-right:0.02691em;">w</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">∈</span></span></span></span></eq> { <eq><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>a</mi><mo separator="true">,</mo><mi>b</mi></mrow><annotation encoding="application/x-tex">a,b</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord mathnormal">a</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal">b</span></span></span></span></eq> } <eq><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mrow></mrow><mo>∗</mo></msup><mo>∣</mo><mi>w</mi><mo>=</mo><msup><mi>w</mi><mi>R</mi></msup></mrow><annotation encoding="application/x-tex">^* \mid w = w^R</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord"><span></span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6887em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mbin mtight">∗</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">∣</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal" style="margin-right:0.02691em;">w</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8413em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.02691em;">w</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8413em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.00773em;">R</span></span></span></span></span></span></span></span></span></span></span></eq> }</p>
+<p class="has-line-data" data-line-start="93" data-line-end="94"><eq><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>A.2</mtext><mspace width="1em"/><mi>L</mi><mo>=</mo></mrow><annotation encoding="application/x-tex">\text{A.2} \quad L =</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord text"><span class="mord">A.2</span></span><span class="mspace" style="margin-right:1em;"></span><span class="mord mathnormal">L</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span></span></span></span></eq> { <eq><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>w</mi><mo>∈</mo><mo stretchy="false">{</mo><mo stretchy="false">(</mo><mo separator="true">,</mo><mo stretchy="false">)</mo><msup><mo stretchy="false">}</mo><mo>∗</mo></msup><mo>∣</mo><mi>w</mi><mrow><mtext> posee par</mtext><mover accent="true"><mtext>e</mtext><mo>ˊ</mo></mover><mtext>ntesis balanceados</mtext></mrow></mrow><annotation encoding="application/x-tex">w \in \{(,)\}^* \mid w \text{ posee paréntesis balanceados}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5782em;vertical-align:-0.0391em;"></span><span class="mord mathnormal" style="margin-right:0.02691em;">w</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">∈</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">{(</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mclose">)</span><span class="mclose"><span class="mclose">}</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6887em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mbin mtight">∗</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">∣</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.02691em;">w</span><span class="mord text"><span class="mord"> posee par</span><span class="mord accent"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6944em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord">e</span></span><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="accent-body" style="left:-0.25em;"><span class="mord">ˊ</span></span></span></span></span></span></span><span class="mord">ntesis balanceados</span></span></span></span></span></eq> }</p>
+<p class="has-line-data" data-line-start="95" data-line-end="96"><eq><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>A.3</mtext><mspace width="1em"/><mi>L</mi><mo>=</mo></mrow><annotation encoding="application/x-tex">\text{A.3} \quad L =</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord text"><span class="mord">A.3</span></span><span class="mspace" style="margin-right:1em;"></span><span class="mord mathnormal">L</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span></span></span></span></eq> { <eq><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>a</mi><mi>n</mi></msup><msup><mi>b</mi><mi>m</mi></msup><msup><mi>a</mi><mi>n</mi></msup><mo>∣</mo><mi>n</mi><mo>≥</mo><mn>1</mn><mo>∧</mo><mi>m</mi><mo>=</mo><mn>2</mn><mi>k</mi></mrow><annotation encoding="application/x-tex">a^n b^m a^n \mid n \geq 1 \land m = 2k</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathnormal">a</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6644em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">n</span></span></span></span></span></span></span></span><span class="mord"><span class="mord mathnormal">b</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6644em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">m</span></span></span></span></span></span></span></span><span class="mord"><span class="mord mathnormal">a</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6644em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">n</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">∣</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.7719em;vertical-align:-0.136em;"></span><span class="mord mathnormal">n</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≥</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">1</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">∧</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">m</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord">2</span><span class="mord mathnormal" style="margin-right:0.03148em;">k</span></span></span></span></eq> }</p>
+<h4 class="code-line has-line-data" data-line-start="97" data-line-end="98"><a id="B_Lenguajes_con_restricciones_numricas_97"></a>B — Lenguajes con restricciones numéricas</h4>
+<p class="has-line-data" data-line-start="99" data-line-end="100"><eq><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>B.1</mtext><mspace width="1em"/><mi>L</mi><mo>=</mo></mrow><annotation encoding="application/x-tex">\text{B.1} \quad L =</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord text"><span class="mord">B.1</span></span><span class="mspace" style="margin-right:1em;"></span><span class="mord mathnormal">L</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span></span></span></span></eq> { <eq><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>w</mi><mo>∈</mo></mrow><annotation encoding="application/x-tex">w \in</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5782em;vertical-align:-0.0391em;"></span><span class="mord mathnormal" style="margin-right:0.02691em;">w</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">∈</span></span></span></span></eq> { <eq><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>a</mi><mo separator="true">,</mo><mi>b</mi></mrow><annotation encoding="application/x-tex">a,b</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord mathnormal">a</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal">b</span></span></span></span></eq> } <eq><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mrow></mrow><mo>∗</mo></msup><mo>∣</mo><msub><mi>n</mi><mi>a</mi></msub><mo stretchy="false">(</mo><mi>w</mi><mo stretchy="false">)</mo><mo>=</mo><mn>2</mn><msub><mi>n</mi><mi>b</mi></msub><mo stretchy="false">(</mo><mi>w</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">^* \mid n_a(w) = 2n_b(w)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord"><span></span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6887em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mbin mtight">∗</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">∣</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathnormal">n</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">a</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.02691em;">w</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">2</span><span class="mord"><span class="mord mathnormal">n</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">b</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.02691em;">w</span><span class="mclose">)</span></span></span></span></eq> }</p>
+<p class="has-line-data" data-line-start="101" data-line-end="102"><eq><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>B.2</mtext><mspace width="1em"/><mi>L</mi><mo>=</mo></mrow><annotation encoding="application/x-tex">\text{B.2} \quad L =</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord text"><span class="mord">B.2</span></span><span class="mspace" style="margin-right:1em;"></span><span class="mord mathnormal">L</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span></span></span></span></eq> { <eq><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>a</mi><mi>n</mi></msup><msup><mi>b</mi><mi>m</mi></msup><mo>∣</mo><mi>n</mi><mo>=</mo><mn>2</mn><mi>m</mi><mo>+</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">a^n b^m \mid n = 2m + 1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathnormal">a</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6644em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">n</span></span></span></span></span></span></span></span><span class="mord"><span class="mord mathnormal">b</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6644em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">m</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">∣</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">n</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">2</span><span class="mord mathnormal">m</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">1</span></span></span></span></eq> }</p>
+<p class="has-line-data" data-line-start="103" data-line-end="104"><eq><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>B.3</mtext><mspace width="1em"/><mi>L</mi><mo>=</mo></mrow><annotation encoding="application/x-tex">\text{B.3} \quad L =</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord text"><span class="mord">B.3</span></span><span class="mspace" style="margin-right:1em;"></span><span class="mord mathnormal">L</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span></span></span></span></eq> { <eq><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>a</mi><mi>n</mi></msup><msup><mi>b</mi><mi>m</mi></msup><mo>∣</mo><mi>n</mi><mo>≤</mo><mi>m</mi><mo>+</mo><mn>3</mn></mrow><annotation encoding="application/x-tex">a^n b^m \mid n \leq m + 3</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathnormal">a</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6644em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">n</span></span></span></span></span></span></span></span><span class="mord"><span class="mord mathnormal">b</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6644em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">m</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">∣</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.7719em;vertical-align:-0.136em;"></span><span class="mord mathnormal">n</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6667em;vertical-align:-0.0833em;"></span><span class="mord mathnormal">m</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">3</span></span></span></span></eq> }</p>
+<p class="has-line-data" data-line-start="105" data-line-end="106"><eq><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>B.4</mtext><mspace width="1em"/><mi>L</mi><mo>=</mo></mrow><annotation encoding="application/x-tex">\text{B.4} \quad L =</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord text"><span class="mord">B.4</span></span><span class="mspace" style="margin-right:1em;"></span><span class="mord mathnormal">L</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span></span></span></span></eq> { <eq><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>a</mi><mi>n</mi></msup><msup><mi>b</mi><mi>m</mi></msup><mo>∣</mo><mn>2</mn><mi>n</mi><mo>≤</mo><mi>m</mi><mo>≤</mo><mn>3</mn><mi>n</mi></mrow><annotation encoding="application/x-tex">a^n b^m \mid 2n \leq m \leq 3n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathnormal">a</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6644em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">n</span></span></span></span></span></span></span></span><span class="mord"><span class="mord mathnormal">b</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6644em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">m</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">∣</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.7804em;vertical-align:-0.136em;"></span><span class="mord">2</span><span class="mord mathnormal">n</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.7719em;vertical-align:-0.136em;"></span><span class="mord mathnormal">m</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">3</span><span class="mord mathnormal">n</span></span></span></span></eq> }</p>
+<h4 class="code-line has-line-data" data-line-start="107" data-line-end="108"><a id="C_Lenguajes_por_descomposicin_o_combinacin_de_casos_107"></a>C — Lenguajes por descomposición o combinación de casos</h4>
+<p class="has-line-data" data-line-start="109" data-line-end="110"><eq><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>C.1</mtext><mspace width="1em"/><mi>L</mi><mo>=</mo></mrow><annotation encoding="application/x-tex">\text{C.1} \quad L =</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord text"><span class="mord">C.1</span></span><span class="mspace" style="margin-right:1em;"></span><span class="mord mathnormal">L</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span></span></span></span></eq> { <eq><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>a</mi><mi>n</mi></msup><msup><mi>b</mi><mi>m</mi></msup><mo>∣</mo><mi>n</mi><mo mathvariant="normal">≠</mo><mn>2</mn><mi>m</mi></mrow><annotation encoding="application/x-tex">a^n b^m \mid n \neq 2m</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathnormal">a</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6644em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">n</span></span></span></span></span></span></span></span><span class="mord"><span class="mord mathnormal">b</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6644em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">m</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">∣</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord mathnormal">n</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel"><span class="mrel"><span class="mord vbox"><span class="thinbox"><span class="rlap"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="inner"><span class="mord"><span class="mrel"></span></span></span><span class="fix"></span></span></span></span></span><span class="mspace nobreak"></span><span class="mrel">=</span></span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">2</span><span class="mord mathnormal">m</span></span></span></span></eq> }</p>
+<p class="has-line-data" data-line-start="111" data-line-end="112"><eq><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>C.2</mtext><mspace width="1em"/><mi>L</mi><mo>=</mo></mrow><annotation encoding="application/x-tex">\text{C.2} \quad L =</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord text"><span class="mord">C.2</span></span><span class="mspace" style="margin-right:1em;"></span><span class="mord mathnormal">L</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span></span></span></span></eq> { <eq><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>w</mi><mo>∈</mo><mo stretchy="false">{</mo><mi>a</mi><mo separator="true">,</mo><mi>b</mi><msup><mo stretchy="false">}</mo><mo>∗</mo></msup><mo>∣</mo><msub><mi>n</mi><mi>a</mi></msub><mo stretchy="false">(</mo><mi>w</mi><mo stretchy="false">)</mo><mo mathvariant="normal">≠</mo><msub><mi>n</mi><mi>b</mi></msub><mo stretchy="false">(</mo><mi>w</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">w \in \{a,b\}^* \mid n_a(w) \neq n_b(w)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5782em;vertical-align:-0.0391em;"></span><span class="mord mathnormal" style="margin-right:0.02691em;">w</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">∈</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">{</span><span class="mord mathnormal">a</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal">b</span><span class="mclose"><span class="mclose">}</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6887em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mbin mtight">∗</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">∣</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathnormal">n</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">a</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.02691em;">w</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel"><span class="mrel"><span class="mord vbox"><span class="thinbox"><span class="rlap"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="inner"><span class="mord"><span class="mrel"></span></span></span><span class="fix"></span></span></span></span></span><span class="mspace nobreak"></span><span class="mrel">=</span></span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathnormal">n</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">b</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.02691em;">w</span><span class="mclose">)</span></span></span></span></eq> }</p>
+<h3 class="code-line has-line-data" data-line-start="113" data-line-end="114"><a id="Minidesafo_de_programacin_2_113"></a>Mini-desafío de programación 2</h3>
+<p class="has-line-data" data-line-start="115" data-line-end="116">Utilice el generador de cadenas implementado en la Actividad 1 para probar las gramáticas diseñadas en este ejercicio.</p>
+<p class="has-line-data" data-line-start="117" data-line-end="118">Para cada gramática:</p>
+<p class="has-line-data" data-line-start="119" data-line-end="120">a) <eq><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mspace width="1em"/></mrow><annotation encoding="application/x-tex">\quad</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0em;"></span><span class="mspace" style="margin-right:1em;"></span></span></span></span></eq> Represente la GLC utilizando la estructura de datos definida anteriormente.</p>
+<p class="has-line-data" data-line-start="121" data-line-end="122">b) <eq><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mspace width="1em"/></mrow><annotation encoding="application/x-tex">\quad</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0em;"></span><span class="mspace" style="margin-right:1em;"></span></span></span></span></eq> Genere automáticamente cadenas derivables hasta cierta profundidad.</p>
+<p class="has-line-data" data-line-start="123" data-line-end="124">c) <eq><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mspace width="1em"/></mrow><annotation encoding="application/x-tex">\quad</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0em;"></span><span class="mspace" style="margin-right:1em;"></span></span></span></span></eq> Compare las cadenas obtenidas con las derivaciones realizadas manualmente</p>
+<p class="has-line-data" data-line-start="125" data-line-end="126">d) <eq><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mspace width="1em"/></mrow><annotation encoding="application/x-tex">\quad</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0em;"></span><span class="mspace" style="margin-right:1em;"></span></span></span></span></eq> Analice experimentalmente:</p>
 <blockquote>
-<p>¿la gramática parece generar únicamente cadenas válidas?</p>
-<p>¿se derivan cadenas inesperadas?</p>
-<p>¿el lenguaje generado parece incompleto?</p>
-<p>¿aparecen patrones no previstos inicialmente?</p>
+<p class="has-line-data" data-line-start="126" data-line-end="127">¿la gramática parece generar únicamente cadenas válidas?</p>
+<p class="has-line-data" data-line-start="128" data-line-end="129">¿se derivan cadenas inesperadas?</p>
+<p class="has-line-data" data-line-start="130" data-line-end="131">¿el lenguaje generado parece incompleto?</p>
+<p class="has-line-data" data-line-start="132" data-line-end="133">¿aparecen patrones no previstos inicialmente?</p>
 </blockquote>
-
 
 </body>
 </html>
