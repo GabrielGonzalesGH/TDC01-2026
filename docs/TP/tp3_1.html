@@ -3,316 +3,209 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TP 3.1 - Gramáticas Libres de Contexto</title>
-    <style>
-        * {
-            box-sizing: border-box;
-        }
-        body {
-            font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
-            background: #f5f7fb;
-            color: #1e2a3a;
-            margin: 0;
-            padding: 2rem 1rem;
-            line-height: 1.5;
-        }
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            background: white;
-            border-radius: 1.5rem;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-            padding: 2rem;
-        }
-        h1, h2, h3, h4 {
-            margin-top: 1.5em;
-            margin-bottom: 0.5em;
-            font-weight: 600;
-            color: #0f2b3d;
-        }
-        h1 {
-            font-size: 2rem;
-            border-bottom: 3px solid #3b82f6;
-            display: inline-block;
-            padding-bottom: 0.3rem;
-            margin-bottom: 1rem;
-        }
-        h2 {
-            font-size: 1.6rem;
-            border-left: 5px solid #3b82f6;
-            padding-left: 1rem;
-            margin-top: 2rem;
-        }
-        h3 {
-            font-size: 1.3rem;
-            color: #1e4a76;
-            margin-top: 1.5rem;
-        }
-        .grammar-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 1.5rem 0;
-            background: #f9fafc;
-            border-radius: 1rem;
-            overflow: hidden;
-            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
-        }
-        .grammar-table th, .grammar-table td {
-            border: 1px solid #dce3ec;
-            padding: 12px 10px;
-            vertical-align: top;
-            font-family: 'Courier New', monospace;
-            font-size: 0.9rem;
-        }
-        .grammar-table th {
-            background: #eef2f9;
-            font-weight: 600;
-            font-family: inherit;
-        }
-        pre {
-            background: #1e2a36;
-            color: #e2e8f0;
-            padding: 1rem;
-            border-radius: 0.8rem;
-            overflow-x: auto;
-            font-size: 0.85rem;
-            font-family: 'Fira Code', 'Cascadia Code', monospace;
-        }
-        code {
-            font-family: 'Fira Code', monospace;
-            background: #eef2f9;
-            padding: 0.2rem 0.4rem;
-            border-radius: 0.4rem;
-            font-size: 0.85rem;
-            color: #c2410c;
-        }
-        .consigna {
-            background: #fefce8;
-            border-left: 4px solid #eab308;
-            padding: 0.8rem 1.2rem;
-            margin: 1.2rem 0;
-            border-radius: 0.8rem;
-        }
-        .respuesta-panel {
-            margin: 1rem 0 1.5rem 1rem;
-            border-top: 1px dashed #cbd5e1;
-            padding-top: 0.8rem;
-        }
-        .btn-respuesta {
-            background: #3b82f6;
-            color: white;
-            border: none;
-            padding: 6px 14px;
-            border-radius: 40px;
-            font-size: 0.8rem;
-            font-weight: 500;
-            cursor: pointer;
-            transition: background 0.2s;
-            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
-        }
-        .btn-respuesta:hover {
-            background: #2563eb;
-        }
-        .respuesta-texto {
-            background: #ffffff;
-            border: 1px solid #cbd5e1;
-            border-radius: 0.8rem;
-            padding: 0.8rem;
-            margin-top: 0.8rem;
-            width: 100%;
-            font-family: 'Segoe UI', monospace;
-            font-size: 0.9rem;
-            line-height: 1.4;
-            resize: vertical;
-            display: none;
-        }
-        .respuesta-texto:focus {
-            outline: none;
-            border-color: #3b82f6;
-            box-shadow: 0 0 0 2px rgba(59,130,246,0.2);
-        }
-        footer {
-            margin-top: 3rem;
-            text-align: center;
-            font-size: 0.8rem;
-            color: #6c7a91;
-            border-top: 1px solid #e2e8f0;
-            padding-top: 1.5rem;
-        }
-        .badge {
-            background: #dcfce7;
-            color: #15803d;
-            padding: 0.2rem 0.6rem;
-            border-radius: 30px;
-            font-size: 0.7rem;
-            font-weight: normal;
-        }
-        @media (max-width: 700px) {
-            .container {
-                padding: 1rem;
-            }
-            .grammar-table th, .grammar-table td {
-                padding: 6px;
-                font-size: 0.75rem;
-            }
-        }
-    </style>
+    <title>TP 3.1 - Gramáticas Libres de Contexto | Modo Oscuro</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 <div class="container">
     <h1>📘 Trabajo Práctico Nº 3.1 – Diseño de Gramáticas Libres de Contexto</h1>
-    <p><span class="badge">✅ Consignas corregidas</span> <span class="badge">📝 Respuestas ocultas con botón</span> <span class="badge">💾 Guardado automático</span></p>
+    <p><span class="badge">✅ Consignas corregidas</span> <span class="badge">🌙 Modo oscuro</span> <span class="badge">📌 Respuestas hardcodeadas (mostrar/ocultar)</span></p>
 
-    <!-- ============================================= -->
-    <!-- ACTIVIDAD 1 -->
-    <!-- ============================================= -->
+    <!-- ================= ACTIVIDAD 1 ================= -->
     <h2>🔍 Actividad 1 - Exploración Experimental de Gramáticas Libres de Contexto</h2>
+
     <table class="grammar-table">
         <thead><tr><th>G₁</th><th>G₂</th><th>G₃</th><th>G₄</th></tr></thead>
         <tbody>
-        <tr>
-            <td>S → aSb | A<br>A → bAa | ab | ε</td>
-            <td>S → SS | aSb | ε</td>
-            <td>E → E + T | T<br>T → T * F | F<br>F → (E) | a</td>
-            <td>S → aA | bS | ab<br>A → Sb | aS | bb</td>
-        </tr>
+            <tr>
+                <td>S → aSb | A<br>A → bAa | ab | ε</td>
+                <td>S → SS | aSb | ε</td>
+                <td>E → E + T | T<br>T → T * F | F<br>F → (E) | a</td>
+                <td>S → aA | bS | ab<br>A → Sb | aS | bb</td>
+            </tr>
         </tbody>
     </table>
 
     <div class="consigna">
         <p><strong>a)</strong> Genere manualmente al menos 10 cadenas distintas pertenecientes al lenguaje para cada gramática.</p>
     </div>
-    <div class="respuesta-panel"><button class="btn-respuesta" data-target="resp1a">📝 Mostrar / Ocultar mi respuesta (a)</button><textarea id="resp1a" class="respuesta-texto" placeholder="Escribe aquí tus cadenas para G1, G2, G3, G4..."></textarea></div>
+    <button class="btn-respuesta" data-target="resp1a">📝 Mostrar / Ocultar mi respuesta (a)</button>
+    <div id="resp1a" class="respuesta-div">
+        <!-- Aquí HARDCODEÁ tu respuesta para el punto a) de la Actividad 1 -->
+        <p><strong>🔹 G₁:</strong> ab, aabb, baab, baba, ε, ... (escribe aquí tus 10 cadenas)</p>
+        <p><strong>🔹 G₂:</strong> ε, ab, aabb, aaabbb, abab, ...</p>
+        <p><strong>🔹 G₃:</strong> a, a+a, a*a, (a), a+(a*a), ...</p>
+        <p><strong>🔹 G₄:</strong> ab, ba, aab, bba, abab, ...</p>
+    </div>
 
     <div class="consigna">
         <p><strong>b)</strong> Clasifique los patrones observados: Símbolo terminal inicial, estructuras repetitivas, balanceo, concatenaciones, restricciones aparentes.</p>
     </div>
-    <div class="respuesta-panel"><button class="btn-respuesta" data-target="resp1b">📝 Mostrar / Ocultar mi respuesta (b)</button><textarea id="resp1b" class="respuesta-texto" placeholder="Analizá cada gramática..."></textarea></div>
+    <button class="btn-respuesta" data-target="resp1b">📝 Mostrar / Ocultar mi respuesta (b)</button>
+    <div id="resp1b" class="respuesta-div">
+        <p><strong>G₁:</strong> Balanceo envolvente (aSb / bAa), recursión anidada. ε permitido.</p>
+        <p><strong>G₂:</strong> Concatenación libre (SS) + balanceo aSb. Puede generar cualquier secuencia con igual número de a y b? ...</p>
+        <p><strong>G₃:</strong> Estructura de expresiones aritméticas, prioridad implícita.</p>
+        <p><strong>G₄:</strong> Alternancia entre a y b, no hay un balanceo evidente.</p>
+    </div>
 
     <div class="consigna">
         <p><strong>c)</strong> Proponga una descripción informal del lenguaje generado por cada gramática.</p>
     </div>
-    <div class="respuesta-panel"><button class="btn-respuesta" data-target="resp1c">📝 Mostrar / Ocultar mi respuesta (c)</button><textarea id="resp1c" class="respuesta-texto" placeholder="Descripción informal de G1, G2, G3, G4..."></textarea></div>
+    <button class="btn-respuesta" data-target="resp1c">📝 Mostrar / Ocultar mi respuesta (c)</button>
+    <div id="resp1c" class="respuesta-div">
+        <p><strong>G₁:</strong> Cadenas con igual número de a y b? ... (completá)</p>
+        <p><strong>G₂:</strong> Lenguaje de Dyck con dos tipos? ...</p>
+        <p><strong>G₃:</strong> Expresiones aritméticas con +, *, paréntesis y el átomo 'a'.</p>
+        <p><strong>G₄:</strong> ...</p>
+    </div>
 
     <div class="consigna">
         <p><strong>d)</strong> Realice el mini-desafío de programación para verificar experimentalmente su hipótesis.</p>
     </div>
-
     <h3>🧪 Mini-desafío 1</h3>
     <div class="consigna">
-        <p><strong>a)</strong> Represente las gramáticas utilizando diccionarios en Python:</p>
-        <pre>G1 = {
-    "S": ["aSb", "A"],
-    "A": ["bAa", "ab", ""]
-}</pre>
-        <p><strong>b)</strong> Implemente una función <code>generate(grammar, symbol, depth)</code> que reciba una gramática, genere cadenas derivables hasta cierta profundidad y muestre únicamente cadenas terminales. (Las minúsculas son símbolos terminales y las mayúsculas variables sintácticas).</p>
-        <p><strong>c)</strong> Genere nuevas cadenas para cada gramática, compare con las manuales y verifique experimentalmente.</p>
+        <p><strong>a)</strong> Represente las gramáticas con diccionarios Python.</p>
+        <pre>G1 = {"S": ["aSb", "A"], "A": ["bAa", "ab", ""]}</pre>
+        <p><strong>b)</strong> Implemente <code>generate(grammar, symbol, depth)</code> (minúsculas = terminales, mayúsculas = variables).</p>
+        <p><strong>c)</strong> Genere cadenas, compare con las manuales y verifique.</p>
     </div>
-    <div class="respuesta-panel"><button class="btn-respuesta" data-target="resp_minidesafio1">💻 Mostrar / Ocultar mi código y resultados</button><textarea id="resp_minidesafio1" class="respuesta-texto" placeholder="Pegá tu implementación de generate() y las cadenas obtenidas..."></textarea></div>
+    <button class="btn-respuesta" data-target="resp_minidesafio1">💻 Mostrar / Ocultar mi código y resultados</button>
+    <div id="resp_minidesafio1" class="respuesta-div">
+        <pre>def generate(gram, sym, depth):
+    if depth == 0: return []
+    # ... tu implementación ...
+resultados = generate(G1, "S", 4)
+print(resultados)</pre>
+        <p>🔎 <strong>Resultados experimentales:</strong> coinciden con las cadenas manuales / se observan ...</p>
+    </div>
 
     <div class="consigna">
-        <p><strong>Formalización:</strong> A partir de las observaciones y resultados experimentales, formalice el lenguaje generado por cada gramática.</p>
+        <p><strong>Formalización:</strong> A partir de observaciones y resultados, formalice L(G1), L(G2), L(G3), L(G4).</p>
     </div>
-    <div class="respuesta-panel"><button class="btn-respuesta" data-target="resp_formalizacion">📐 Mostrar / Ocultar formalización</button><textarea id="resp_formalizacion" class="respuesta-texto" placeholder="Escribí la definición formal de L(G1), L(G2), L(G3), L(G4)"></textarea></div>
+    <button class="btn-respuesta" data-target="resp_formalizacion">📐 Mostrar / Ocultar formalización</button>
+    <div id="resp_formalizacion" class="respuesta-div">
+        <p>L(G₁) = { w ∈ {a,b}* | ... }</p>
+        <p>L(G₂) = ...</p>
+        <p>L(G₃) = lenguaje de expresiones aritméticas con a, +, *, ( )</p>
+        <p>L(G₄) = ...</p>
+    </div>
 
-    <!-- ============================================= -->
-    <!-- ACTIVIDAD 2 -->
-    <!-- ============================================= -->
+    <!-- ================= ACTIVIDAD 2 ================= -->
     <h2>✍️ Actividad 2 — Diseño de Gramáticas Libres de Contexto</h2>
-    <p>Para cada lenguaje:</p>
-    <ul>
-        <li>a) Analice estructura (caso base, crecimiento, repetición, balance).</li>
-        <li>b) Construya una GLC.</li>
-        <li>c) Realice derivación por izquierda y por derecha para dos cadenas.</li>
-        <li>d) Dibuje los árboles de derivación (podés describirlos o dibujarlos como texto).</li>
-        <li>e) Genere 5 cadenas adicionales manualmente.</li>
-        <li>f) Indique si la gramática es ambigua y justifique.</li>
-    </ul>
+    <p>Para cada lenguaje: a) análisis, b) GLC, c) derivación izquierda/derecha, d) árboles, e) 5 cadenas, f) ambigüedad.</p>
 
-    <!-- Sección A -->
-    <h3>📐 A — Lenguajes con simetría y recursión envolvente</h3>
+    <h3>📐 A — Simetría y recursión envolvente</h3>
 
-    <h4>A.1 &nbsp; L = { w ∈ {a,b}* | w = w<sup>R</sup> }  (palíndromos)</h4>
-    <div class="respuesta-panel"><button class="btn-respuesta" data-target="respA1">🎯 Mostrar / Ocultar mis respuestas para A.1</button><textarea id="respA1" class="respuesta-texto" placeholder="Estructura, gramática, derivaciones, árboles, cadenas, ambigüedad..."></textarea></div>
+    <h4>A.1 &nbsp; L = { w ∈ {a,b}* | w = w<sup>R</sup> } (palíndromos)</h4>
+    <button class="btn-respuesta" data-target="respA1">🎯 Mostrar / Ocultar A.1</button>
+    <div id="respA1" class="respuesta-div">
+        <p><strong>GLC:</strong> S → aSa | bSb | a | b | ε</p>
+        <p><strong>Derivación izq. para "aba":</strong> S ⇒ aSa ⇒ a b a</p>
+        <p><strong>Derivación der.:</strong> S ⇒ aSa ⇒ a b a</p>
+        <p><strong>Árbol:</strong> (dibujo textual o imagen)</p>
+        <p><strong>5 cadenas:</strong> ε, a, b, aa, bb, aba, bab, abba ...</p>
+        <p><strong>Ambigüedad:</strong> No, es única (cada palíndromo tiene una única derivación).</p>
+    </div>
 
-    <h4>A.2 &nbsp; L = { w ∈ {(,)}* | w posee paréntesis balanceados }</h4>
-    <div class="respuesta-panel"><button class="btn-respuesta" data-target="respA2">🎯 Mostrar / Ocultar mis respuestas para A.2</button><textarea id="respA2" class="respuesta-texto" placeholder="Gramática, derivaciones, etc."></textarea></div>
+    <h4>A.2 &nbsp; L = { w ∈ {(,)}* | paréntesis balanceados }</h4>
+    <button class="btn-respuesta" data-target="respA2">🎯 Mostrar / Ocultar A.2</button>
+    <div id="respA2" class="respuesta-div">
+        <p><strong>GLC:</strong> S → SS | (S) | ε</p>
+        <p><strong>Derivaciones:</strong> S ⇒ (S) ⇒ (SS) ⇒ (()()) ...</p>
+        <p><strong>Árboles:</strong> ...</p>
+        <p><strong>Ambigüedad:</strong> Sí, por ejemplo "()()" tiene dos árboles (SS asociado a izquierda/derecha).</p>
+    </div>
 
-    <h4>A.3 &nbsp; L = { a<sup>n</sup> b<sup>m</sup> a<sup>n</sup> | n ≥ 1 ∧ m = 2k }  (m par)</h4>
-    <div class="respuesta-panel"><button class="btn-respuesta" data-target="respA3">🎯 Mostrar / Ocultar mis respuestas para A.3</button><textarea id="respA3" class="respuesta-texto" placeholder="Diseño de la gramática..."></textarea></div>
+    <h4>A.3 &nbsp; L = { a<sup>n</sup> b<sup>m</sup> a<sup>n</sup> | n≥1, m=2k } (m par)</h4>
+    <button class="btn-respuesta" data-target="respA3">🎯 Mostrar / Ocultar A.3</button>
+    <div id="respA3" class="respuesta-div">
+        <p><strong>GLC:</strong> S → aSa | T &nbsp;&nbsp; T → bbT | bb &nbsp; (o T → bbT | ε para incluir m=0? pero n≥1 obliga al menos un par de a's)</p>
+        <p><strong>Explicación:</strong> ...</p>
+    </div>
 
-    <h3>🔢 B — Lenguajes con restricciones numéricas</h3>
-    <h4>B.1 &nbsp; L = { w ∈ {a,b}* | n<sub>a</sub>(w) = 2·n<sub>b</sub>(w) }</h4>
-    <div class="respuesta-panel"><button class="btn-respuesta" data-target="respB1">🎯 Mostrar / Ocultar B.1</button><textarea id="respB1" class="respuesta-texto" placeholder="Estrategia de conteo..."></textarea></div>
+    <h3>🔢 B — Restricciones numéricas</h3>
 
-    <h4>B.2 &nbsp; L = { a<sup>n</sup> b<sup>m</sup> | n = 2m + 1 }</h4>
-    <div class="respuesta-panel"><button class="btn-respuesta" data-target="respB2">🎯 Mostrar / Ocultar B.2</button><textarea id="respB2" class="respuesta-texto" placeholder="Gramática lineal..."></textarea></div>
+    <h4>B.1 &nbsp; n<sub>a</sub>(w) = 2·n<sub>b</sub>(w)</h4>
+    <button class="btn-respuesta" data-target="respB1">🎯 Mostrar / Ocultar B.1</button>
+    <div id="respB1" class="respuesta-div">
+        <p>S → aS aS b | b aS aS | ε ??? (estrategia)</p>
+        <p>O bien: S → aS aS bS | ε con control ...</p>
+    </div>
 
-    <h4>B.3 &nbsp; L = { a<sup>n</sup> b<sup>m</sup> | n ≤ m + 3 }</h4>
-    <div class="respuesta-panel"><button class="btn-respuesta" data-target="respB3">🎯 Mostrar / Ocultar B.3</button><textarea id="respB3" class="respuesta-texto" placeholder="Restricción por casos..."></textarea></div>
+    <h4>B.2 &nbsp; a<sup>n</sup> b<sup>m</sup> | n = 2m+1</h4>
+    <button class="btn-respuesta" data-target="respB2">🎯 Mostrar / Ocultar B.2</button>
+    <div id="respB2" class="respuesta-div">
+        <p>S → aaSb | aab  (base m=0 → aab?)  Mejor: S → aaSb | a</p>
+        <p>Para m=0 → n=1 → "a". Correcto: S → aaSb | a</p>
+    </div>
 
-    <h4>B.4 &nbsp; L = { a<sup>n</sup> b<sup>m</sup> | 2n ≤ m ≤ 3n }</h4>
-    <div class="respuesta-panel"><button class="btn-respuesta" data-target="respB4">🎯 Mostrar / Ocultar B.4</button><textarea id="respB4" class="respuesta-texto" placeholder="Acotación entre 2n y 3n..."></textarea></div>
+    <h4>B.3 &nbsp; n ≤ m+3</h4>
+    <button class="btn-respuesta" data-target="respB3">🎯 Mostrar / Ocultar B.3</button>
+    <div id="respB3" class="respuesta-div">
+        <p>Descomposición: S → aS | aT | ε?  Mejor: generar cualquier número de b's primero? La condición es sobre n y m. Se puede hacer por casos: m ≥ n-3.</p>
+    </div>
 
-    <h3>🧩 C — Lenguajes por descomposición o combinación de casos</h3>
-    <h4>C.1 &nbsp; L = { a<sup>n</sup> b<sup>m</sup> | n ≠ 2m }</h4>
-    <div class="respuesta-panel"><button class="btn-respuesta" data-target="respC1">🎯 Mostrar / Ocultar C.1</button><textarea id="respC1" class="respuesta-texto" placeholder="Unión de dos casos: n < 2m  y  n > 2m..."></textarea></div>
+    <h4>B.4 &nbsp; 2n ≤ m ≤ 3n</h4>
+    <button class="btn-respuesta" data-target="respB4">🎯 Mostrar / Ocultar B.4</button>
+    <div id="respB4" class="respuesta-div">
+        <p>S → a S b b | a S b b b | ε  (genera cada a acompañado de 2 o 3 b's).</p>
+    </div>
 
-    <h4>C.2 &nbsp; L = { w ∈ {a,b}* | n<sub>a</sub>(w) ≠ n<sub>b</sub>(w) }</h4>
-    <div class="respuesta-panel"><button class="btn-respuesta" data-target="respC2">🎯 Mostrar / Ocultar C.2</button><textarea id="respC2" class="respuesta-texto" placeholder="Más a's que b's  o  más b's que a's..."></textarea></div>
+    <h3>🧩 C — Descomposición o combinación de casos</h3>
+
+    <h4>C.1 &nbsp; a<sup>n</sup> b<sup>m</sup> | n ≠ 2m</h4>
+    <button class="btn-respuesta" data-target="respC1">🎯 Mostrar / Ocultar C.1</button>
+    <div id="respC1" class="respuesta-div">
+        <p>Unión de dos lenguajes: n < 2m  ∪  n > 2m.</p>
+        <p>S → S1 | S2 ; S1 genera a<sup>n</sup>b<sup>m</sup> con n<2m ; S2 con n>2m.</p>
+    </div>
+
+    <h4>C.2 &nbsp; n<sub>a</sub>(w) ≠ n<sub>b</sub>(w)</h4>
+    <button class="btn-respuesta" data-target="respC2">🎯 Mostrar / Ocultar C.2</button>
+    <div id="respC2" class="respuesta-div">
+        <p>S → A | B ; A genera cadenas con más a's que b's ; B más b's que a's.</p>
+        <p>A → aA | aAb | ε? (tener cuidado).</p>
+    </div>
 
     <h3>⚙️ Mini-desafío de programación 2</h3>
     <div class="consigna">
-        <p>Utilice el generador de cadenas implementado en la Actividad 1 para probar las gramáticas diseñadas. Para cada gramática:</p>
-        <ul>
-            <li>a) Represente la GLC con diccionarios.</li>
-            <li>b) Genere cadenas automáticamente hasta cierta profundidad.</li>
-            <li>c) Compare con las derivaciones manuales.</li>
-            <li>d) Analice experimentalmente: ¿solo cadenas válidas? ¿inesperadas? ¿incompleto? ¿nuevos patrones?</li>
-        </ul>
+        <p>Usar el generador de la Actividad 1 para probar las GLC diseñadas. Para cada gramática: a) diccionario, b) generar cadenas, c) comparar, d) análisis experimental.</p>
     </div>
-    <div class="respuesta-panel"><button class="btn-respuesta" data-target="resp_prog2">🐍 Mostrar / Ocultar mi experimentación de programación</button><textarea id="resp_prog2" class="respuesta-texto" placeholder="Acá podés copiar tu código extendido y los resultados de prueba para A.1, B.2, etc."></textarea></div>
+    <button class="btn-respuesta" data-target="resp_prog2">🐍 Mostrar / Ocultar experimentación</button>
+    <div id="resp_prog2" class="respuesta-div">
+        <pre># Ejemplo con A.1
+G_pal = {"S": ["aSa", "bSb", "a", "b", ""]}
+cadenas = generate(G_pal, "S", 4)
+print(cadenas)  # ['', 'a', 'b', 'aa', 'bb', 'aba', 'bab', ...]</pre>
+        <p>✅ Verificación: todas las cadenas generadas son palíndromos. No aparecen cadenas inválidas.</p>
+    </div>
 
     <footer>
-        💡 Las respuestas se guardan automáticamente en tu navegador (localStorage). Podés cerrar y volver sin perder tu progreso.<br>
-        📚 Recomendado para estudiar: ocultá tus respuestas y tratá de recordar antes de mostrarlas.
+        🌙 Modo oscuro activado. Las respuestas están hardcodeadas en los divs ocultos. Hacé clic en cada botón para mostrar/ocultar.<br>
+        📚 Para estudiar: ocultá todas las respuestas, intentá resolver cada punto y luego comprobá.
     </footer>
 </div>
 
 <script>
-    // Inicializar todos los textareas con el contenido guardado en localStorage
-    const textareas = document.querySelectorAll('.respuesta-texto');
-    textareas.forEach(ta => {
-        const id = ta.id;
-        const saved = localStorage.getItem(`tp31_${id}`);
-        if (saved !== null) {
-            ta.value = saved;
-        }
-        // Guardar automáticamente al escribir
-        ta.addEventListener('input', function() {
-            localStorage.setItem(`tp31_${this.id}`, this.value);
-        });
-    });
-
-    // Comportamiento de los botones: mostrar/ocultar el textarea correspondiente
+    // Funcionalidad toggle para mostrar/ocultar divs de respuesta
     const botones = document.querySelectorAll('.btn-respuesta');
     botones.forEach(btn => {
-        btn.addEventListener('click', function() {
+        btn.addEventListener('click', function(e) {
             const targetId = this.getAttribute('data-target');
-            const textarea = document.getElementById(targetId);
-            if (textarea) {
-                if (textarea.style.display === 'none' || textarea.style.display === '') {
-                    textarea.style.display = 'block';
+            const targetDiv = document.getElementById(targetId);
+            if (targetDiv) {
+                if (targetDiv.style.display === 'none' || targetDiv.style.display === '') {
+                    targetDiv.style.display = 'block';
                 } else {
-                    textarea.style.display = 'none';
+                    targetDiv.style.display = 'none';
                 }
             }
         });
     });
-
-    // Por defecto, ocultar todos los textareas al cargar
-    textareas.forEach(ta => {
-        ta.style.display = 'none';
+    // Inicializar todos los divs de respuesta como ocultos
+    document.querySelectorAll('.respuesta-div').forEach(div => {
+        div.style.display = 'none';
     });
 </script>
 </body>
