@@ -3,20 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <title>TP 3.1 - Gramáticas Libres de Contexto</title>
-    <!-- Cargar marked.js -->
+    <!-- Se carga marked.js directamente desde un CDN confiable y funcional -->
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <style>
-        body { font-family: Arial; margin: 2em; line-height: 1.4; }
-        pre { background: #f4f4f4; padding: 0.5em; overflow-x: auto; }
-        table { border-collapse: collapse; width: 100%; }
-        th, td { border: 1px solid #ddd; padding: 8px; }
+        body {
+            font-family: Arial, sans-serif;
+            margin: 2em;
+            line-height: 1.4;
+        }
+        pre {
+            background: #f4f4f4;
+            padding: 0.5em;
+            overflow-x: auto;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+        code {
+            background-color: #f4f4f4;
+            padding: 2px 4px;
+            border-radius: 4px;
+        }
     </style>
 </head>
 <body>
     <h1>Trabajo Práctico Nº 3.1 – Diseño de Gramáticas Libres de Contexto</h1>
     <div id="content"></div>
 
-    <!-- Aquí va el Markdown (usando un bloque <script> para evitar conflictos) -->
+    <!-- Aquí pega todo el contenido de tu consigna en Markdown -->
     <script id="markdown-source" type="text/markdown">
 ## Actividad 1 - Exploración Experimental de Gramáticas Libres de Contexto
 
@@ -26,15 +45,23 @@
 
 Para cada una:
 
-a)  Genere manualmente al menos 10 cadenas distintas...
+a)  Genere manualmente al menos 10 cadenas distintas pertenecientes al lenguaje.
 
-*(acá copiás todo el resto del Markdown que mostraste)*
+... (acá copias todo tu Markdown, incluyendo el código Python)
+    </script>
 
-```python
-G1 = {
-    "S": ["aSb", "A"],
-    "A": ["bAa", "ab", ""]
-}
-      </script>
-  </body>
+    <script>
+        // Se espera a que el DOM esté listo para asegurar que el elemento 'content' exista
+        document.addEventListener('DOMContentLoaded', function() {
+            const markdownText = document.getElementById('markdown-source').innerHTML;
+            // La función 'marked.parse' es asíncrona, por lo que se usa 'then'
+            marked.parse(markdownText).then(function(htmlContent) {
+                document.getElementById('content').innerHTML = htmlContent;
+            }).catch(function(error) {
+                console.error('Error al renderizar Markdown:', error);
+                document.getElementById('content').innerHTML = '<p>Error al cargar el contenido.</p>';
+            });
+        });
+    </script>
+</body>
 </html>
