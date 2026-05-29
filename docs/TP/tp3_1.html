@@ -1,1 +1,39 @@
-Hola Mundo
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>TP 3.1 - Gramáticas Libres de Contexto</title>
+    <!-- Cargar marked.js -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <style>
+        body { font-family: Arial; margin: 2em; line-height: 1.4; }
+        pre { background: #f4f4f4; padding: 0.5em; overflow-x: auto; }
+        table { border-collapse: collapse; width: 100%; }
+        th, td { border: 1px solid #ddd; padding: 8px; }
+    </style>
+</head>
+<body>
+    <h1>Trabajo Práctico Nº 3.1 – Diseño de Gramáticas Libres de Contexto</h1>
+    <div id="content"></div>
+
+    <!-- Aquí va el Markdown (usando un bloque <script> para evitar conflictos) -->
+    <script id="markdown-source" type="text/markdown">
+## Actividad 1 - Exploración Experimental de Gramáticas Libres de Contexto
+
+| G₁ | G₂ | G₃ | G₄ |
+|---|---|---|---|
+| S → aSb \| A<br>A → bAa \| ab \| ε | S → SS \| aSb \| ε | E → E + T \| T<br>T → T * F \| F<br>F → (E) \| a | S → aA \| bS \| ab<br>A → Sb \| aS \| bb |
+
+Para cada una:
+
+a)  Genere manualmente al menos 10 cadenas distintas...
+
+*(acá copiás todo el resto del Markdown que mostraste)*
+
+```python
+G1 = {
+    "S": ["aSb", "A"],
+    "A": ["bAa", "ab", ""]
+}
+      </script>
+</body>
