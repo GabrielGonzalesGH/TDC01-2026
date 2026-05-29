@@ -1,0 +1,190 @@
+/* ===== ESTILOS MODO OSCURO PARA TP 3.1 ===== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #0a0f1a;
+    font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif;
+    color: #eef2ff;
+    line-height: 1.55;
+    padding: 2rem 1rem;
+}
+
+.container {
+    max-width: 1300px;
+    margin: 0 auto;
+    background: #0f1724;
+    border-radius: 1.8rem;
+    padding: 2rem;
+    box-shadow: 0 20px 35px -12px rgba(0,0,0,0.5);
+    border: 1px solid #1e2a3e;
+}
+
+h1, h2, h3, h4 {
+    font-weight: 600;
+    letter-spacing: -0.01em;
+}
+
+h1 {
+    font-size: 2rem;
+    background: linear-gradient(135deg, #c084fc, #60a5fa);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    border-left: 4px solid #60a5fa;
+    padding-left: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+h2 {
+    font-size: 1.6rem;
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
+    border-bottom: 2px solid #2d3a5e;
+    padding-bottom: 0.4rem;
+    color: #b9d0f8;
+}
+
+h3 {
+    font-size: 1.3rem;
+    margin-top: 1.8rem;
+    color: #9bbef0;
+}
+
+h4 {
+    font-size: 1.1rem;
+    margin-top: 1rem;
+    color: #cbdffc;
+}
+
+/* Tablas */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.5rem 0;
+    background: #0e1622;
+    border-radius: 1rem;
+    overflow: hidden;
+}
+
+th, td {
+    border: 1px solid #2a3a58;
+    padding: 12px 10px;
+    vertical-align: top;
+}
+
+th {
+    background: #1a2538;
+    font-weight: 600;
+    color: #e2eaff;
+}
+
+td {
+    font-family: 'JetBrains Mono', 'Fira Code', monospace;
+    font-size: 0.85rem;
+}
+
+/* Bloques de código y pre */
+pre {
+    background: #0b101a;
+    border: 1px solid #25344c;
+    border-radius: 0.8rem;
+    padding: 1rem;
+    overflow-x: auto;
+    font-family: 'Fira Code', monospace;
+    font-size: 0.8rem;
+    color: #cbd5ff;
+    margin: 1rem 0;
+}
+
+code {
+    font-family: 'Fira Code', monospace;
+    background: #1a2538;
+    padding: 0.2rem 0.4rem;
+    border-radius: 0.4rem;
+    color: #facc15;
+    font-size: 0.85rem;
+}
+
+/* Consignas (recuadro) */
+.consigna {
+    background: #111827;
+    border-left: 5px solid #3b82f6;
+    padding: 0.9rem 1.2rem;
+    margin: 1.2rem 0;
+    border-radius: 1rem;
+    color: #e2e8f0;
+}
+
+/* Botones mostrar */
+.btn-respuesta {
+    background: #2d3b55;
+    border: none;
+    color: white;
+    font-weight: 500;
+    padding: 6px 16px;
+    border-radius: 40px;
+    font-size: 0.75rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    margin: 0.5rem 0;
+}
+
+.btn-respuesta:hover {
+    background: #3b4e72;
+    transform: scale(0.98);
+}
+
+/* Div de respuestas oculto (fondo oscuro, letras blancas) */
+.respuesta-div {
+    display: none;
+    background: #0a0f18;
+    border: 1px solid #334155;
+    border-radius: 0.8rem;
+    padding: 1.2rem;
+    margin-top: 0.8rem;
+    margin-bottom: 1.5rem;
+    color: #f1f5f9;
+    font-family: inherit;
+    line-height: 1.5;
+    box-shadow: inset 0 0 0 1px rgba(255,255,255,0.02), 0 4px 12px rgba(0,0,0,0.3);
+}
+
+.respuesta-div p, .respuesta-div li, .respuesta-div pre {
+    color: #f1f5f9;
+}
+
+.respuesta-div pre {
+    background: #03060c;
+    border-color: #2a3a58;
+}
+
+/* Tablas dentro de respuestas */
+.respuesta-div table {
+    background: #0c111c;
+    border-color: #2a3a58;
+}
+.respuesta-div th {
+    background: #1a243b;
+}
+
+footer {
+    margin-top: 3rem;
+    text-align: center;
+    font-size: 0.75rem;
+    color: #7e8aa8;
+    border-top: 1px solid #1e2a44;
+    padding-top: 1.5rem;
+}
+
+.badge {
+    background: #1e2a3a;
+    color: #90b4ff;
+    padding: 0.2rem 0.7rem;
+    border-radius: 30px;
+    font-size: 0.7rem;
+    margin-right: 0.5rem;
+}
