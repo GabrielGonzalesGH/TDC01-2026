@@ -1,6 +1,12 @@
 # TDC01-2026
 **Teoría de la Computación — Grupo 12**  
 Gabriel Gonzales y Natalia Ochoa
+Tareas
+Ochoa: Aceptador de cadenas, TAD autómata, tests, menues
+Gonzales: Estructura básica, TAD tree, tests, convertidor AFND a AFD
+---
+En la tabla se muestra la compatibilidad de las propuestas con código anterior que teníamos, en especial de los TPs de lista enlazada. La elección 4 modificada
+fue nuestra elección porque también seguimos una guía de pseudocódigo de años anteriores.
 ---
 Resumen del resto de propuestas: <a href="https://gabrielgonzalesgh.github.io/TDC01-2026/" target="_blank">🔗 Ver análisis de propuestas</a>
 ---
