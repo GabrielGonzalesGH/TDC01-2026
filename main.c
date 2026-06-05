@@ -129,11 +129,24 @@ int main() {
 				}
 				free_automata(afd);
 				free_automata(afnd); break;
-		case 4: afnd = ingresar_automata(); 
+		case 4: 
+				printf("\n Orden: [{Q},{Sigma},{[q,a,{destinos}],...},q0,{F}]\n");
+				printf("\n Ingrese el AFND: ");
+				
+				char *cadena = leeCad();
+				int tipo = es_afnd(cadena);
+				afnd = ingresar_automata(cadena);
 				if(afnd == NULL) continue;
 				printf("\n-----AFND de Entrada------\n");
 				print_automata(afnd);
-				afd = AFNDtoAFD(afnd);
+				if(tipo == 1) {
+					afd = AFNDtoAFD(afnd);
+					printf("\nEl autómata es AFND ? se convierte a AFD.\n");
+				}
+				else {
+					afd = clone(afnd);
+					printf("\nEl autómata ya es AFD (destinos atómicos). Se clona para trabajar.\n");
+				}
 				printf("\n-----AFD resultante------\n");
 				print_automata(afd);
 				printf("Desea procesar una cadena? (si[1]/no[0]) = ");
@@ -141,14 +154,15 @@ int main() {
 				if(resp == 1){
 					printf(" Ingrese la cadena: ");
 					limpiar_buffer();
-					char *cadena = leeCad();
-					procesar_cadena(afd, cadena);
-					free(cadena);
+					char *cade = leeCad();
+					procesar_cadena(afd, cade);
+					free(cade);
 				}
 				free_automata(afd);
 				free_automata(afnd); break;
 				// caso de prueba, cadena que termina en "mar":
 				//   [{q0,q1,q2,q3},{a,b,m,r},{ [q0,a,{q0}],[q0,b,{q0}],[q0,m,{q1}],[q0,r,{q0}],[q1,a,{q2}],[q1,b,{q0}],[q1,m,{q1}],[q1,r,{q0}],[q2,a,{q0}],[q2,b,{q0}],[q2,m,{q1}],[q2,r,{q3}],[q3,a,{q0}],[q3,b,{q0}],[q3,m,{q1}],[q3,r,{q0}] },q0,{q3}]
+				//   [{q0,q1,q2,q3},{a,b,m,r},{ [q0,a,q0],[q0,b,q0],[q0,m,q1],[q0,r,q0],[q1,a,q2],[q1,b,q0],[q1,m,q1],[q1,r,q0],[q2,a,q0],[q2,b,q0],[q2,m,q1],[q2,r,q3],[q3,a,q0],[q3,b,q0],[q3,m,q1],[q3,r,q0] },q0,{q3}]
 		}
 	} while(rta != 0);
 
