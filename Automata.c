@@ -245,10 +245,7 @@ void print_automata(Tdata aut){
 	printf(" q0    = "); print_Tree(q0); printf("\n");
 	printf(" F     = "); print_Tree(F); printf("\n");
 }
-Tdata ingresar_automata(void){
-	printf("\n Orden: [{Q},{Sigma},{[q,a,{destinos}],...},q0,{F}]\n");
-	printf("\n Ingrese el AFND: ");
-	char *ingresoAut = leeCad();
+Tdata ingresar_automata(char *ingresoAut){
 	if(ingresoAut == NULL || ingresoAut[0] == '\0'){
 		printf("Ingreso vacio.\n");
 		free(ingresoAut);
@@ -323,7 +320,7 @@ int analiza_afd(Tdata afd, char *cadena) {
 			Tdata sym_t  = trans->next->data;
 			Tdata dest   = trans->next->next->data;
 			
-			if (equals_set(origen, estado_actual) && equals_tdata(sym_t, sym_nodo)) {
+			if (equals_tdata(origen, estado_actual) && equals_tdata(sym_t, sym_nodo)) {
 				destino = clone(dest);
 				break;
 			}
@@ -339,7 +336,15 @@ int analiza_afd(Tdata afd, char *cadena) {
 	int acepta = 0;
 	Tdata aux_f = F;
 	while (aux_f != NULL) {
-		if (equals_set(aux_f->data, estado_actual)) { acepta = 1; break; }
+		Tdata elem_f = aux_f->data;          // puede ser SET (AFD original) o SET de SET (convertido)
+		// Si estado_actual es STR (AFD original) y elem_f es SET unitario, extraemos el STR interior
+		if (estado_actual->nodeType == STR && elem_f->nodeType == SET && elem_f->data != NULL) {
+			elem_f = elem_f->data;           // tomamos el único elemento (STR)
+		}
+		if (equals_tdata(elem_f, estado_actual)) {
+			acepta = 1;
+			break;
+		}
 		aux_f = aux_f->next;
 	}
 
@@ -351,4 +356,14 @@ void procesar_cadena(Tdata afd, char *cadena) {
 	if      (resp ==  1) printf("  \"%s\" -> CADENA ACEPTADA\n",  cadena);
 	else if (resp ==  0) printf("  \"%s\" -> CADENA RECHAZADA\n", cadena);
 	else    printf("  \"%s\" -> ERROR: simbolo no perteneciente al alfabeto\n", cadena);
+}
+int es_afnd(char *cad) {
+	int llaves = 0;
+	for (int ind = 0; cad[ind]; ind++) {
+		if (cad[ind] == '{')
+			llaves++;
+		if (llaves > 4)
+			return 1;   // AFND
+	}
+	return 0;   // AFD
 }
