@@ -218,7 +218,8 @@ Tdata AFNDtoAFD(Tdata automata_afnd) {
 	append_list(&afd_resultado, finales_afd);      // 5) Fd: estados finales del AFD
 	
 	// 7. limpiar
-	
+	free_tree(q0_afd);
+	free_tree(finales_afd);
 	while (cola != NULL) {
 		Tdata nodo = cola;
 		cola = cola->next;
@@ -357,13 +358,327 @@ void procesar_cadena(Tdata afd, char *cadena) {
 	else if (resp ==  0) printf("  \"%s\" -> CADENA RECHAZADA\n", cadena);
 	else    printf("  \"%s\" -> ERROR: simbolo no perteneciente al alfabeto\n", cadena);
 }
-int es_afnd(char *cad) {
-	int llaves = 0;
-	for (int ind = 0; cad[ind]; ind++) {
-		if (cad[ind] == '{')
-			llaves++;
-		if (llaves > 4)
-			return 1;   // AFND
-	}
-	return 0;   // AFD
+int es_afnd(Tdata automata) {
+	Tdata delta = obtener_campo(automata, CAMPO_DELTA);
+	if (delta == NULL)
+		return 0;   // Sin transiciones ? consideramos AFD (vacío)
+	
+	Tdata primera_transicion = delta->data;  // primer elemento del conjunto Delta
+	if (primera_transicion == NULL)
+		return 0;
+	
+	// La transición es una lista de 3 elementos: [origen, símbolo, destino]
+	Tdata destino = primera_transicion->next->next->data;  // tercer elemento
+	if (destino == NULL)
+		return 0;
+	
+	// Si el destino es un SET ? AFND; si es STR ? AFD
+	if(destino->nodeType == SET)
+		return 1;
+	return 0;
 }
+/*
+void get_Branch(Tdata head, char open, char close, str cad) {
+	//printf("%c ", open);
+	cad = concat_str(cad, open);
+	Tdata aux = head;
+	
+	while(aux != NULL) {
+		print_Tree(aux->data); 
+		if(aux->next != NULL) {
+			//printf(", ");
+			cad = concat_str(cad, ", ");
+		}
+		aux = aux->next;
+	}
+	//printf(" %c", close);
+	cad = concat_str(cad, close);
+}
+char * aplanadora(Tdata branch) {
+	str cad_estado = str_crear("");
+	if (is_empty_container(branch)) {
+		printf(branch->nodeType == SET ? "{ }" : "[ ]");
+		return;
+	}
+	switch (branch->nodeType) {
+	case STR:
+		//print_string(branch->string);
+		cad_estado = concat_str(cad_estado, branch->string);
+	break;
+	case SET:
+		get_Branch(branch, '{', '}', cad_estado);
+	break;
+	case LIST:
+		get_Branch(branch, '[', ']', cad_estado);
+	break;
+	}
+}*/
+static Tdata set_to_str_set(Tdata set_original) {
+	if (set_original == NULL) return NULL;
+	Tdata result = NULL;
+	Tdata aux = set_original;
+	while (aux != NULL) {
+		char *str_rep = conversion_str(aux->data);
+		Tdata str_node = create_str_ast();
+		str_node->string = str_rep;   // conversion_str reservó memoria
+		insert_set(&result, str_node);
+		free_tree(str_node);           // insert_set clonó, liberamos temporal
+		free(str_rep);                 // liberamos la cadena original
+		aux = aux->next;
+	}
+	return result;
+}
+Tdata aplanar_automata_afd(Tdata afd) {
+	// Extraer componentes
+	Tdata Q_orig = obtener_campo(afd, CAMPO_Q);
+	Tdata Sigma_orig = obtener_campo(afd, CAMPO_SIGMA);
+	Tdata Delta_orig = obtener_campo(afd, CAMPO_DELTA);
+	Tdata q0_orig = obtener_campo(afd, CAMPO_Q0);
+	Tdata F_orig = obtener_campo(afd, CAMPO_F);
+	
+	// Nuevo Q
+	Tdata Q_new = set_to_str_set(Q_orig);
+	
+	// Nuevo Sigma (igual)
+	Tdata Sigma_new = clone(Sigma_orig);
+	
+	// Nuevo Delta
+	Tdata Delta_new = NULL;
+	Tdata aux_d = Delta_orig;
+	while (aux_d != NULL) {
+		Tdata trans = aux_d->data;               // [origen, simbolo, destino]
+		Tdata origen_set = trans->data;
+		Tdata simbolo = trans->next->data;       // ya es STR
+		Tdata destino_set = trans->next->next->data;
+		
+		// Convertir a cadenas
+		char *origen_str = conversion_str(origen_set);
+		char *destino_str = conversion_str(destino_set);
+		
+		// Crear nodos STR para origen y destino
+		Tdata origen_node = create_str_ast();
+		origen_node->string = origen_str;
+		Tdata destino_node = create_str_ast();
+		destino_node->string = destino_str;
+		
+		// Construir la nueva transición
+		Tdata nueva_trans = NULL;
+		append_list(&nueva_trans, origen_node);
+		append_list(&nueva_trans, simbolo);
+		append_list(&nueva_trans, destino_node);
+		
+		insert_set(&Delta_new, nueva_trans);
+		
+		// Liberar temporales
+		free_tree(origen_node);
+		free_tree(destino_node);
+		free_tree(nueva_trans);   // insert_set clonó
+		free(origen_str);
+		free(destino_str);
+		
+		aux_d = aux_d->next;
+	}
+	
+	// Nuevo q0
+	char *q0_str = conversion_str(q0_orig);
+	Tdata q0_new = create_str_ast();
+	q0_new->string = q0_str;
+	
+	// Nuevo F
+	Tdata F_new = set_to_str_set(F_orig);
+	
+	// Construir el autómata aplanado
+	Tdata nuevo_afd = NULL;
+	append_list(&nuevo_afd, Q_new);
+	append_list(&nuevo_afd, Sigma_new);
+	append_list(&nuevo_afd, Delta_new);
+	append_list(&nuevo_afd, q0_new);
+	append_list(&nuevo_afd, F_new);
+	
+	// Liberar nodo temporal q0_new (append_list clonó)
+	free_tree(q0_new);
+	
+	return nuevo_afd;
+}
+Tdata obt_diccionario(Tdata branch) {
+    // Qd es un SET de SETs (cada estado del AFD es un SET de estados del AFND)
+    Tdata dict = NULL;   // conjunto de cadenas (STR)
+    Tdata aux = branch;
+    
+    while (aux != NULL) {
+        Tdata subconjunto = aux->data;   // cada elemento de Qd es un SET
+        char *cadena = conversion_str(subconjunto);   // obtiene representación "{q0,q1}"
+        
+        // Crear un nodo STR con esa cadena
+        Tdata str_node = create_str_ast();
+        str_node->string = cadena;   // conversion_str ya reservó memoria con malloc
+        
+        // Insertar en el diccionario (evita duplicados)
+        insert_set(&dict, str_node);
+        
+        // Liberar el nodo temporal (insert_set clonó la cadena)
+        free_tree(str_node);
+        // No liberar 'cadena' porque ahora es propiedad del clon dentro de dict.
+        // Si conversion_str devuelve memoria nueva, el clon la copia, luego podemos liberar la original.
+        // Pero como insert_set clona, podemos liberar la cadena original:
+        free(cadena);
+        
+        aux = aux->next;
+    }
+    return dict;
+}
+void renombrar_estados(Tdata automata) {
+	// 1. Obtener componentes
+	Tdata Q     = obtener_campo(automata, CAMPO_Q);
+	Tdata Delta = obtener_campo(automata, CAMPO_DELTA);
+	Tdata q0    = obtener_campo(automata, CAMPO_Q0);
+	Tdata F     = obtener_campo(automata, CAMPO_F);
+	
+	int num_estados = length(Q);   // número de estados del AFD aplanado
+	
+	// Usamos arreglos estáticos (tamaño suficiente para el proyecto)
+	// Ajusta los límites si esperas más de 100 estados
+#define MAX_ESTADOS 100
+	char clave[MAX_ESTADOS][50];   // nombre original ej: "{q0,q1}"
+	char valor[MAX_ESTADOS][10];   // nombre nuevo   ej: "r0"
+	
+	// 2. Llenar el diccionario recorriendo Q (que es un SET de STR)
+	int idx = 0;
+	Tdata aux_q = Q;
+	while (aux_q != NULL && idx < MAX_ESTADOS) {
+		Tdata estado_node = aux_q->data;   // nodo STR
+		strcpy(clave[idx], estado_node->string);
+		sprintf(valor[idx], "r%d", idx);
+		idx++;
+		aux_q = aux_q->next;
+	}
+	
+	// 3. Renombrar los estados en Q (modificar los strings in-place)
+	aux_q = Q;
+	idx = 0;
+	while (aux_q != NULL) {
+		Tdata estado_node = aux_q->data;
+		// Liberar el string original (asignado con malloc)
+		free(estado_node->string);
+		// Asignar el nuevo nombre (usamos load2 que hace malloc)
+		estado_node->string = load2(valor[idx]);
+		idx++;
+		aux_q = aux_q->next;
+	}
+	
+	// 4. Renombrar el estado inicial q0
+	// Buscar qué índice de clave corresponde al string actual de q0
+	char *q0_actual = q0->string;
+	int ind_q0 = -1;
+	for (int i = 0; i < num_estados; i++) {
+		if (strcmp(q0_actual, clave[i]) == 0) {
+			ind_q0 = i;
+			break;
+		}
+	}
+	if (ind_q0 != -1) {
+		free(q0->string);
+		q0->string = load2(valor[ind_q0]);
+	}
+	
+	// 5. Renombrar los estados finales F
+	Tdata aux_f = F;
+	while (aux_f != NULL) {
+		Tdata f_node = aux_f->data;   // nodo STR
+		char *f_actual = f_node->string;
+		int ind_f = -1;
+		for (int i = 0; i < num_estados; i++) {
+			if (strcmp(f_actual, clave[i]) == 0) {
+				ind_f = i;
+				break;
+			}
+		}
+		if (ind_f != -1) {
+			free(f_node->string);
+			f_node->string = load2(valor[ind_f]);
+		}
+		aux_f = aux_f->next;
+	}
+	
+	// 6. Renombrar los estados en Delta (origen y destino de cada transición)
+	Tdata aux_delta = Delta;
+	while (aux_delta != NULL) {
+		Tdata trans = aux_delta->data;            // lista [origen, simbolo, destino]
+		Tdata origen_node = trans->data;          // nodo STR
+		Tdata destino_node = trans->next->next->data; // nodo STR
+		
+		// Renombrar origen
+		char *origen_actual = origen_node->string;
+		int ind_origen = -1;
+		for (int i = 0; i < num_estados; i++) {
+			if (strcmp(origen_actual, clave[i]) == 0) {
+				ind_origen = i;
+				break;
+			}
+		}
+		if (ind_origen != -1) {
+			free(origen_node->string);
+			origen_node->string = load2(valor[ind_origen]);
+		}
+		
+		// Renombrar destino
+		char *destino_actual = destino_node->string;
+		int ind_destino = -1;
+		for (int i = 0; i < num_estados; i++) {
+			if (strcmp(destino_actual, clave[i]) == 0) {
+				ind_destino = i;
+				break;
+			}
+		}
+		if (ind_destino != -1) {
+			free(destino_node->string);
+			destino_node->string = load2(valor[ind_destino]);
+		}
+		
+		aux_delta = aux_delta->next;
+	}
+}
+/*
+void renombrar_estados(Tdata branch) {
+	char clave[8][10];
+	char valor[8][5];
+	int ind;
+	Tdata dix = obt_diccionario(branch);
+	int tam = length(dix);
+	Tdata aux = branch;
+	for(ind = 0; ind < tam; ind++) {
+		strcpy(clave[ind],aux->data);  // revisar que se guarde el string STR
+		sprintf(valor[ind], "r%d", ind);
+		aux = aux->sig;
+	}
+	Tdata Q_orig = obtener_campo(branch, CAMPO_Q);
+	//Tdata Sigma_orig = obtener_campo(branch, CAMPO_SIGMA);
+	Tdata Delta_orig = obtener_campo(branch, CAMPO_DELTA);
+	Tdata q0_orig = obtener_campo(branch, CAMPO_Q0);
+	Tdata F_orig = obtener_campo(branch, CAMPO_F);
+	ind = 0;
+	while(Q_orig != NULL) {
+		while(strcmp(Q_orig->data, clave[ind]) != 0) {
+			ind++;
+		}
+		strcpy(Q_orig->data, valor[ind]);
+		Q_orig = Q_orig->sig;
+	}
+	ind = 0;
+	while(q0_orig != NULL) {
+		while(strcmp(q0_orig->data, clave[ind]) != 0) {
+			ind++;
+		}
+		strcpy(q0_orig->data, valor[ind]);
+		q0_orig = q0_orig->sig;
+	}
+	ind = 0;
+	while(F_orig != NULL) {
+		while(strcmp(F_orig->data, clave[ind]) != 0) {
+			ind++;
+		}
+		strcpy(F_orig->data, valor[ind]);
+		F_orig = F_orig->sig;
+	}
+}
+*/
