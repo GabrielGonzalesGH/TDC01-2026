@@ -21,5 +21,8 @@ Tdata automata_precargado1(void);
 Tdata automata_precargado2(void);
 Tdata automata_precargado3(void);
 void procesar_cadena(Tdata,char*);
-int es_afnd(char*);
+int es_afnd(Tdata);
+Tdata obt_diccionario(Tdata);
+Tdata aplanar_automata_afd(Tdata);
+void renombrar_estados(Tdata);
 #endif
