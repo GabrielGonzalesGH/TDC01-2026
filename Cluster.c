@@ -211,7 +211,7 @@ Tdata intersection_set(Tdata A, Tdata B) {
 Tdata difference_set(Tdata A, Tdata B) {
     if (is_empty_set(A)) {
         // A vacío ? resultado vacío (da igual si B es vacío o no)
-        return NULL;
+		return create_set();
     }
     if (is_empty_set(B)) {
         return clone(A);   // A - vacío = A
