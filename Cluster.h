@@ -28,7 +28,6 @@ void	append_list(Tdata *, Tdata);
 void	append_set(Tdata *, Tdata);
 void	insert_set(Tdata *, Tdata);
 void	remove_set(Tdata *, Tdata);
-
 void	printList(Tdata);
 void	printSet(Tdata);
 
