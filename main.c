@@ -37,28 +37,33 @@ respuesta esperada:  AFD:
 #include <stdlib.h>
 #include <string.h>
 #include "Automata.h"
+//#include "config.h"
 
 int menu(void);
 void limpiar_buffer(void);
 int main() {
-	int rta,resp;
+	int rta, resp, seguir;
 	Tdata afnd = NULL;
+	configUsuario();
 	//char *cadena = "[{q0, q1, q2}, {0, 1}, {[q0, 0, {q0, q1}], [q0, 1, {q0}], [q1, 0, {}], [q1, 1, {q2}], [q2, 0, {}], [q2, 1, {q1}]}, q0, {q2}]";
-	printf("\n 	PARTE UNO DEL TPT: cargar una autómata eligiendo una propuesta: \n");
+	printf("\n 	PARTE UNO DEL TPT: cargar una aut%cmata eligiendo una propuesta: \n", 162);
 	char *cadena = "[{q0,q1,q2},{0,1},{[q0,0,{q0,q1}],[q0,1,{q0}],[q1,0,{}],[q1,1,{q2}],[q2,0,{}],[q2,1,{}]},q0,{q2}]";
-	Tdata automata_tdata = ini_branch();
-	automata_tdata = createDT(cadena);
+	char *cad_adaptada = adaptar_cadena_precargada(cadena);
+	Tdata automata = ini_branch();
+	automata = createDT(cad_adaptada);
+	//automata = automata_precargado0();
 	printf("\n Cadena precargada: %s\n", cadena);
-	printf("\n Automata parseado:\n");
-	print_Tree(automata_tdata);
+	printf("\n Cadena adaptada: %s\n", cad_adaptada);
+	printf("\n Aut%cmata parseado:\n", 162);
+	print_Tree(automata);
 	printf("\n			===========================================================\n");
 	printf("\n\n");
 	
-	Tdata Q     = obtener_campo(automata_tdata, CAMPO_Q);
-	Tdata Sigma = obtener_campo(automata_tdata, CAMPO_SIGMA);
-	Tdata Delta = obtener_campo(automata_tdata, CAMPO_DELTA);
-	Tdata q0    = obtener_campo(automata_tdata, CAMPO_Q0);
-	Tdata F     = obtener_campo(automata_tdata, CAMPO_F);
+	Tdata Q     = obtener_campo(automata, CAMPO_Q);
+	Tdata Sigma = obtener_campo(automata, CAMPO_SIGMA);
+	Tdata Delta = obtener_campo(automata, CAMPO_DELTA);
+	Tdata q0    = obtener_campo(automata, CAMPO_Q0);
+	Tdata F     = obtener_campo(automata, CAMPO_F);
 	
 	printf("Componentes:\n");
 	printf("Q     = "); print_Tree(Q); printf("\n");
@@ -68,77 +73,102 @@ int main() {
 	printf("F     = "); print_Tree(F); printf("\n");
 	
 	Tdata afd = ini_branch();
-	afd = AFNDtoAFD(automata_tdata);
+	afd = AFNDtoAFD(automata);
 	printf("\nAFD resultante:\n");
 	print_Tree(afd);
 	printf("\n			===========================================================\n");
 	free_automata(afd);	
-	free_automata(automata_tdata);
+	free_automata(automata);
 	
 	do{
 		rta = menu();
 		switch(rta){
-		case 1: afnd = automata_precargado1();
-				if(afnd == NULL) continue;
-				printf("\n-----AFND de Entrada------\n");
-				print_automata(afnd);
-				afd = AFNDtoAFD(afnd);
-				printf("\n-----AFD resultante------\n");
-				print_automata(afd);
-				printf("Desea procesar una cadena? (si[1]/no[0]) = ");
-				scanf("%d",&resp);
-				if(resp == 1){
-					printf(" Ingrese la cadena: ");
-					limpiar_buffer(); 
+		case 1:
+			afnd = automata_precargado1();
+			if (afnd == NULL) continue;
+			printf("\n-----AFND de Entrada------\n");
+			print_automata(afnd);
+			afd = AFNDtoAFD(afnd);
+			printf("\n-----AFD resultante------\n");
+			print_automata(afd);
+			
+			seguir = 1;
+			while (seguir) {
+				printf("\n   Desea procesar una cadena? (1 = Si / 0 = No): ");
+				scanf("%d", &resp);
+				limpiar_buffer();
+				if (resp == 1) {
+					printf("   Ingrese la cadena: ");
 					char *cadena = leeCad();
 					procesar_cadena(afd, cadena);
 					free(cadena);
+				} else {
+					seguir = 0;
 				}
-				free_automata(afd);
-				free_automata(afnd); break;
-		case 2: afnd = automata_precargado2(); 
-				if(afnd == NULL) continue;
-				printf("\n-----AFND de Entrada------\n");
-				print_automata(afnd);
-				afd = AFNDtoAFD(afnd);
-				printf("\n-----AFD resultante------\n");
-				print_automata(afd);
-				printf("Desea procesar una cadena? (si[1]/no[0]) = ");
-				scanf("%d",&resp);
-				if(resp == 1){
-					printf(" Ingrese la cadena: ");
-					limpiar_buffer(); 
+			}
+			free_automata(afd);
+			free_automata(afnd);
+			break;
+		case 2:
+			afnd = automata_precargado2();
+			if (afnd == NULL) continue;
+			printf("\n-----AFND de Entrada------\n");
+			print_automata(afnd);
+			afd = AFNDtoAFD(afnd);
+			printf("\n-----AFD resultante------\n");
+			print_automata(afd);
+			
+			seguir = 1;
+			while (seguir) {
+				printf("\n   Desea procesar una cadena? (1 = Si / 0 = No): ");
+				scanf("%d", &resp);
+				limpiar_buffer();
+				if (resp == 1) {
+					printf("   Ingrese la cadena: ");
 					char *cadena = leeCad();
 					procesar_cadena(afd, cadena);
 					free(cadena);
+				} else {
+					seguir = 0;
 				}
-				free_automata(afd);
-				free_automata(afnd); break;
-		case 3: afnd = automata_precargado3(); 
-				if(afnd == NULL) continue;
-				printf("\n-----AFND de Entrada------\n");
-				print_automata(afnd);
-				afd = AFNDtoAFD(afnd);
-				printf("\n-----AFD resultante------\n");
-				print_automata(afd);
-				printf("Desea procesar una cadena? (si[1]/no[0]) = ");
-				scanf("%d",&resp);
-				if(resp == 1){
-					printf(" Ingrese la cadena: ");
-					limpiar_buffer();
+			}
+			free_automata(afd);
+			free_automata(afnd);
+			break;
+		case 3:
+			afnd = automata_precargado3();
+			if (afnd == NULL) continue;
+			printf("\n-----AFND de Entrada------\n");
+			print_automata(afnd);
+			afd = AFNDtoAFD(afnd);
+			printf("\n-----AFD resultante------\n");
+			print_automata(afd);
+			
+			seguir = 1;
+			while (seguir) {
+				printf("\n   Desea procesar una cadena? (1 = Si / 0 = No): ");
+				scanf("%d", &resp);
+				limpiar_buffer();
+				if (resp == 1) {
+					printf("   Ingrese la cadena: ");
 					char *cadena = leeCad();
 					procesar_cadena(afd, cadena);
 					free(cadena);
+				} else {
+					seguir = 0;
 				}
-				free_automata(afd);
-				free_automata(afnd); break;
+			}
+			free_automata(afd);
+			free_automata(afnd);
+			break;
 		case 4: 
 			printf("\n Orden: [{Q},{Sigma},{[q,a,{destinos}],...},q0,{F}]\n");
 			printf("\n Ingrese el AFND: ");
 			
 			char *cadena = leeCad();
 			afnd = ingresar_automata(cadena);
-			if (afnd == NULL) continue;
+			if (afnd == NULL)
+				continue;
 			
 			printf("\n-----AFND de Entrada------\n");
 			print_automata(afnd);
@@ -146,10 +176,8 @@ int main() {
 			int tipo = es_afnd(afnd);
 			if (tipo == 1) {
 				afd = AFNDtoAFD(afnd);
-				//printf("\nEl autómata es AFND ? se convierte a AFD.\n");
 			} else {
 				afd = clone(afnd);
-				//printf("\nEl autómata ya es AFD (destinos atómicos). Se clona para trabajar.\n");
 			}
 			
 			printf("\n-----AFD resultante (con conjuntos)------\n");
@@ -161,16 +189,15 @@ int main() {
 			printf("\n-----AFD renombrado (r0, r1, ...)------\n");
 			print_automata(renombrado);
 			
-			int seguir = 1;
+			seguir = 1;
 			while (seguir) {
-				printf("\n	   ¿Desea procesar una cadena? (1 = Si / 0 = No): ");
+				printf("\n	   Desea procesar una cadena? (1 = Si / 0 = No): ");
 				scanf("%d", &resp);
 				limpiar_buffer();
 				
 				if (resp == 1) {
 					printf(" 	Ingrese la cadena: ");
 					char *cade = leeCad();
-					// Usamos el autómata renombrado (más legible)
 					procesar_cadena(renombrado, cade);
 					free(cade);
 				} else {
@@ -190,22 +217,22 @@ int main() {
 	
 	return 0;
 }
-
+// [{q0, q1, q2}, {0, 1}, {[q0, 0, {q0, q1}], [q0, 1, {q0}], [q1, 0, {}], [q1, 1, {q2}], [q2, 0, {}], [q2, 1, {q1}]}, q0, {q2}]
 // caso de prueba, cadena que termina en "mar":
 //   [{q0,q1,q2,q3},{a,b,m,r},{ [q0,a,{q0}],[q0,b,{q0}],[q0,m,{q1}],[q0,r,{q0}],[q1,a,{q2}],[q1,b,{q0}],[q1,m,{q1}],[q1,r,{q0}],[q2,a,{q0}],[q2,b,{q0}],[q2,m,{q1}],[q2,r,{q3}],[q3,a,{q0}],[q3,b,{q0}],[q3,m,{q1}],[q3,r,{q0}] },q0,{q3}]
 //   [{q0,q1,q2,q3},{a,b,m,r},{ [q0,a,q0],[q0,b,q0],[q0,m,q1],[q0,r,q0],[q1,a,q2],[q1,b,q0],[q1,m,q1],[q1,r,q0],[q2,a,q0],[q2,b,q0],[q2,m,q1],[q2,r,q3],[q3,a,q0],[q3,b,q0],[q3,m,q1],[q3,r,q0] },q0,{q3}]
 
 int menu(void) {
 	int op = 0;
-	printf("\n	PARTE DOS DEL TPT: Seleccione una opcion del menu: ");
+	printf("\n	PARTE DOS DEL TPT: Seleccione una opci%cn del menu: ", 162);
 	printf("\n		========================================\n");
 	printf("                    MENU    \n");
 	printf("		========================================\n");
-	printf("	1. Cargar primer Automata Precargado (cantidad par de 'a').\n");
-	printf("	2. Cargar segundo Automata Precargado (termina en 'ab').\n");
-	printf("	3. Cargar tercer Automata Precargado (contiene '01').\n");
+	printf("	1. Cargar primer Aut%cmata Precargado (cantidad par de 'a').\n", 162);
+	printf("	2. Cargar segundo Aut%cmata Precargado (termina en 'ab').\n", 162);
+	printf("	3. Cargar tercer Aut%cmata Precargado (contiene '01').\n", 162);
 	printf("	4. Ingresar nuevo AFND.\n");
-	printf("   Ejemplo: [{q0,q1},{a,b},{[q0,a,{q1}],[q0,b,{q0}],[q1,a,{q0}],[q1,b,{q1}]},q0,{q0}]\n");
+	printf("\n");
 	printf("	0. Salir\n");
 	printf("		========================================\n");
 	scanf("%d", &op);
@@ -216,8 +243,4 @@ int menu(void) {
 	}
 	limpiar_buffer();
 	return op;
-}
-void limpiar_buffer(void) {  // flush(stdin)
-	int c;
-	while((c = getchar()) != '\n' && c != EOF);
 }
