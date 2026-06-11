@@ -2,6 +2,7 @@
 #define TREE_H
 
 #include "Leaf.h"
+#include "config.h"
 
 #define STR 1
 #define SET 2
@@ -29,6 +30,5 @@ void	append_branch(Tdata *, Tdata, int);
 void	free_tree(Tdata);
 int		is_empty_container(Tdata) ;
 int		is_empty_set(Tdata);
-
 
 #endif
