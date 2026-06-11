@@ -7,39 +7,42 @@ Tdata create_str_ast() {
 	return n;
 }
 void print_Branch(Tdata head, char open, char close) {
-	printf("%c ", open);
+	printf("%c", open);
 	Tdata aux = head;
 	
 	while(aux != NULL) {
 		print_Tree(aux->data); 
 		if(aux->next != NULL) {
-			printf(", ");
+			printf("%c ",separador);
 		}
 		aux = aux->next;
 	}
-	printf(" %c", close);
+	printf("%c", close);
 }
 
 void print_Tree(Tdata branch) {
-    if (branch == NULL) {
-        printf("{}");   // caso seguro, no debería darse
-        return;
-    }
-    if (is_empty_container(branch)) {
-        printf(branch->nodeType == SET ? "{ }" : "[ ]");
-        return;
-    }
-    switch (branch->nodeType) {
-    case STR:
-        print_string(branch->string);
-        break;
-    case SET:
-        print_Branch(branch, '{', '}');
-        break;
-    case LIST:
-        print_Branch(branch, '[', ']');
-        break;
-    }
+	if (branch == NULL) {
+		printf("{}");   // caso seguro, no debería darse
+		return;
+	}
+	if (is_empty_container(branch)) {
+		if (branch->nodeType == SET)
+			printf("%c %c", openSET, closeSET);
+		else
+			printf("%c %c", openLIST, closeLIST);
+		return;
+	}
+	switch (branch->nodeType) {
+	case STR:
+		print_string(branch->string);
+		break;
+	case SET:
+		print_Branch(branch, openSET, closeSET);
+		break;
+	case LIST:
+		print_Branch(branch, openLIST, closeLIST);
+		break;
+	}
 }
 Tdata create_node(int type) {
 	Tdata n = (Tdata)malloc(sizeof(struct dataType));
@@ -101,21 +104,21 @@ void append_branch(Tdata *root, Tdata element, int type) {
 	}
 }
 int length(Tdata branch) {
-    if (branch == NULL)
-        return 0;
-    // Si es un contenedor vacío (nodo SET o LIST sin elementos), devolvemos 0
-    if (is_empty_container(branch))
-        return 0;
-    if (branch->nodeType == STR)
-        return 0;
-
-    int cont = 0;
-    Tdata aux = branch;
-    while (aux != NULL) {
-        cont++;
-        aux = aux->next;
-    }
-    return cont;
+	if (branch == NULL)
+		return 0;
+	// Si es un contenedor vacío (nodo SET o LIST sin elementos), devolvemos 0
+	if (is_empty_container(branch))
+		return 0;
+	if (branch->nodeType == STR)
+		return 0;
+	
+	int cont = 0;
+	Tdata aux = branch;
+	while (aux != NULL) {
+		cont++;
+		aux = aux->next;
+	}
+	return cont;
 }
 void free_tree(Tdata node) {
 	if (node == NULL) return;
