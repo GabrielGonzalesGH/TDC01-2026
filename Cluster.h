@@ -2,6 +2,7 @@
 #define CLUSTER_H
 
 #include "Tree.h"
+#include "config.h"
 
 Tdata	ini_branch(void);
 Tdata	create_list(void);
