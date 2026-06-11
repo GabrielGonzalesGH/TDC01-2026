@@ -1,7 +1,11 @@
 #ifndef AUTOMATA_H
 #define AUTOMATA_H
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 #include "Cluster.h"
+#include "ListaCad.h"
 
 #define CAMPO_Q     0   // Conjunto de estados Q          
 #define CAMPO_SIGMA 1   // Alfabeto Sigma                  
@@ -22,7 +26,8 @@ Tdata automata_precargado2(void);
 Tdata automata_precargado3(void);
 void procesar_cadena(Tdata,char*);
 int es_afnd(Tdata);
-Tdata obt_diccionario(Tdata);
 Tdata aplanar_automata_afd(Tdata);
 void renombrar_estados(Tdata);
+char* adaptar_cadena_precargada(const char *);
+
 #endif
