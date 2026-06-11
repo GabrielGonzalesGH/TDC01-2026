@@ -68,28 +68,25 @@ char *saca_extremos(char *cad) {
 // calcula el tamaño del primer elemento en la cadena
 // con contador de profundidad para estructuras anidadas
 int dev_tam_elem(char *cad) {
-	int ind = 0;
-	
-	if (cad[0] != '{' && cad[0] != '[') {
-		while (cad[ind] != '\0' && cad[ind] != ',')
-			ind++;
-		return ind;
-	}
-	
-	char open  = cad[0];
-	char close = (open == '{') ? '}' : ']';
-	int depth  = 0;
-	
-	while (cad[ind] != '\0') {
-		if (cad[ind] == open)
+    int ind = 0;
+    if (cad[0] != openSET && cad[0] != openLIST) {
+        while (cad[ind] != '\0' && cad[ind] != separador)
+            ind++;
+        return ind;
+    }
+    char open = cad[0];
+    char close = (open == openSET) ? closeSET : closeLIST;
+    int depth = 0;
+    while (cad[ind] != '\0') {
+        if (cad[ind] == open)
 			depth++;
-		if (cad[ind] == close)
+        if (cad[ind] == close)
 			depth--;
-		ind++;
-		if (depth == 0)
+        ind++;
+        if (depth == 0)
 			break;
-	}
-	return ind;
+    }
+    return ind;
 }
 	
 // devuelve una copia del primer elemento
@@ -103,15 +100,13 @@ char *dev_elem(char *cad) {
 	
 // elimina el primer elemento (y la coma siguiente) de orig in-place
 void poda_elem_ini(char *a_podar, char *orig) {
-	int tam_elem = dev_tam_elem(a_podar);
-	int ind = 0;
-		
-	// desplaza el resto hacia el inicio, saltando elem + coma
-	while (orig[ind + tam_elem] != '\0') {
-		orig[ind] = orig[ind + tam_elem + 1]; // +1 salta la coma
-		ind++;
-	}
-	
+    int tam_elem = dev_tam_elem(a_podar);
+    int ind = 0;
+    // usar 'separador' en lugar de ',' fijo
+    while (orig[ind + tam_elem] != '\0') {
+        orig[ind] = orig[ind + tam_elem + 1]; // +1 salta el separador
+        ind++;
+    }
 	// si lo que quedó es igual al elemento, era el último ? vaciar
 	if (strcmp(a_podar, orig) == 0)
 		orig[0] = '\0';
