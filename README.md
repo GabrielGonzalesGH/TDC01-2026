@@ -22,7 +22,7 @@ Resumen del resto de propuestas: <a href="https://gabrielgonzalesgh.github.io/TD
 
 ---
 
-PARTE 2:
+## PARTE 2:
 
 
 ## Comparación de propuestas de modelado de autómatas
@@ -53,4 +53,16 @@ Las otras propuestas, aunque válidas en otros contextos, requerirían **mucho m
 
 
 ---
-
+## PARTE 3:
+- Al inicio se pueden cambiar los símbolos "{}" "[]" ","
+- Se puede ingresar un AFND o AFD
+- Se puede convertir de AFND a AFD
+- Se renombra los estados luego de convertir "{q0, q3}" -> "r0"
+- En todos los casos el AF puede aceptr o rechazar una cadena ingresada por el usuario
+- AFs ya precargados
+---
+| Archivo | Rol |
+|---|---|
+| `Automata.h` | Maneja operaciones del automata |
+| `config.h` | Configuración del menú, se puede cambiar los símbolos de lista, conjuntos y el separador |
+| `ListaCad.h` | Ayuda a guardar y obtener los nombres de los estados cuando se renombran (diccionario) |
