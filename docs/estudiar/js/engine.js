@@ -100,79 +100,106 @@
     }
 
     // Renderizar la card actual
-    function renderCard() {
-        if (cardsFiltradas.length === 0) return;
+    // ---------- Renderizar la card actual (VERSIÓN CON DEMOSTRACIÓN) ----------
+function renderCard() {
+    if (cardsFiltradas.length === 0) return;
 
-        const card = cardsFiltradas[indiceActual];
-        const sabido = estaSabido(card.id);
+    const card = cardsFiltradas[indiceActual];
+    const sabido = estaSabido(card.id);
+    const tieneDemo = card.demostracion && card.demostracion.trim() !== '';
 
-        // Construir HTML de la card
-        const html = `
-            <div class="card-body ${sabido ? 'card-sabido' : ''}">
-                <div class="card-id">
-                    <span class="id-text">Teorema ${card.id}</span>
-                    <span class="badge ${card.clasificacion}">${card.clasificacion}</span>
-                    ${sabido ? '<span class="badge-sabido">✅ Aprendido</span>' : ''}
+    // Construir HTML de la card
+    const html = `
+        <div class="card-body ${sabido ? 'card-sabido' : ''}">
+            <div class="card-id">
+                <span class="id-text">Teorema ${card.id}</span>
+                <span class="badge ${card.clasificacion}">${card.clasificacion}</span>
+                ${sabido ? '<span class="badge-sabido">✅ Aprendido</span>' : ''}
+            </div>
+
+            <div class="card-hint-area">
+                <button id="btnMostrarPista" class="btn-study btn-hint">💡 Mostrar pista</button>
+                <div id="pistaDiv" class="card-pista" style="display: none;">
+                    <strong>Pista:</strong> ${card.pista || 'No hay pista disponible.'}
                 </div>
+            </div>
 
-                <div class="card-hint-area">
-                    <button id="btnMostrarPista" class="btn-study btn-hint">💡 Mostrar pista</button>
-                    <div id="pistaDiv" class="card-pista" style="display: none;">
-                        <strong>Pista:</strong> ${card.pista || 'No hay pista disponible.'}
-                    </div>
-                </div>
-
-                <div class="card-solution-area">
-                    <button id="btnMostrarSolucion" class="btn-study btn-solution">📖 Mostrar solución</button>
-                    <div id="solucionDiv" class="card-solucion" style="display: none;">
-                        <div class="solucion-contenido">
-                            ${card.texto}
-                        </div>
+            <div class="card-solution-area">
+                <button id="btnMostrarSolucion" class="btn-study btn-solution">📖 Mostrar solución</button>
+                <div id="solucionDiv" class="card-solucion" style="display: none;">
+                    <div class="solucion-contenido">
+                        ${card.texto}
                     </div>
                 </div>
             </div>
-        `;
 
-        contenedor.innerHTML = html;
+            ${tieneDemo ? `
+            <div class="card-proof-area">
+                <button id="btnMostrarDemo" class="btn-study btn-proof">📝 Mostrar demostración</button>
+                <div id="demoDiv" class="card-demostracion" style="display: none;">
+                    <strong>Demostración:</strong>
+                    <div class="demo-contenido">
+                        ${card.demostracion}
+                    </div>
+                </div>
+            </div>
+            ` : ''}
+        </div>
+    `;
 
-        // Actualizar contador
-        contadorCards.textContent = `Card ${indiceActual + 1} / ${cardsFiltradas.length}`;
+    contenedor.innerHTML = html;
 
-        // ---- Eventos de los botones dentro de la card ----
-        const btnPista = document.getElementById('btnMostrarPista');
-        const pistaDiv = document.getElementById('pistaDiv');
-        const btnSolucion = document.getElementById('btnMostrarSolucion');
-        const solucionDiv = document.getElementById('solucionDiv');
+    // Actualizar contador
+    contadorCards.textContent = `Card ${indiceActual + 1} / ${cardsFiltradas.length}`;
 
-        if (btnPista && pistaDiv) {
-            btnPista.addEventListener('click', function() {
-                if (pistaDiv.style.display === 'none') {
-                    pistaDiv.style.display = 'block';
-                    btnPista.textContent = '🙈 Ocultar pista';
-                } else {
-                    pistaDiv.style.display = 'none';
-                    btnPista.textContent = '💡 Mostrar pista';
-                }
-            });
-        }
+    // ---- Eventos de los botones dentro de la card ----
+    const btnPista = document.getElementById('btnMostrarPista');
+    const pistaDiv = document.getElementById('pistaDiv');
+    const btnSolucion = document.getElementById('btnMostrarSolucion');
+    const solucionDiv = document.getElementById('solucionDiv');
+    const btnDemo = document.getElementById('btnMostrarDemo');
+    const demoDiv = document.getElementById('demoDiv');
 
-        if (btnSolucion && solucionDiv) {
-            btnSolucion.addEventListener('click', function() {
-                if (solucionDiv.style.display === 'none') {
-                    solucionDiv.style.display = 'block';
-                    btnSolucion.textContent = '🔒 Ocultar solución';
-                } else {
-                    solucionDiv.style.display = 'none';
-                    btnSolucion.textContent = '📖 Mostrar solución';
-                }
-            });
-        }
-
-        // Actualizar estado del botón "Marcar sabido"
-        btnMarcar.textContent = sabido ? '❌ Marcar como NO sabido' : '✅ Marcar como sabido';
-        btnMarcar.classList.toggle('btn-sabido-activo', sabido);
+    if (btnPista && pistaDiv) {
+        btnPista.addEventListener('click', function() {
+            if (pistaDiv.style.display === 'none') {
+                pistaDiv.style.display = 'block';
+                btnPista.textContent = '🙈 Ocultar pista';
+            } else {
+                pistaDiv.style.display = 'none';
+                btnPista.textContent = '💡 Mostrar pista';
+            }
+        });
     }
 
+    if (btnSolucion && solucionDiv) {
+        btnSolucion.addEventListener('click', function() {
+            if (solucionDiv.style.display === 'none') {
+                solucionDiv.style.display = 'block';
+                btnSolucion.textContent = '🔒 Ocultar solución';
+            } else {
+                solucionDiv.style.display = 'none';
+                btnSolucion.textContent = '📖 Mostrar solución';
+            }
+        });
+    }
+
+    if (btnDemo && demoDiv) {
+        btnDemo.addEventListener('click', function() {
+            if (demoDiv.style.display === 'none') {
+                demoDiv.style.display = 'block';
+                btnDemo.textContent = '🔒 Ocultar demostración';
+            } else {
+                demoDiv.style.display = 'none';
+                btnDemo.textContent = '📝 Mostrar demostración';
+            }
+        });
+    }
+
+    // Actualizar estado del botón "Marcar sabido"
+    btnMarcar.textContent = sabido ? '❌ Marcar como NO sabido' : '✅ Marcar como sabido';
+    btnMarcar.classList.toggle('btn-sabido-activo', sabido);
+}
     // Actualizar barra de progreso y texto
     function actualizarProgreso() {
         const total = cardsFiltradas.length;
