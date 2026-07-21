@@ -38,6 +38,33 @@ const teoremas = [
         `
     },
     {
+    id: "2.11",
+    texto: "Si D = (Q<sub>D</sub>, Σ, δ<sub>D</sub>, {q<sub>0</sub>}, F<sub>D</sub>) es el AFD construido a partir del AFN N = (Q<sub>N</sub>, Σ, δ<sub>N</sub>, q<sub>0</sub>, F<sub>N</sub>) mediante la construcción de subconjuntos, entonces L(D) = L(N).",
+    pista: "Demostración por inducción sobre |w|, probando que δ<sub>D</sub>({q<sub>0</sub>}, w) = δ<sub>N</sub>(q<sub>0</sub>, w).",
+    clasificacion: "A", // Esencial, porque es el teorema que valida la construcción de subconjuntos
+    demostracion: `
+        <p><strong>Demostración.</strong> Lo que demostraremos en primer lugar, por inducción sobre <code>|w|</code>, es que</p>
+        <pre>δ<sub>D</sub>({q<sub>0</sub>}, w) = δ<sub>N</sub>(q<sub>0</sub>, w)</pre>
+        <p>Observe que cada una de las funciones δ devuelve un conjunto de estados de Q<sub>N</sub>, pero δ<sub>D</sub> interpreta este conjunto como uno de los estados de Q<sub>D</sub> (que es el conjunto potencia de Q<sub>N</sub>), mientras que δ<sub>N</sub> interpreta este conjunto como un subconjunto de Q<sub>N</sub>.</p>
+        
+        <p><strong>BASE.</strong> Sea <code>|w| = 0</code>; es decir, <code>w = ε</code>. Basándonos en las definiciones de partida de δ para el AFD y el AFN, tanto δ<sub>D</sub>({q<sub>0</sub>}, ε) como δ<sub>N</sub>(q<sub>0</sub>, ε) son iguales a <code>{q<sub>0</sub>}</code>.</p>
+        
+        <p><strong>PASO INDUCTIVO.</strong> Sea <code>n+1</code> la longitud de w y supongamos que el enunciado del teorema para la longitud <code>n</code> es verdadero. Descomponemos w de forma que <code>w = xa</code>, donde <code>a</code> es el símbolo final de w. Por inducción, δ<sub>D</sub>({q<sub>0</sub>}, x) = δ<sub>N</sub>(q<sub>0</sub>, x). Sean <code>{p<sub>1</sub>, p<sub>2</sub>, ..., p<sub>k</sub>}</code> dos conjuntos de estados de N. La parte inductiva de la definición de δ para los AFN nos dice que,</p>
+        
+        <pre>δ<sub>N</sub>(q<sub>0</sub>, w) = ⋃<sub>i=1</sub><sup>k</sup> δ<sub>N</sub>(p<sub>i</sub>, a)    (2.2)</pre>
+        
+        <p>Por otro lado, la construcción de subconjuntos nos dice que</p>
+        
+        <pre>δ<sub>D</sub>({p<sub>1</sub>, p<sub>2</sub>, ..., p<sub>k</sub>}, a) = ⋃<sub>i=1</sub><sup>k</sup> δ<sub>N</sub>(p<sub>i</sub>, a)    (2.3)</pre>
+        
+        <p>Ahora utilizamos (2.3) y el hecho de que δ<sub>D</sub>({q<sub>0</sub>}, x) = {p<sub>1</sub>, p<sub>2</sub>, ..., p<sub>k</sub>} en la parte inductiva de la definición de δ para los AFD:</p>
+        
+        <pre>δ<sub>D</sub>({q<sub>0</sub>}, w) = δ<sub>D</sub>(δ<sub>D</sub>({q<sub>0</sub>}, x), a) = δ<sub>D</sub>({p<sub>1</sub>, p<sub>2</sub>, ..., p<sub>k</sub>}, a) = ⋃<sub>i=1</sub><sup>k</sup> δ<sub>N</sub>(p<sub>i</sub>, a)    (2.4)</pre>
+        
+        <p>Por tanto, las Ecuaciones (2.2) y (2.4) demuestran que δ<sub>D</sub>({q<sub>0</sub>}, w) = δ<sub>N</sub>(q<sub>0</sub>, w). Si observamos que tanto D como N aceptan w si y sólo si δ<sub>D</sub>({q<sub>0</sub>}, w) o δ<sub>N</sub>(q<sub>0</sub>, w), respectivamente, contienen un estado de F<sub>N</sub>, hemos completado la demostración de que L(D) = L(N). ✷</p>
+    `
+    },
+    {
     id: "1.22",
     texto: "Todas las expresiones regulares (y todas las expresiones en general) tienen el mismo número de paréntesis de apertura <code>(</code> que de cierre <code>)</code>.",
     pista: "Piensa en el balanceo de paréntesis y cómo se define la sintaxis. Se demuestra por inducción en la longitud de la expresión.",
