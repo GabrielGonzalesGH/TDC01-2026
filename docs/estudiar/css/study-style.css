@@ -1,0 +1,338 @@
+/* ==============================================================
+   ESTILOS ESPECÍFICOS PARA LAS CARDS DE ESTUDIO
+   (Complementa el style.css raíz)
+   ============================================================== */
+
+/* --- Contenedor principal --- */
+.study-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 1.5rem 1rem;
+}
+
+.study-header {
+    text-align: center;
+    margin-bottom: 2rem;
+    border-bottom: 1px solid #30363d;
+    padding-bottom: 0.75rem;
+}
+
+.study-header h1 {
+    font-size: 2rem;
+    font-weight: 600;
+    background: linear-gradient(135deg, #79c0ff, #a5d6ff);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    margin: 0;
+}
+
+.study-sub {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-top: 0.5rem;
+    font-size: 0.85rem;
+}
+
+/* --- Badges de clasificación --- */
+.badge {
+    display: inline-block;
+    padding: 0.15rem 0.7rem;
+    border-radius: 30px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    background: #21262d;
+    color: #8b949e;
+    border: 1px solid #30363d;
+}
+.badge.A {
+    background: #1f3a2f;
+    color: #7ee787;
+    border-color: #2ea043;
+}
+.badge.B {
+    background: #3d2f1f;
+    color: #facc15;
+    border-color: #d29922;
+}
+.badge.C {
+    background: #2d2d2d;
+    color: #8b949e;
+    border-color: #484f58;
+}
+.badge-sabido {
+    background: #1f3a2f;
+    color: #7ee787;
+    padding: 0.1rem 0.6rem;
+    border-radius: 30px;
+    font-size: 0.7rem;
+    font-weight: 500;
+    border: 1px solid #2ea043;
+}
+
+/* --- Panel de control (filtro + progreso) --- */
+.control-panel {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    background: #161b22;
+    border: 1px solid #30363d;
+    border-radius: 10px;
+    padding: 0.75rem 1.25rem;
+    margin-bottom: 1.5rem;
+}
+
+.filter-group {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+.filter-group label {
+    font-size: 0.8rem;
+    color: #8b949e;
+}
+.filter-group select {
+    background: #0d1117;
+    color: #c9d1d9;
+    border: 1px solid #30363d;
+    border-radius: 6px;
+    padding: 0.3rem 0.8rem;
+    font-size: 0.8rem;
+    cursor: pointer;
+}
+
+.progress-group {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    min-width: 150px;
+}
+.progress-group span {
+    font-size: 0.8rem;
+    color: #8b949e;
+    white-space: nowrap;
+}
+.progress-bar-bg {
+    flex: 1;
+    height: 8px;
+    background: #21262d;
+    border-radius: 10px;
+    overflow: hidden;
+    min-width: 60px;
+}
+.progress-bar-fill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, #2ea043, #7ee787);
+    border-radius: 10px;
+    transition: width 0.3s ease;
+}
+
+/* --- Card principal --- */
+.card-study {
+    background: #0d1117;
+    border: 1px solid #30363d;
+    border-radius: 16px;
+    padding: 1.5rem 1.8rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+    transition: border-color 0.2s;
+}
+.card-study.card-sabido {
+    border-color: #2ea043;
+    background: #0f1a14;
+}
+
+.card-body {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+}
+
+/* ID y badges */
+.card-id {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    flex-wrap: wrap;
+    border-bottom: 1px solid #21262d;
+    padding-bottom: 0.6rem;
+}
+.id-text {
+    font-size: 1.6rem;
+    font-weight: 600;
+    color: #79c0ff;
+    font-family: var(--font-sans, sans-serif);
+}
+
+/* Área de pista */
+.card-hint-area,
+.card-solution-area {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+.card-pista {
+    background: #161b22;
+    border-left: 3px solid #facc15;
+    padding: 0.6rem 1rem;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    color: #e6edf3;
+}
+
+.card-solucion {
+    background: #161b22;
+    border: 1px solid #30363d;
+    border-radius: 8px;
+    padding: 1rem 1.2rem;
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #e6edf3;
+    overflow-x: auto;
+}
+.solucion-contenido code {
+    background: #21262d;
+    padding: 0.1rem 0.4rem;
+    border-radius: 4px;
+    color: #facc15;
+    font-size: 0.9rem;
+}
+.solucion-contenido table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0.8rem 0;
+    background: #0d1117;
+}
+.solucion-contenido th,
+.solucion-contenido td {
+    border: 1px solid #30363d;
+    padding: 0.4rem 0.6rem;
+    text-align: left;
+}
+.solucion-contenido th {
+    background: #161b22;
+    color: #79c0ff;
+}
+
+/* --- Botones generales --- */
+.btn-study {
+    background: #21262d;
+    border: 1px solid #30363d;
+    color: #c9d1d9;
+    padding: 0.4rem 1rem;
+    border-radius: 30px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.15s;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+}
+.btn-study:hover:not(:disabled) {
+    background: #30363d;
+    border-color: #484f58;
+    transform: scale(0.98);
+}
+.btn-study:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+.btn-study.btn-hint {
+    background: #2d2a1a;
+    border-color: #d29922;
+    color: #facc15;
+}
+.btn-study.btn-hint:hover:not(:disabled) {
+    background: #3d351f;
+}
+.btn-study.btn-solution {
+    background: #1a2a3a;
+    border-color: #58a6ff;
+    color: #79c0ff;
+}
+.btn-study.btn-solution:hover:not(:disabled) {
+    background: #1f3a55;
+}
+.btn-study.btn-sabido {
+    background: #1f3a2f;
+    border-color: #2ea043;
+    color: #7ee787;
+}
+.btn-study.btn-sabido-activo {
+    background: #3d1f2f;
+    border-color: #da3633;
+    color: #f85149;
+}
+
+/* --- Barra de acción inferior --- */
+.action-bar {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.8rem;
+    margin: 1rem 0 0.5rem;
+}
+
+/* --- Footer --- */
+.study-footer {
+    text-align: center;
+    margin-top: 2rem;
+    font-size: 0.75rem;
+    color: #484f58;
+    border-top: 1px solid #21262d;
+    padding-top: 1.2rem;
+}
+#contadorCards {
+    font-weight: 500;
+    color: #8b949e;
+}
+
+/* --- Mensajes de error / vacío --- */
+.card-error,
+.card-empty {
+    background: #0d1117;
+    border: 1px solid #da3633;
+    border-radius: 12px;
+    padding: 2rem;
+    text-align: center;
+    color: #f85149;
+}
+.card-empty {
+    border-color: #d29922;
+    color: #facc15;
+}
+
+/* --- Responsive --- */
+@media (max-width: 600px) {
+    .control-panel {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .progress-group {
+        width: 100%;
+    }
+    .card-study {
+        padding: 1rem;
+    }
+    .id-text {
+        font-size: 1.2rem;
+    }
+    .action-bar {
+        flex-direction: column;
+        align-items: center;
+    }
+    .btn-study {
+        width: 100%;
+        justify-content: center;
+    }
+}
