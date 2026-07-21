@@ -161,6 +161,93 @@ const teoremas = [
             <p>para las etiquetas de todos los caminos desde el estado i al estado j que no pasan por ningún estado mayor que k. Si construimos estas expresiones en orden creciente de superíndices, dado que cada <code>R<sup>(k)</sup><sub>ij</sub></code> sólo depende de las expresiones con superíndice más pequeño, entonces todas las expresiones estarán disponibles cuando las necesitemos.</p>
             <p>Luego tenemos <code>R<sup>(n)</sup><sub>ij</sub></code> para todo i y j. Podemos suponer que el estado 1 es el estado inicial, aunque los estados de aceptación podrían ser cualquier conjunto de estados. La expresión regular para el lenguaje del autómata es entonces la suma (unión) de todas las expresiones <code>R<sup>(n)</sup><sub>1 j</sub></code> tales que el estado j es un estado de aceptación. ✷</p>
         `
+    },
+        // ========== TEOREMA 3.7 ==========
+    {
+        id: "3.7",
+        texto: "Todo lenguaje definido mediante una expresión regular también puede definirse mediante un autómata finito.",
+        pista: "Construcción inductiva de AFN-ε con un solo estado final, sin arcos que entren al inicial ni salgan del final.",
+        clasificacion: "A",
+        demostracion: `
+            <p><strong>Demostración.</strong> Suponga L = L(R) para una expresión regular R. Vamos a demostrar que L = L(E) para un AFN-ε E con:</p>
+            <ol>
+                <li>Exactamente un estado de aceptación.</li>
+                <li>Ningún arco que entre en el estado inicial.</li>
+                <li>Ningún arco que salga del estado de aceptación.</li>
+            </ol>
+            <p>La demostración se realiza por inducción estructural sobre R, siguiendo la definición recursiva de las expresiones regulares.</p>
+            <p><strong>BASE.</strong> Hay tres partes:</p>
+            <ul>
+                <li>Para la expresión ε, el autómata tiene un solo arco ε del inicial al final. Lenguaje: {ε}.</li>
+                <li>Para la expresión ∅, no hay arcos entre inicial y final. Lenguaje: ∅.</li>
+                <li>Para la expresión a (símbolo), un arco etiquetado con a del inicial al final. Lenguaje: {a}.</li>
+            </ul>
+            <p><strong>PASO INDUCTIVO.</strong> Suponemos que el teorema es cierto para subexpresiones R y S, con sus respectivos AFN-ε.</p>
+            <ul>
+                <li><strong>Unión (R + S):</strong> Se crea un nuevo estado inicial con arcos ε a los iniciales de R y S, y arcos ε desde los finales de R y S a un nuevo estado final. Lenguaje: L(R) ∪ L(S).</li>
+                <li><strong>Concatenación (RS):</strong> Se une el final de R con el inicial de S mediante un arco ε. El inicial de R es el inicial global y el final de S es el final global. Lenguaje: L(R)L(S).</li>
+                <li><strong>Cerradura de Kleene (R*):</strong> Se añade un nuevo estado inicial y uno final. Arcos ε: del nuevo inicial al inicial de R, del final de R al nuevo final, del nuevo inicial al nuevo final (para ε), y del final de R al inicial de R (para repetir). Lenguaje: L(R)*.</li>
+                <li><strong>Paréntesis ((R)):</strong> El autómata de R sirve directamente.</li>
+            </ul>
+            <p>En todos los casos se cumplen las tres condiciones. Así, toda ER tiene un AFN-ε equivalente. ✷</p>
+        `
+    },
+
+    // ========== TEOREMA 3.11 ==========
+    {
+        id: "3.11",
+        texto: "Si L, M y N son cualesquiera lenguajes, entonces L(M ∪ N) = LM ∪ LN.",
+        pista: "Demostración por doble inclusión, similar a la distributiva de conjuntos.",
+        clasificacion: "B",
+        demostracion: `
+            <p><strong>Demostración.</strong> Demostramos que una cadena w pertenece a L(M ∪ N) si y sólo si pertenece a LM ∪ LN.</p>
+            <p><strong>Parte Solo-si:</strong> Si w ∈ L(M ∪ N), entonces w = xy con x ∈ L e y ∈ M ∪ N. Si y ∈ M, entonces xy ∈ LM; si y ∈ N, entonces xy ∈ LN. En ambos casos, w ∈ LM ∪ LN.</p>
+            <p><strong>Parte Si:</strong> Si w ∈ LM ∪ LN, entonces w ∈ LM o w ∈ LN. Si w ∈ LM, entonces w = xy con x ∈ L, y ∈ M. Como y ∈ M ⊆ M ∪ N, entonces w ∈ L(M ∪ N). El caso LN es análogo. ✷</p>
+        `
+    },
+
+    // ========== TEOREMA 3.13 ==========
+    {
+        id: "3.13",
+        texto: "Sea E una expresión regular con variables L₁, L₂, ..., Lₘ. Formamos una expresión regular concreta C reemplazando cada aparición de Lᵢ por el símbolo aᵢ. Entonces, para cualesquiera lenguajes L₁,...,Lₘ, cualquier cadena de L(E) se obtiene sustituyendo cada aᵢ por una cadena del lenguaje Lᵢ correspondiente, a partir de una cadena de L(C).",
+        pista: "Inducción estructural sobre E. Se demuestra que la sustitución conmuta con unión, concatenación y estrella.",
+        clasificacion: "B",
+        demostracion: `
+            <p><strong>Demostración.</strong> Por inducción estructural sobre la expresión E.</p>
+            <p><strong>BASE.</strong> Si E es ε o ∅, no hay variables, y la afirmación es trivial. Si E es una variable L, entonces C es el símbolo a correspondiente, y L(E) = L. Sustituir a por cadenas de L da exactamente L.</p>
+            <p><strong>PASO INDUCTIVO.</strong> Suponemos que E = F + G. Sean C y D las expresiones concretas de F y G. La expresión concreta de E es C + D. Si w ∈ L(E), entonces w ∈ L(F) o w ∈ L(G). Por hipótesis inductiva, w se obtiene a partir de una cadena de L(C) o L(D), respectivamente, sustituyendo símbolos por cadenas. Por tanto, w se obtiene a partir de una cadena de L(C + D) con las mismas sustituciones.</p>
+            <p>Los casos E = FG y E = F* son análogos y se dejan al lector. ✷</p>
+        `
+    },
+
+    // ========== TEOREMA 3.14 ==========
+    {
+        id: "3.14",
+        texto: "La comprobación anterior identifica correctamente las propiedades verdaderas de las expresiones regulares.",
+        pista: "Se demuestra que L(E) = L(F) para toda sustitución de variables si y solo si L(C) = L(D) para las expresiones concretas.",
+        clasificacion: "B",
+        demostracion: `
+            <p><strong>Demostración.</strong> Se demuestra la doble implicación:</p>
+            <p><strong>Parte Sólo-si:</strong> Si L(E) = L(F) para cualquier sustitución, en particular sustituimos cada variable Lᵢ por el símbolo aᵢ que la representa en C y D. Entonces L(C) = L(E) y L(D) = L(F). Como L(E) = L(F), se sigue L(C) = L(D).</p>
+            <p><strong>Parte Si:</strong> Si L(C) = L(D), por el Teorema 3.13, L(E) y L(F) se obtienen reemplazando símbolos de cadenas de L(C) y L(D) por cadenas de los lenguajes correspondientes. Al ser los lenguajes concretos iguales, los conjuntos de cadenas resultantes también lo son; luego L(E) = L(F). ✷</p>
+        `
+    },
+
+    // ========== TEOREMA 4.1 (LEMA DE BOMBEO) ==========
+    {
+        id: "4.1",
+        texto: "El lema de bombeo para lenguajes regulares: Sea L un lenguaje regular. Existe una constante n (que depende de L) tal que para toda cadena w ∈ L con |w| ≥ n, se puede descomponer w = xyz con: (1) y ≠ ε, (2) |xy| ≤ n, (3) para todo k ≥ 0, xyᵏz ∈ L.",
+        pista: "Se demuestra usando un AFD con n estados. Al leer w, un estado se repite en los primeros n+1 pasos; ese ciclo es la parte que se bombea.",
+        clasificacion: "A",
+        demostracion: `
+            <p><strong>Demostración.</strong> Sea L regular y sea A un AFD que lo acepta, con n estados. Tomemos w = a₁a₂...aₘ con m ≥ n. Definimos pᵢ = δ(q₀, a₁...aᵢ) para i = 0,...,n. Hay n+1 estados p₀,...,pₙ, pero solo n estados distintos; por tanto, existen i < j con pᵢ = pⱼ. Entonces:</p>
+            <ul>
+                <li>x = a₁...aᵢ</li>
+                <li>y = aᵢ₊₁...aⱼ</li>
+                <li>z = aⱼ₊₁...aₘ</li>
+            </ul>
+            <p>Se cumple y ≠ ε (pues i < j) y |xy| = j ≤ n. Al leer x se llega a pᵢ; al leer y se vuelve a pᵢ (pues pᵢ = pⱼ); al leer z se va a un estado de aceptación (porque w ∈ L). Por tanto, para cualquier k ≥ 0, al leer xyᵏz se recorre el ciclo y k veces y luego se acepta. Luego xyᵏz ∈ L. ✷</p>
+        `
     }
 ];
 
