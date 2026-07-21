@@ -219,18 +219,19 @@ function renderCard() {
         progresoBarra.style.width = porcentaje + '%';
     }
 
-    // Cambiar a una card aleatoria (distinta de la actual si hay más de 1)
-    function irAleatorio() {
-        if (cardsFiltradas.length <= 1) return;
-        let nuevoIndice;
-        do {
-            nuevoIndice = Math.floor(Math.random() * cardsFiltradas.length);
-        } while (nuevoIndice === indiceActual && cardsFiltradas.length > 1);
-        indiceActual = nuevoIndice;
-        renderCard();
-        // Al cambiar, ocultamos pistas y soluciones automáticamente? (lo dejo a criterio del usuario, pero es mejor que se resetee)
-        // Lo haré en renderCard: se vuelven a crear los divs ocultos por defecto.
+function irAleatorio() {
+    console.log("Botón Siguiente pulsado. Cards filtradas:", cardsFiltradas.length);
+    if (cardsFiltradas.length <= 1) {
+        console.warn("No hay suficientes teoremas para cambiar.");
+        return;
     }
+    let nuevoIndice;
+    do {
+        nuevoIndice = Math.floor(Math.random() * cardsFiltradas.length);
+    } while (nuevoIndice === indiceActual && cardsFiltradas.length > 1);
+    indiceActual = nuevoIndice;
+    renderCard();
+}
 
     // Cambiar a anterior / siguiente
     function irAnterior() {
