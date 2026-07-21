@@ -38,30 +38,30 @@ const teoremas = [
         `
     },
     {
-        id: "1.22",
-        texto: "Todas las expresiones regulares (y todas las expresiones en general) tienen el mismo número de paréntesis de apertura <code>(</code> que de cierre <code>)</code>.",
-        pista: "Piensa en el balanceo de paréntesis y cómo se define la sintaxis. Se demuestra por inducción en la longitud de la expresión.",
-        clasificacion: "C",
-        demostracion: `
-            <p><strong>Demostración.</strong> Formalmente, la proposición S(G) se demuestra sobre cualquier expresión G que esté definida mediante el proceso recursivo del Ejemplo 1.20: el número de paréntesis de apertura y de cierre de G es el mismo.</p>
-            
-            <p><strong>BASE.</strong> Si G se define a partir de la base, entonces G es un número o una variable. Estas expresiones tienen cero paréntesis de apertura y cero paréntesis de cierre, luego tienen los mismos paréntesis de apertura que de cierre.</p>
-            
-            <p><strong>PASO INDUCTIVO.</strong> Hay tres reglas mediante las que se puede construir la expresión G de acuerdo con el paso de inducción de la definición:</p>
-            <ol>
-                <li>G ⇒ E + F</li>
-                <li>G ⇒ E * F</li>
-                <li>G ⇒ (E)</li>
-            </ol>
-            <p>Podemos suponer que S(E) y S(F) son verdaderas; es decir, E tiene el mismo número de paréntesis de apertura que de cierre, por ejemplo, n de cada clase, e igualmente F tiene el mismo número de paréntesis de apertura que de cierre, por ejemplo, m de cada clase. Entonces podemos calcular el número de paréntesis abiertos y cerrados de G para cada uno de los tres casos siguientes:</p>
-            <ol>
-                <li>Si G = E + F, entonces G tiene n+m paréntesis de apertura y n+m paréntesis de cierre; n de cada tipo procedentes de E y m de cada tipo procedentes de F.</li>
-                <li>Si G = E * F, la cantidad de paréntesis de G es de nuevo n+m de cada tipo por la misma razón que en el caso (1).</li>
-                <li>Si G = (E), entonces habrá n+1 paréntesis de apertura en G (uno de los cuales aparece explícitamente y los otros n proceden de E). Del mismo modo, hay n+1 paréntesis de cierre en G; uno explícito y los otros n procedentes de E.</li>
-            </ol>
-            <p>En cada uno de los tres casos, vemos que el número de paréntesis de apertura y de cierre de G es el mismo. Esta observación completa el paso de inducción y la demostración. ✷</p>
-        `
-    }
+    id: "1.22",
+    texto: "Todas las expresiones regulares (y todas las expresiones en general) tienen el mismo número de paréntesis de apertura <code>(</code> que de cierre <code>)</code>.",
+    pista: "Piensa en el balanceo de paréntesis y cómo se define la sintaxis. Se demuestra por inducción en la longitud de la expresión.",
+    clasificacion: "C",
+    demostracion: `
+        <p><strong>Demostración.</strong> Formalmente, la proposición S(G) se demuestra sobre cualquier expresión G que esté definida mediante el proceso recursivo del Ejemplo 1.20: el número de paréntesis de apertura y de cierre de G es el mismo.</p>
+        
+        <p><strong>BASE.</strong> Si G se define a partir de la base, entonces G es un número o una variable. Estas expresiones tienen cero paréntesis de apertura y cero paréntesis de cierre, luego tienen los mismos paréntesis de apertura que de cierre.</p>
+        
+        <p><strong>PASO INDUCTIVO.</strong> Hay tres reglas mediante las que se puede construir la expresión G de acuerdo con el paso de inducción de la definición:</p>
+        <ol>
+            <li><code>G ⇒ E + F</code></li>
+            <li><code>G ⇒ E * F</code></li>
+            <li><code>G ⇒ (E)</code></li>
+        </ol>
+        <p>Podemos suponer que S(E) y S(F) son verdaderas; es decir, E tiene el mismo número de paréntesis de apertura que de cierre, por ejemplo, n de cada clase, e igualmente F tiene el mismo número de paréntesis de apertura que de cierre, por ejemplo, m de cada clase. Entonces podemos calcular el número de paréntesis abiertos y cerrados de G para cada uno de los tres casos siguientes:</p>
+        <ol>
+            <li>Si G = E + F, entonces G tiene n+m paréntesis de apertura y n+m paréntesis de cierre; n de cada tipo procedentes de E y m de cada tipo procedentes de F.</li>
+            <li>Si G = E * F, la cantidad de paréntesis de G es de nuevo n+m de cada tipo por la misma razón que en el caso (1).</li>
+            <li>Si G = (E), entonces habrá n+1 paréntesis de apertura en G (uno de los cuales aparece explícitamente y los otros n proceden de E). Del mismo modo, hay n+1 paréntesis de cierre en G; uno explícito y los otros n procedentes de E.</li>
+        </ol>
+        <p>En cada uno de los tres casos, vemos que el número de paréntesis de apertura y de cierre de G es el mismo. Esta observación completa el paso de inducción y la demostración. ✷</p>
+    `
+}
     // ==========================================================
     // AQUÍ AGREGARÁS EL RESTO DE TEOREMAS MANUALMENTE
     // ==========================================================
