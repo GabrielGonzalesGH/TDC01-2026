@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estudio: Teoremas · Autómatas y Lenguajes</title>
+    <!-- CSS raíz (tema oscuro base) -->
+    <link rel="stylesheet" href="../style.css">
+    <!-- CSS específico para las cards de estudio -->
+    <link rel="stylesheet" href="css/study-style.css">
+</head>
+<body>
+
+    <div class="study-container">
+        <!-- Cabecera -->
+        <header class="study-header">
+            <h1>📚 Teoremas · Hopcroft 3ra Ed.</h1>
+            <p class="study-sub">
+                <span class="badge A">A (Esencial)</span>
+                <span class="badge B">B (Importante)</span>
+                <span class="badge C">C (Complementario)</span>
+            </p>
+        </header>
+
+        <!-- Panel de filtros y progreso -->
+        <div class="control-panel">
+            <div class="filter-group">
+                <label for="filtroClasificacion">Filtrar por importancia:</label>
+                <select id="filtroClasificacion">
+                    <option value="all">Todas (A, B, C)</option>
+                    <option value="A">⭐ Solo A (Esenciales)</option>
+                    <option value="B">⭐ Solo B (Importantes)</option>
+                    <option value="C">⭐ Solo C (Complementarios)</option>
+                </select>
+            </div>
+            <div class="progress-group">
+                <span id="progresoTexto">0 / 0 aprendidos</span>
+                <div class="progress-bar-bg">
+                    <div id="progresoBarra" class="progress-bar-fill" style="width: 0%;"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- La Card principal -->
+        <div id="cardContainer" class="card-study">
+            <!-- El contenido se pinta con JavaScript -->
+        </div>
+
+        <!-- Botones de acción -->
+        <div class="action-bar">
+            <button id="btnAnterior" class="btn-study" title="Teorema anterior">◀ Anterior</button>
+            <button id="btnSiguiente" class="btn-study" title="Teorema aleatorio">🎲 Siguiente</button>
+            <button id="btnMarcarSabido" class="btn-study btn-sabido">✅ Marcar como sabido</button>
+        </div>
+
+        <!-- Pie de página -->
+        <footer class="study-footer">
+            💡 Los datos se guardan en tu navegador (Local Storage).<br>
+            <span id="contadorCards">Card 1 / 1</span>
+        </footer>
+    </div>
+
+    <!-- Cargar datos (solo el teorema 1.22) -->
+    <script src="js/data-teoremas.js"></script>
+    <!-- Cargar motor de estudio -->
+    <script src="js/engine.js"></script>
+</body>
+</html>
