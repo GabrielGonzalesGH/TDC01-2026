@@ -248,6 +248,96 @@ const teoremas = [
             </ul>
             <p>Se cumple y ≠ ε (pues i < j) y |xy| = j ≤ n. Al leer x se llega a pᵢ; al leer y se vuelve a pᵢ (pues pᵢ = pⱼ); al leer z se va a un estado de aceptación (porque w ∈ L). Por tanto, para cualquier k ≥ 0, al leer xyᵏz se recorre el ciclo y k veces y luego se acepta. Luego xyᵏz ∈ L. ✷</p>
         `
+    },
+        // ========== TEOREMA 4.4 ==========
+    {
+        id: "4.4",
+        texto: "Si L y M son lenguajes regulares, entonces también lo es L ∪ M.",
+        pista: "Usar expresiones regulares: si L = L(R) y M = L(S), entonces L ∪ M = L(R + S).",
+        clasificacion: "B",
+        demostracion: `
+            <p><strong>Demostración.</strong> Dado que L y M son regulares, existen expresiones regulares R y S tales que L = L(R) y M = L(S). Por definición del operador "+" para expresiones regulares, L(R + S) = L(R) ∪ L(S) = L ∪ M. Por tanto, L ∪ M es regular. ✷</p>
+        `
+    },
+
+    // ========== TEOREMA 4.5 ==========
+    {
+        id: "4.5",
+        texto: "Si L es un lenguaje regular sobre un alfabeto Σ, entonces su complemento Σ* − L también es regular.",
+        pista: "Dado un AFD para L, se intercambian estados de aceptación y no aceptación.",
+        clasificacion: "A",
+        demostracion: `
+            <p><strong>Demostración.</strong> Sea L = L(A) para un AFD A = (Q, Σ, δ, q₀, F). Construimos un AFD B = (Q, Σ, δ, q₀, Q − F). Es decir, B es idéntico a A, pero los estados de aceptación son los complementarios. Entonces w ∈ L(B) si y solo si δ(q₀, w) ∈ Q − F, lo que ocurre si y solo si w ∉ L(A). Luego L(B) = Σ* − L. ✷</p>
+        `
+    },
+
+    // ========== TEOREMA 4.8 ==========
+    {
+        id: "4.8",
+        texto: "Si L y M son lenguajes regulares, entonces L ∩ M también es regular.",
+        pista: "Construcción del producto: se simulan ambos AFD en paralelo y se acepta solo si ambos aceptan.",
+        clasificacion: "A",
+        demostracion: `
+            <p><strong>Demostración.</strong> Sean L = L(A<sub>L</sub>) y M = L(A<sub>M</sub>) con AFD A<sub>L</sub> = (Q<sub>L</sub>, Σ, δ<sub>L</sub>, q<sub>L</sub>, F<sub>L</sub>) y A<sub>M</sub> = (Q<sub>M</sub>, Σ, δ<sub>M</sub>, q<sub>M</sub>, F<sub>M</sub>). Construimos un AFD producto A = (Q<sub>L</sub> × Q<sub>M</sub>, Σ, δ, (q<sub>L</sub>, q<sub>M</sub>), F<sub>L</sub> × F<sub>M</sub>) donde δ((p, q), a) = (δ<sub>L</sub>(p, a), δ<sub>M</sub>(q, a)). Por inducción sobre |w| se demuestra que δ̂((q<sub>L</sub>, q<sub>M</sub>), w) = (δ̂<sub>L</sub>(q<sub>L</sub>, w), δ̂<sub>M</sub>(q<sub>M</sub>, w)). Luego A acepta w si y solo si ambos componentes son estados de aceptación, es decir, w ∈ L y w ∈ M. Por tanto, L(A) = L ∩ M. ✷</p>
+        `
+    },
+
+    // ========== TEOREMA 4.10 ==========
+    {
+        id: "4.10",
+        texto: "Si L y M son lenguajes regulares, entonces L − M también es regular.",
+        pista: "L − M = L ∩ complemento(M). Usar Teoremas 4.5 y 4.8.",
+        clasificacion: "B",
+        demostracion: `
+            <p><strong>Demostración.</strong> Observamos que L − M = L ∩ (Σ* − M). Por el Teorema 4.5, Σ* − M es regular (complemento). Por el Teorema 4.8, la intersección de dos lenguajes regulares es regular. Por tanto, L − M es regular. ✷</p>
+        `
+    },
+
+    // ========== TEOREMA 4.11 ==========
+    {
+        id: "4.11",
+        texto: "Si L es un lenguaje regular, entonces su reverso (o reflexión) L<sup>R</sup> = { w<sup>R</sup> | w ∈ L } también es regular.",
+        pista: "Demostración por inducción estructural sobre la expresión regular que define a L.",
+        clasificacion: "B",
+        demostracion: `
+            <p><strong>Demostración.</strong> Supongamos que L = L(E) para una expresión regular E. Construimos inductivamente E<sup>R</sup> tal que L(E<sup>R</sup>) = (L(E))<sup>R</sup>.</p>
+            <ul>
+                <li><strong>Base:</strong> Si E es ε, ∅ o a, entonces E<sup>R</sup> = E (pues ε<sup>R</sup>=ε, ∅<sup>R</sup>=∅, a<sup>R</sup>=a).</li>
+                <li><strong>Unión:</strong> Si E = F + G, entonces E<sup>R</sup> = F<sup>R</sup> + G<sup>R</sup>.</li>
+                <li><strong>Concatenación:</strong> Si E = FG, entonces E<sup>R</sup> = G<sup>R</sup> F<sup>R</sup> (se invierte el orden).</li>
+                <li><strong>Cerradura:</strong> Si E = F*, entonces E<sup>R</sup> = (F<sup>R</sup>)*.</li>
+            </ul>
+            <p>La verificación es inmediata: (uv)<sup>R</sup> = v<sup>R</sup> u<sup>R</sup> y (u<sub>1</sub>...u<sub>n</sub>)<sup>R</sup> = u<sub>n</sub><sup>R</sup>...u<sub>1</sub><sup>R</sup>. Por tanto, L(E<sup>R</sup>) = L<sup>R</sup>. ✷</p>
+        `
+    },
+
+    // ========== TEOREMA 4.14 ==========
+    {
+        id: "4.14",
+        texto: "Si h es un homomorfismo de Σ en T* y L es regular sobre Σ, entonces h(L) = { h(w) | w ∈ L } es regular sobre T.",
+        pista: "Se aplica h a cada símbolo de la expresión regular que define a L; la demostración es por inducción estructural.",
+        clasificacion: "B",
+        demostracion: `
+            <p><strong>Demostración.</strong> Sea L = L(R) para una expresión regular R. Definimos h(R) reemplazando cada símbolo a en R por la cadena h(a) (que puede ser ε o una palabra). Demostramos por inducción estructural sobre R que L(h(R)) = h(L(R)).</p>
+            <ul>
+                <li><strong>Base:</strong> Para ε y ∅, trivial. Para a, L(h(a)) = {h(a)} = h({a}).</li>
+                <li><strong>Unión:</strong> h(F+G) = h(F)+h(G), y h(L(F)∪L(G)) = h(L(F)) ∪ h(L(G)).</li>
+                <li><strong>Concatenación:</strong> h(FG) = h(F)h(G), y h(L(F)L(G)) = h(L(F)) h(L(G)).</li>
+                <li><strong>Cerradura:</strong> h(F*) = (h(F))*, y h(L(F)*) = (h(L(F)))*.</li>
+            </ul>
+            <p>Por tanto, h(R) es una expresión regular que define h(L). ✷</p>
+        `
+    },
+
+    // ========== TEOREMA 4.16 ==========
+    {
+        id: "4.16",
+        texto: "Si h : Σ → T* es un homomorfismo y L es regular sobre T, entonces la imagen inversa h<sup>−1</sup>(L) = { w ∈ Σ* | h(w) ∈ L } es regular.",
+        pista: "Dado un AFD para L, se construye un AFD que traduce cada símbolo de entrada mediante h y luego simula el AFD original.",
+        clasificacion: "A",
+        demostracion: `
+            <p><strong>Demostración.</strong> Sea L = L(A) con A = (Q, T, δ, q₀, F). Definimos un AFD B = (Q, Σ, γ, q₀, F) donde γ(q, a) = δ̂(q, h(a)). Es decir, para un símbolo a ∈ Σ, B simula las transiciones de A a lo largo de la cadena h(a) (que puede ser ε, un símbolo o varios). Por inducción sobre |w| se demuestra que γ̂(q₀, w) = δ̂(q₀, h(w)). Por tanto, B acepta w si y solo si A acepta h(w), es decir, w ∈ h<sup>−1</sup>(L). Luego h<sup>−1</sup>(L) es regular. ✷</p>
+        `
     }
 ];
 
