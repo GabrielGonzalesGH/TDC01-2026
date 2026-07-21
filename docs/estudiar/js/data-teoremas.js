@@ -49,9 +49,9 @@ const teoremas = [
             
             <p><strong>PASO INDUCTIVO.</strong> Hay tres reglas mediante las que se puede construir la expresión G de acuerdo con el paso de inducción de la definición:</p>
             <ol>
-                <li>G = E + F</li>
-                <li>G = E * F</li>
-                <li>G = (E)</li>
+                <li>G ⇒ E + F</li>
+                <li>G ⇒ E * F</li>
+                <li>G ⇒ (E)</li>
             </ol>
             <p>Podemos suponer que S(E) y S(F) son verdaderas; es decir, E tiene el mismo número de paréntesis de apertura que de cierre, por ejemplo, n de cada clase, e igualmente F tiene el mismo número de paréntesis de apertura que de cierre, por ejemplo, m de cada clase. Entonces podemos calcular el número de paréntesis abiertos y cerrados de G para cada uno de los tres casos siguientes:</p>
             <ol>
