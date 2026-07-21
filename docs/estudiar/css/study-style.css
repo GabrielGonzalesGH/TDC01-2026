@@ -396,3 +396,34 @@
     color: #facc15;
     font-style: italic;
 }
+/* --- Mejoras para la demostración --- */
+.card-demostracion {
+    padding: 1.2rem 1.5rem;  /* más espacio interno */
+}
+
+.demo-contenido ol,
+.demo-contenido ul {
+    padding-left: 1.8rem;    /* sangría para listas */
+    margin: 0.5rem 0;
+}
+
+.demo-contenido li {
+    margin-bottom: 0.3rem;
+    line-height: 1.6;
+}
+
+.demo-contenido p {
+    margin: 0.6rem 0;
+}
+
+.demo-contenido pre {
+    margin: 0.6rem 0;
+    padding: 0.6rem 1rem;
+}
+
+/* Flecha para producciones (opcional) */
+.produccion-flecha {
+    font-family: 'Segoe UI', sans-serif;
+    color: #79c0ff;
+    margin: 0 0.2rem;
+}
