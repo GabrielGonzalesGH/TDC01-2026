@@ -690,6 +690,485 @@ const teoremas = [
             <p><strong>Parte (⇐):</strong> Si X es alcanzable, existe una derivación S ⇒* αXβ. Por inducción sobre la longitud de la derivación, X es añadido por el algoritmo.</p>
             <p>La demostración detallada es análoga a la del Teorema 7.4. ✷</p>
         `
+    },
+        // ========== TEOREMA 7.7 ==========
+    {
+        id: "7.7",
+        texto: "En cualquier gramática G, los únicos símbolos anulables son las variables encontradas por el algoritmo de detección de anulables.",
+        pista: "Demostración por inducción: (⇒) cada símbolo descubierto genera ε; (⇐) si A ⇒* ε, se demuestra por inducción sobre la derivación.",
+        clasificacion: "B",
+        demostracion: `
+            <p><strong>Demostración.</strong> El algoritmo de detección de anulables es:</p>
+            <ol>
+                <li><strong>Base:</strong> Si A → ε es una producción, A es anulable.</li>
+                <li><strong>Paso:</strong> Si A → X₁X₂...Xₖ y todo Xᵢ es anulable, entonces A es anulable.</li>
+            </ol>
+            <p><strong>Parte (⇒):</strong> Por inducción sobre el orden en que se descubren, cada símbolo anulable genera ε.</p>
+            <p><strong>Parte (⇐):</strong> Supongamos A ⇒* ε en n pasos. Inducción sobre n:</p>
+            <ul>
+                <li><strong>Base (n=1):</strong> A → ε es producción, luego A se descubre en la base.</li>
+                <li><strong>Paso:</strong> A ⇒ X₁...Xₖ ⇒* ε. Cada Xᵢ genera ε en menos pasos, luego son anulables por hipótesis inductiva. El paso inductivo del algoritmo los descubre. ✷</li>
+            </ul>
+        `
+    },
+
+    // ========== TEOREMA 7.9 ==========
+    {
+        id: "7.9",
+        texto: "Si G₁ se construye a partir de G eliminando producciones-ε, entonces L(G₁) = L(G) - {ε}.",
+        pista: "Demostración por doble inclusión. Se usa inducción sobre derivaciones en ambas gramáticas.",
+        clasificacion: "A",
+        demostracion: `
+            <p><strong>Demostración.</strong> Se demuestra la proposición más general: A ⇒*<sub>G₁</sub> w ⇔ A ⇒*<sub>G</sub> w y w ≠ ε, por inducción sobre la longitud de la derivación.</p>
+            <p><strong>Parte Sólo-si (G₁ ⇒ G):</strong> Si A ⇒*<sub>G₁</sub> w, w ≠ ε. Por inducción sobre la derivación en G₁, cada producción de G₁ corresponde a una producción de G seguida de derivaciones ε de variables anulables. Luego A ⇒*<sub>G</sub> w.</p>
+            <p><strong>Parte Si (G ⇒ G₁):</strong> Si A ⇒*<sub>G</sub> w, w ≠ ε. Por inducción sobre la derivación en G, se eliminan las variables que derivan ε (que no contribuyen a w). Las producciones resultantes están en G₁. ✷</p>
+        `
+    },
+
+    // ========== TEOREMA 7.11 ==========
+    {
+        id: "7.11",
+        texto: "El algoritmo de detección de pares unitarios determina exactamente los pares (A, B) tales que A ⇒* B usando solo producciones unitarias.",
+        pista: "Demostración por inducción: (⇒) cada par descubierto corresponde a una derivación; (⇐) si A ⇒* B con unitarias, se demuestra por inducción sobre la derivación.",
+        clasificacion: "B",
+        demostracion: `
+            <p><strong>Demostración.</strong> El algoritmo es:</p>
+            <ol>
+                <li><strong>Base:</strong> (A, A) es unitario para toda variable A.</li>
+                <li><strong>Paso:</strong> Si (A, B) es unitario y B → C es unitaria, entonces (A, C) es unitario.</li>
+            </ol>
+            <p><strong>Parte (⇒):</strong> Por inducción sobre el orden de descubrimiento, si (A,B) se descubre, entonces A ⇒* B con unitarias.</p>
+            <p><strong>Parte (⇐):</strong> Si A ⇒* B con unitarias en n pasos, inducción sobre n:</p>
+            <ul>
+                <li><strong>Base (n=0):</strong> A = B, base del algoritmo.</li>
+                <li><strong>Paso:</strong> A ⇒* C ⇒ B. Por hipótesis inductiva (A,C) es unitario, y C → B es unitaria, luego el paso inductivo descubre (A,B). ✷</li>
+            </ul>
+        `
+    },
+
+    // ========== TEOREMA 7.13 ==========
+    {
+        id: "7.13",
+        texto: "Si G₁ se construye a partir de G eliminando producciones unitarias, entonces L(G₁) = L(G).",
+        pista: "Cada producción de G₁ equivale a una secuencia de producciones unitarias seguidas de una no unitaria en G. La derivación izquierda de G se descompone en tales secuencias.",
+        clasificacion: "A",
+        demostracion: `
+            <p><strong>Demostración.</strong></p>
+            <p><strong>Parte Si (G₁ ⇒ G):</strong> Toda producción de G₁ es de la forma A → α donde existe A ⇒*<sub>G</sub> B y B → α es no unitaria. Luego cada paso en G₁ equivale a uno o más pasos en G. Por tanto, S ⇒*<sub>G₁</sub> w implica S ⇒*<sub>G</sub> w.</p>
+            <p><strong>Parte Sólo-si (G ⇒ G₁):</strong> En una derivación izquierda de G, las producciones unitarias consecutivas seguidas de una no unitaria forman un bloque. Cada bloque se reemplaza por una producción de G₁. Luego S ⇒*<sub>G</sub> w implica S ⇒*<sub>G₁</sub> w. ✷</p>
+        `
+    },
+
+    // ========== TEOREMA 7.14 ==========
+    {
+        id: "7.14",
+        texto: "Si G genera un lenguaje con al menos una cadena no vacía, entonces existe G₁ tal que L(G₁) = L(G) - {ε} y G₁ no tiene producciones-ε, ni unitarias, ni símbolos inútiles.",
+        pista: "Se aplican en orden: eliminar ε, eliminar unitarias, eliminar inútiles. Las transformaciones no reintroducen los tipos eliminados.",
+        clasificacion: "A",
+        demostracion: `
+            <p><strong>Demostración.</strong> Se aplican tres transformaciones en el orden correcto:</p>
+            <ol>
+                <li>Eliminar producciones-ε (Teorema 7.9).</li>
+                <li>Eliminar producciones unitarias (Teorema 7.13). Esta transformación no introduce ε.</li>
+                <li>Eliminar símbolos inútiles (Teorema 7.2). Esta transformación solo elimina producciones y símbolos, no introduce ε ni unitarias.</li>
+            </ol>
+            <p>La gramática resultante G₁ cumple las tres propiedades y L(G₁) = L(G) - {ε}. ✷</p>
+        `
+    },
+
+    // ========== TEOREMA 7.16 ==========
+    {
+        id: "7.16",
+        texto: "Si G es una GIC con L(G) ≠ ∅ y contiene al menos una cadena no vacía, entonces existe G₁ en Forma Normal de Chomsky (FNC) tal que L(G₁) = L(G) - {ε}.",
+        pista: "Primero se eliminan ε, unitarias e inútiles (Teorema 7.14). Luego se convierten producciones con cuerpos largos y terminales usando variables auxiliares.",
+        clasificacion: "A",
+        demostracion: `
+            <p><strong>Demostración.</strong> Aplicando el Teorema 7.14, obtenemos G₂ sin ε, unitarias ni inútiles. Convertimos G₂ a FNC:</p>
+            <ol>
+                <li>Para cada terminal a, se introduce una variable Bₐ y la producción Bₐ → a.</li>
+                <li>Para cada producción A → X₁X₂...Xₖ con k ≥ 3, se introducen variables C₁, C₂,... para binificar: A → X₁C₁, C₁ → X₂C₂, etc.</li>
+                <li>Las producciones de la forma A → X (donde X es terminal o variable) ya están en FNC; si X es terminal, se usa la variable auxiliar.</li>
+            </ol>
+            <p>La gramática resultante G₁ está en FNC y L(G₁) = L(G₂) = L(G) - {ε}. ✷</p>
+        `
+    },
+
+    // ========== TEOREMA 7.17 ==========
+    {
+        id: "7.17",
+        texto: "Si G está en FNC y el camino más largo en un árbol de derivación tiene longitud n, entonces |w| ≤ 2<sup>n-1</sup>.",
+        pista: "Inducción sobre n: un árbol de altura n tiene dos subárboles de altura ≤ n-1, cuyos resultados tienen longitud ≤ 2<sup>n-2</sup> cada uno.",
+        clasificacion: "B",
+        demostracion: `
+            <p><strong>Demostración.</strong> Inducción sobre n (longitud del camino más largo).</p>
+            <p><strong>Base (n=1):</strong> El árbol es raíz → hoja terminal. |w| = 1 = 2<sup>0</sup>.</p>
+            <p><strong>Paso (n>1):</strong> La raíz usa A → BC. Los subárboles B y C tienen caminos de longitud ≤ n-1. Por hipótesis inductiva, sus resultados tienen longitud ≤ 2<sup>n-2</sup> cada uno. El resultado total es la concatenación, de longitud ≤ 2·2<sup>n-2</sup> = 2<sup>n-1</sup>. ✷</p>
+        `
+    },
+
+    // ========== TEOREMA 7.18 (LEMA DE BOMBEO PARA LIC) ==========
+    {
+        id: "7.18",
+        texto: "Lema de bombeo para LIC: Sea L un LIC. Existe n tal que para todo z ∈ L con |z| ≥ n, se puede escribir z = uvwxy con (1) |vwx| ≤ n, (2) vx ≠ ε, (3) para todo i ≥ 0, uv<sup>i</sup>wx<sup>i</sup>y ∈ L.",
+        pista: "Se usa FNC con m variables, n = 2<sup>m</sup>. En el camino más largo hay m+1 variables, luego dos son iguales. Se bombea el subárbol entre esas variables.",
+        clasificacion: "A",
+        demostracion: `
+            <p><strong>Demostración.</strong> Sea G en FNC con m variables. Tomamos n = 2<sup>m</sup>. Para z ∈ L con |z| ≥ n, un árbol de derivación debe tener un camino de longitud ≥ m+1. Hay m+1 variables en el camino, luego Aᵢ = Aⱼ para algún i < j, con j-i ≤ m.</p>
+            <p>Se divide el árbol: la variable repetida A genera el subárbol central. Se puede reemplazar el subárbol superior por el inferior (bombeo hacia abajo) o viceversa (bombeo hacia arriba). Esto produce derivaciones para uv<sup>i</sup>wx<sup>i</sup>y para todo i ≥ 0.</p>
+            <p>Las condiciones: vx ≠ ε (no hay producciones unitarias), y |vwx| ≤ 2<sup>m</sup> = n porque el subárbol entre Aᵢ y Aⱼ tiene altura ≤ m+1. ✷</p>
+        `
+    },
+
+    // ========== TEOREMA 7.23 ==========
+    {
+        id: "7.23",
+        texto: "Si L es LIC y s es una sustitución tal que s(a) es LIC para cada a, entonces s(L) es LIC.",
+        pista: "Se toma una GIC para L y se reemplaza cada terminal a por el símbolo inicial de la GIC para s(a). Se renombran variables para evitar mezclas.",
+        clasificacion: "A",
+        demostracion: `
+            <p><strong>Demostración.</strong> Sean G para L y Gₐ para cada s(a). Se construye G' con variables disjuntas (renombrando). Las producciones de G' son:</p>
+            <ol>
+                <li>Las producciones de cada Gₐ.</li>
+                <li>Las producciones de G, pero reemplazando cada terminal a por Sₐ (el símbolo inicial de Gₐ).</li>
+            </ol>
+            <p>Entonces L(G') = s(L). Los árboles de derivación primero usan las producciones de G (con Sₐ en las hojas) y luego cada Sₐ genera una cadena de s(a). ✷</p>
+        `
+    },
+
+    // ========== TEOREMA 7.24 ==========
+    {
+        id: "7.24",
+        texto: "Los lenguajes independientes del contexto son cerrados para: (1) unión, (2) concatenación, (3) clausura de Kleene (*) y positiva (+), (4) homomorfismo.",
+        pista: "Se usa el Teorema 7.23 con sustituciones apropiadas: para unión, L = {1,2}; para concatenación, L = {12}; para clausura, L = {1}* o {1}+; para homomorfismo, s(a) = {h(a)}.",
+        clasificacion: "A",
+        demostracion: `
+            <p><strong>Demostración.</strong> Todas son aplicaciones del Teorema 7.23:</p>
+            <ol>
+                <li><strong>Unión:</strong> Sea L = {1,2}, s(1)=L₁, s(2)=L₂. Entonces s(L) = L₁ ∪ L₂.</li>
+                <li><strong>Concatenación:</strong> Sea L = {12}, s(1)=L₁, s(2)=L₂. Entonces s(L) = L₁L₂.</li>
+                <li><strong>Clausura:</strong> Sea L = {1}*, s(1)=L₁. Entonces s(L) = L₁*. Análogo para +.</li>
+                <li><strong>Homomorfismo:</strong> Sea s(a) = {h(a)}. Entonces s(L) = h(L).</li>
+            </ol>
+            <p>En todos los casos, s(L) es LIC por el Teorema 7.23. ✷</p>
+        `
+    },
+
+    // ========== TEOREMA 7.25 ==========
+    {
+        id: "7.25",
+        texto: "Si L es LIC, entonces L<sup>R</sup> (el lenguaje reflejado) también es LIC.",
+        pista: "Se toma una GIC para L y se reflejan todos los cuerpos de las producciones. La gramática resultante genera L<sup>R</sup>.",
+        clasificacion: "A",
+        demostracion: `
+            <p><strong>Demostración.</strong> Sea G = (V, T, P, S). Construimos G<sup>R</sup> = (V, T, P<sup>R</sup>, S) donde P<sup>R</sup> = { A → α<sup>R</sup> | A → α ∈ P }.</p>
+            <p>Por inducción sobre la longitud de la derivación, se demuestra que A ⇒*<sub>G</sub> w ⇔ A ⇒*<sub>G<sup>R</sup></sub> w<sup>R</sup>. Por tanto, L(G<sup>R</sup>) = L(G)<sup>R</sup>. ✷</p>
+        `
+    },
+
+    // ========== TEOREMA 7.27 ==========
+    {
+        id: "7.27",
+        texto: "Si L es LIC y R es regular, entonces L ∩ R es LIC.",
+        pista: "Se ejecuta un autómata a pila para L en paralelo con un AFD para R. El producto es un autómata a pila cuyo estado es el par (estado_AP, estado_AFD).",
+        clasificacion: "A",
+        demostracion: `
+            <p><strong>Demostración.</strong> Sea P un AP que acepta L por estado final, y A un AFD para R. Construimos P' = (Q<sub>P</sub> × Q<sub>A</sub>, Σ, Γ, δ', (q<sub>P</sub>, q<sub>A</sub>), Z₀, F<sub>P</sub> × F<sub>A</sub>) donde:</p>
+            <pre>δ'((q, p), a, X) = { ((r, δ<sub>A</sub>(p, a)), γ) | (r, γ) ∈ δ<sub>P</sub>(q, a, X) }</pre>
+            <p>Para a = ε, δ<sub>A</sub>(p, ε) = p (no cambia). Por inducción se demuestra que P' simula P y A simultáneamente. P' acepta w ⇔ P acepta w y A acepta w. ✷</p>
+        `
+    },
+
+    // ========== TEOREMA 7.29 ==========
+    {
+        id: "7.29",
+        texto: "Para LIC L, L₁, L₂ y regular R: (1) L - R es LIC; (2) L no es necesariamente LIC; (3) L₁ - L₂ no es necesariamente LIC.",
+        pista: "(1) L - R = L ∩ complemento(R) y complemento de regular es regular. (2) Si L fuera siempre LIC, entonces la intersección sería LIC (por leyes de De Morgan), pero no lo es. (3) Si L₁ - L₂ fuera siempre LIC, el complemento sería LIC.",
+        clasificacion: "A",
+        demostracion: `
+            <p><strong>Demostración.</strong></p>
+            <ol>
+                <li><strong>L - R es LIC:</strong> R es regular, por Teorema 4.5, complemento(R) es regular. Luego L ∩ complemento(R) es LIC por Teorema 7.27.</li>
+                <li><strong>L no es necesariamente LIC:</strong> Si lo fuera, por leyes de De Morgan, L₁ ∩ L₂ = complemento(complemento(L₁) ∪ complemento(L₂)) sería LIC, contradiciendo que LIC no son cerrados para intersección (Ejemplo 7.26).</li>
+                <li><strong>L₁ - L₂ no es necesariamente LIC:</strong> Si lo fuera, Σ* - L sería LIC (pues Σ* es LIC), contradiciendo (2).</li>
+            </ol>
+            <p>Por tanto, (2) y (3) son falsos en general. ✷</p>
+        `
+    },
+
+    // ========== TEOREMA 7.30 ==========
+    {
+        id: "7.30",
+        texto: "Si L es LIC y h es un homomorfismo, entonces h<sup>-1</sup>(L) es LIC.",
+        pista: "Se usa un AP para L y se construye un AP con buffer que lee símbolos de entrada, los traduce mediante h y los pasa al AP simulado.",
+        clasificacion: "A",
+        demostracion: `
+            <p><strong>Demostración.</strong> Sea P un AP que acepta L por estado final. Construimos P' con estados (q, x) donde x es un sufijo de h(a) para algún a. El buffer se carga con h(a) al leer a. Las transiciones simulan a P usando el buffer como entrada. Los estados de aceptación son (q, ε) con q ∈ F. Se demuestra por inducción que (q₀, h(w), Z₀) ⇒*<sub>P</sub> (q, ε, γ) ⇔ ((q₀, ε), w, Z₀) ⇒*<sub>P'</sub> ((q, ε), ε, γ). Por tanto, L(P') = h<sup>-1</sup>(L). ✷</p>
+        `
+    },
+
+    // ========== TEOREMA 7.31 ==========
+    {
+        id: "7.31",
+        texto: "Existe un algoritmo O(n³) que, dado un AP de longitud n, produce una GIC de longitud O(n³) que genera el mismo lenguaje (por pila vacía o estado final).",
+        pista: "Se aplica la construcción del Teorema 6.14 y se observa que el número de estados y símbolos de pila es O(n), luego la gramática tiene O(n³) producciones.",
+        clasificacion: "B",
+        demostracion: `
+            <p><strong>Demostración.</strong> La construcción del Teorema 6.14 produce variables [pXq] para cada terna (p, q ∈ Q, X ∈ Γ). Hay |Q|²·|Γ| = O(n³) variables. Para cada transición δ(q, a, X) ∋ (r, Y₁...Yₖ), se generan producciones para todas las combinaciones de estados intermedios, que son O(|Q|<sup>k-1</sup>) = O(n³). El algoritmo de construcción es O(n³). ✷</p>
+        `
+    },
+
+    // ========== TEOREMA 7.32 ==========
+    {
+        id: "7.32",
+        texto: "Dada una gramática G de longitud n, se puede construir una FNC equivalente en tiempo O(n²), con longitud O(n²).",
+        pista: "Se eliminan ε, unitarias e inútiles (O(n²)), luego se binifican producciones (O(n²)) y se introducen variables para terminales (O(n²)).",
+        clasificacion: "B",
+        demostracion: `
+            <p><strong>Demostración.</strong> La construcción de FNC a partir de G implica:</p>
+            <ol>
+                <li>Eliminar ε, unitarias e inútiles (Teorema 7.14) en O(n²).</li>
+                <li>Introducir variables para terminales: a lo sumo |T| ≤ n variables.</li>
+                <li>Binificar producciones de cuerpos largos: cada producción de longitud k se convierte en k-2 producciones nuevas. El total es O(n²).</li>
+            </ol>
+            <p>El tiempo total es O(n²) y la gramática resultante tiene O(n²) producciones. ✷</p>
+        `
+    },
+
+    // ========== TEOREMA 7.33 ==========
+    {
+        id: "7.33",
+        texto: "El algoritmo CYK (Cocke-Younger-Kasami) para GIC en FNC calcula correctamente X<sub>ij</sub> (variables que generan w<sub>i</sub>...w<sub>j</sub>) en tiempo O(n³).",
+        pista: "Programación dinámica: X<sub>ii</sub> = {A | A → wᵢ}; X<sub>ij</sub> = ⋃<sub>k</sub> { A | A → BC, B ∈ X<sub>ik</sub>, C ∈ X<sub>k+1,j</sub> }.",
+        clasificacion: "B",
+        demostracion: `
+            <p><strong>Demostración.</strong> El algoritmo CYK:</p>
+            <ol>
+                <li><strong>Base:</strong> X<sub>ii</sub> = { A | A → wᵢ }.</li>
+                <li><strong>Paso:</strong> Para longitud l = 2..n, para i = 1..n-l+1, j = i+l-1:<br>
+                    X<sub>ij</sub> = ⋃<sub>k=i..j-1</sub> { A | A → BC, B ∈ X<sub>ik</sub>, C ∈ X<sub>k+1,j</sub> }.</li>
+            </ol>
+            <p>Se demuestra por inducción que X<sub>ij</sub> contiene exactamente las variables que generan w<sub>i</sub>...w<sub>j</sub>. Hay O(n²) subproblemas, cada uno con O(n) particiones, y cada operación de conjuntos es O(1) (gramática fija). Luego O(n³). ✷</p>
+        `
+    },
+
+    // ========== TEOREMA 8.9 ==========
+    {
+        id: "8.9",
+        texto: "Todo lenguaje aceptado por una MT de varias cintas es recursivamente enumerable.",
+        pista: "Se simula una MT de k cintas con una MT de una cinta usando 2k pistas: k para los contenidos y k para los marcadores de cabeza.",
+        clasificacion: "A",
+        demostracion: `
+            <p><strong>Demostración.</strong> Sea M una MT de k cintas. Construimos N de una cinta con 2k pistas: las pistas impares guardan los contenidos de las cintas de M, las pares guardan un marcador para la posición de cada cabeza. N simula un movimiento de M:</p>
+            <ol>
+                <li>Localiza los k marcadores de cabeza leyendo la cinta.</li>
+                <li>Almacena los símbolos leídos en su estado.</li>
+                <li>Conoce el movimiento de M (estado, símbolos).</li>
+                <li>Actualiza cada pista de contenido y mueve los marcadores.</li>
+                <li>Cambia al estado simulado de M.</li>
+            </ol>
+            <p>N acepta cuando M entra en estado de aceptación. Luego L(N) = L(M). ✷</p>
+        `
+    },
+
+    // ========== TEOREMA 8.10 ==========
+    {
+        id: "8.10",
+        texto: "El tiempo de simulación de n movimientos de una MT de k cintas por una MT de una cinta es O(n²).",
+        pista: "Después de n movimientos, los marcadores de cabeza están a distancia ≤ 2n. Cada movimiento requiere O(n) pasos para recorrer la cinta. Luego n movimientos requieren O(n²).",
+        clasificacion: "B",
+        demostracion: `
+            <p><strong>Demostración.</strong> Después de n movimientos de M, los marcadores de cabeza no pueden estar separados más de 2n casillas. Para simular un movimiento, la MT N debe recorrer la cinta para encontrar todos los marcadores y luego actualizar el contenido, lo que requiere O(n) pasos. Por tanto, n movimientos requieren O(n²) pasos. ✷</p>
+        `
+    },
+
+    // ========== TEOREMA 8.11 ==========
+    {
+        id: "8.11",
+        texto: "Si M<sub>N</sub> es una MT no determinista, entonces existe una MT determinista M<sub>D</sub> tal que L(M<sub>N</sub>) = L(M<sub>D</sub>).",
+        pista: "Se usa una búsqueda en anchura sobre el árbol de configuraciones. La primera cinta guarda la cola de configuraciones; la segunda se usa para copiar.",
+        clasificacion: "A",
+        demostracion: `
+            <p><strong>Demostración.</strong> M<sub>D</sub> tiene tres cintas:</p>
+            <ol>
+                <li>Cola de configuraciones (IDs) de M<sub>N</sub>, con una marca en la configuración actual.</li>
+                <li>Cinta auxiliar para copiar.</li>
+                <li>(Opcional) para control.</li>
+            </ol>
+            <p>M<sub>D</sub> procesa la configuración actual: si es de aceptación, acepta. Si no, genera todas las configuraciones sucesoras (una por cada movimiento no determinista) y las añade al final de la cola. Luego marca la siguiente configuración.</p>
+            <p>La búsqueda en anchura garantiza que si M<sub>N</sub> tiene una computación de aceptación de n pasos, M<sub>D</sub> la encontrará después de explorar todas las configuraciones de profundidad ≤ n, que son finitas. ✷</p>
+        `
+    },
+
+    // ========== TEOREMA 8.12 ==========
+    {
+        id: "8.12",
+        texto: "Todo lenguaje aceptado por una MT M₂ es aceptado por una MT M₁ que nunca se mueve a la izquierda de su posición inicial y nunca escribe blancos.",
+        pista: "Para no escribir blancos, se introduce un nuevo símbolo B' que se comporta como blanco. Para no moverse a la izquierda, se usa una cinta semi-infinita con dos pistas (superior e inferior) para simular las dos mitades de la cinta.",
+        clasificacion: "B",
+        demostracion: `
+            <p><strong>Demostración.</strong> Primero se modifica M₂ para que nunca escriba blancos: se reemplaza cada blanco B por un nuevo símbolo B' (que no es B) y se añaden transiciones para B' que imitan a B.</p>
+            <p>Para evitar moverse a la izquierda, se usa una cinta con dos pistas: la pista superior almacena la mitad derecha de la cinta (desde la posición inicial hacia la derecha), y la inferior almacena la mitad izquierda en orden inverso. El marcador * en la posición inicial indica el límite. Los movimientos a la derecha se simulan en la pista superior; los movimientos a la izquierda en la inferior (en dirección opuesta). ✷</p>
+        `
+    },
+
+    // ========== TEOREMA 8.13 ==========
+    {
+        id: "8.13",
+        texto: "Si L es aceptado por una MT, entonces L es aceptado por una máquina de dos pilas.",
+        pista: "Una pila almacena el contenido a la izquierda de la cabeza (con la cabeza en la cima) y la otra almacena el contenido a la derecha (con la cabeza en la cima). Se simula cada movimiento de la MT.",
+        clasificacion: "A",
+        demostracion: `
+            <p><strong>Demostración.</strong> Se usa una pila para la parte izquierda de la cinta (con la casilla actual en la cima) y otra para la derecha.</p>
+            <ol>
+                <li>Se copia la entrada w en la primera pila, luego se pasa a la segunda (inviertiendo el orden) para que la cima sea el primer símbolo.</li>
+                <li>Para simular un movimiento:
+                    <ul>
+                        <li>La cima de la segunda pila es el símbolo actual.</li>
+                        <li>Si la pila está vacía, es un blanco.</li>
+                        <li>Se actualiza el estado y se mueve la cabeza: si se mueve a la derecha, se apila el símbolo en la primera pila y se extrae de la segunda; si se mueve a la izquierda, se extrae de la primera y se apila en la segunda.</li>
+                    </ul>
+                </li>
+            </ol>
+            <p>La máquina de dos pilas acepta cuando la MT simulada acepta. ✷</p>
+        `
+    },
+
+    // ========== TEOREMA 8.14 ==========
+    {
+        id: "8.14",
+        texto: "Todo lenguaje recursivamente enumerable es aceptado por una máquina de tres contadores.",
+        pista: "Se simula una máquina de dos pilas codificando cada pila como un entero en base r, usando dos contadores para las pilas y un tercero para multiplicar/dividir.",
+        clasificacion: "A",
+        demostracion: `
+            <p><strong>Demostración.</strong> Se simula una máquina de dos pilas con tres contadores:</p>
+            <ol>
+                <li>Se codifica una pila X₁X₂...Xₙ como entero Xₙr<sup>n-1</sup> + ... + X₂r + X₁ (base r).</li>
+                <li>Dos contadores almacenan los enteros de las dos pilas.</li>
+                <li>El tercer contador se usa para operaciones:
+                    <ul>
+                        <li><strong>Extraer:</strong> dividir el contador entre r (decrementar r veces, incrementar el tercero).</li>
+                        <li><strong>Apilar:</strong> multiplicar por r y sumar el nuevo símbolo (decrementar el contador, incrementar el tercero en r).</li>
+                        <li><strong>Cambiar cima:</strong> sumar/restar la diferencia entre símbolos.</li>
+                    </ul>
+                </li>
+            </ol>
+            <p>El determinismo se mantiene porque las operaciones aritméticas son deterministas. ✷</p>
+        `
+    },
+
+    // ========== TEOREMA 8.15 ==========
+    {
+        id: "8.15",
+        texto: "Todo lenguaje recursivamente enumerable es aceptado por una máquina de dos contadores.",
+        pista: "Se codifican tres contadores (i, j, k) en un único entero m = 2<sup>i</sup>3<sup>j</sup>5<sup>k</sup>. El segundo contador se usa para multiplicar/dividir por 2, 3 o 5.",
+        clasificacion: "A",
+        demostracion: `
+            <p><strong>Demostración.</strong> Se simula una máquina de tres contadores con dos contadores:</p>
+            <ul>
+                <li>El primer contador almacena m = 2<sup>i</sup>3<sup>j</sup>5<sup>k</sup>.</li>
+                <li>El segundo es auxiliar.</li>
+                <li><strong>Incrementar i:</strong> multiplicar m por 2.</li>
+                <li><strong>Decrementar i:</strong> dividir m por 2 (si no es divisible, la simulación falla).</li>
+                <li><strong>Probar si i=0:</strong> comprobar si m es divisible por 2 (copiando m al segundo contador y restando 2 repetidamente).</li>
+                <li>Análogo para j (factor 3) y k (factor 5).</li>
+            </ul>
+            <p>Las operaciones de multiplicación y división por constantes se realizan con el segundo contador (Teorema 8.14). ✷</p>
+        `
+    },
+
+    // ========== TEOREMA 8.17 ==========
+    {
+        id: "8.17",
+        texto: "Una MT puede simular n pasos de una computadora (con instrucciones que incrementan la longitud de palabra en ≤1 y ejecutables en O(k²) por una MT) en O(n³) pasos.",
+        pista: "La memoria ocupa O(n²) casillas después de n pasos. Cada instrucción requiere O(n²) tiempo para buscar direcciones y desplazar memoria. Luego n instrucciones toman O(n³).",
+        clasificacion: "B",
+        demostracion: `
+            <p><strong>Demostración.</strong> Después de n pasos, la computadora ha creado a lo sumo O(n²) palabras de memoria, cada una de longitud O(n). La MT que simula la computadora usa una cinta con todas las direcciones y contenidos. Cada instrucción requiere:</p>
+            <ol>
+                <li>Buscar direcciones (O(n²) tiempo en la MT).</li>
+                <li>Ejecutar la operación (O(n²) por suposición).</li>
+                <li>Desplazar memoria para hacer espacio para nuevas palabras (O(n²) por movimiento).</li>
+            </ol>
+            <p>Por tanto, cada paso se simula en O(n²), y n pasos en O(n³). ✷</p>
+        `
+    },
+
+    // ========== TEOREMA 8.18 ==========
+    {
+        id: "8.18",
+        texto: "Una computadora del tipo descrito en el Teorema 8.17 puede ser simulada por una MT de una cinta en O(n⁶) pasos.",
+        pista: "Se simula la MT de varias cintas del Teorema 8.17 con una MT de una cinta, lo que añade un factor O(n²) (Teorema 8.10). Luego O(n³)·O(n²) = O(n⁵) en realidad, pero el enunciado dice O(n⁶) por holgura.",
+        clasificacion: "B",
+        demostracion: `
+            <p><strong>Demostración.</strong> Por el Teorema 8.17, una MT de varias cintas simula la computadora en O(n³) pasos. Por el Teorema 8.10, una MT de una cinta simula a la MT de varias cintas con un factor O(n²) adicional. Por tanto, el tiempo total es O(n³)·O(n²) = O(n⁵) (o O(n⁶) si se usa una cota más holgada). ✷</p>
+        `
+    },
+
+    // ========== TEOREMA 9.2 ==========
+    {
+        id: "9.2",
+        texto: "L<sub>d</sub> = { wᵢ | Mᵢ no acepta wᵢ } no es recursivamente enumerable.",
+        pista: "Demostración por contradicción: si L<sub>d</sub> = L(M), entonces M = Mᵢ para algún i. Se evalúa si wᵢ ∈ L<sub>d</sub>, lo que lleva a una contradicción (wᵢ ∈ L<sub>d</sub> ⇔ wᵢ ∉ L<sub>d</sub>).",
+        clasificacion: "A",
+        demostracion: `
+            <p><strong>Demostración.</strong> Supongamos que L<sub>d</sub> = L(M) para alguna MT M. Como L<sub>d</sub> ⊆ {0,1}*, M está en la enumeración de MT, digamos M = Mᵢ.</p>
+            <p>Consideremos wᵢ:</p>
+            <ul>
+                <li>Si wᵢ ∈ L<sub>d</sub>, entonces Mᵢ acepta wᵢ. Pero por definición de L<sub>d</sub>, wᵢ ∉ L<sub>d</sub>. Contradicción.</li>
+                <li>Si wᵢ ∉ L<sub>d</sub>, entonces Mᵢ no acepta wᵢ. Pero por definición de L<sub>d</sub>, wᵢ ∈ L<sub>d</sub>. Contradicción.</li>
+            </ul>
+            <p>En ambos casos hay contradicción. Luego L<sub>d</sub> no es RE. ✷</p>
+        `
+    },
+
+    // ========== TEOREMA 9.3 ==========
+    {
+        id: "9.3",
+        texto: "Si L es recursivo, entonces complemento(L) también es recursivo.",
+        pista: "Dada una MT M que siempre para y acepta L, se construye M' que invierte aceptación y rechazo. M' siempre para y acepta complemento(L).",
+        clasificacion: "A",
+        demostracion: `
+            <p><strong>Demostración.</strong> Sea L = L(M) con M siempre para. Construimos M' que simula M pero:</p>
+            <ol>
+                <li>Los estados de aceptación de M se convierten en estados de rechazo sin transiciones.</li>
+                <li>Se añade un nuevo estado de aceptación r.</li>
+                <li>Para cada estado de no aceptación de M sin transiciones (rechazo), se añade una transición a r.</li>
+            </ol>
+            <p>M' siempre para y acepta exactamente las cadenas que M rechaza. Luego L(M') = complemento(L). ✷</p>
+        `
+    },
+
+    // ========== TEOREMA 9.4 ==========
+    {
+        id: "9.4",
+        texto: "Si L y complemento(L) son ambos RE, entonces L es recursivo.",
+        pista: "Se simulan en paralelo las MT que aceptan L y complemento(L). Una de ellas aceptará siempre. Si acepta L, se acepta; si acepta complemento(L), se rechaza.",
+        clasificacion: "A",
+        demostracion: `
+            <p><strong>Demostración.</strong> Sean L = L(M₁) y complemento(L) = L(M₂). Construimos M que simula M₁ y M₂ en paralelo (usando dos cintas).</p>
+            <ul>
+                <li>Si M₁ acepta w, M acepta y se para.</li>
+                <li>Si M₂ acepta w, M rechaza y se para.</li>
+            </ul>
+            <p>Como w ∈ L o w ∈ complemento(L), exactamente una de las dos simulaciones acepta. Luego M siempre para y L(M) = L. Por tanto, L es recursivo. ✷</p>
+        `
+    },
+
+    // ========== TEOREMA 9.6 ==========
+    {
+        id: "9.6",
+        texto: "L<sub>u</sub> = { (M, w) | M acepta w } es RE pero no recursivo.",
+        pista: "L<sub>u</sub> es RE (se simula M con w y se acepta si para). No es recursivo porque si lo fuera, su complemento sería recursivo, y entonces se podría decidir L<sub>d</sub> (contradicción con Teorema 9.2).",
+        clasificacion: "A",
+        demostracion: `
+            <p><strong>Demostración.</strong> L<sub>u</sub> es RE: existe una MT universal que simula M sobre w y acepta si M acepta.</p>
+            <p>Supongamos que L<sub>u</sub> es recursivo. Entonces complemento(L<sub>u</sub>) es recursivo (Teorema 9.3). Construimos una MT que decide L<sub>d</sub>:</p>
+            <ol>
+                <li>Dada wᵢ, construye el par (Mᵢ, wᵢ).</li>
+                <li>Usa la MT que decide complemento(L<sub>u</sub>) para saber si Mᵢ no acepta wᵢ.</li>
+            </ol>
+            <p>Esto decidiría L<sub>d</sub>, contradiciendo el Teorema 9.2. Luego L<sub>u</sub> no es recursivo. ✷</p>
+        `
     }
 ];
 
