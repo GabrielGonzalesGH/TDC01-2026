@@ -338,6 +338,120 @@ const teoremas = [
         demostracion: `
             <p><strong>Demostración.</strong> Sea L = L(A) con A = (Q, T, δ, q₀, F). Definimos un AFD B = (Q, Σ, γ, q₀, F) donde γ(q, a) = δ̂(q, h(a)). Es decir, para un símbolo a ∈ Σ, B simula las transiciones de A a lo largo de la cadena h(a) (que puede ser ε, un símbolo o varios). Por inducción sobre |w| se demuestra que γ̂(q₀, w) = δ̂(q₀, h(w)). Por tanto, B acepta w si y solo si A acepta h(w), es decir, w ∈ h<sup>−1</sup>(L). Luego h<sup>−1</sup>(L) es regular. ✷</p>
         `
+    },
+        // ========== TEOREMA 4.20 ==========
+    {
+        id: "4.20",
+        texto: "Si dos estados no pueden distinguirse mediante el algoritmo de llenado de tabla, entonces los estados son equivalentes.",
+        pista: "Se demuestra por contradicción: si existe un par malo (distinguible pero no marcado), se toma el de cadena más corta y se llega a una contradicción.",
+        clasificacion: "A",
+        demostracion: `
+            <p><strong>Demostración.</strong> Supongamos que existe un AFD A = (Q, Σ, δ, q₀, F) y un par de estados {p, q} tal que:</p>
+            <ol>
+                <li>Los estados p y q son distinguibles (existe w con δ(p,w) ∈ F y δ(q,w) ∉ F, o viceversa).</li>
+                <li>El algoritmo de llenado de tabla no los marca como distinguibles.</li>
+            </ol>
+            <p>Llamemos a este par <em>par malo</em>. Si existen pares malos, elegimos uno que sea distinguible mediante la cadena más corta posible, digamos w = a₁a₂...aₙ.</p>
+            <p>w no puede ser ε, porque si ε distinguiera, el caso base del algoritmo los habría marcado. Luego n ≥ 1. Sean r = δ(p, a₁) y s = δ(q, a₁). La cadena a₂...aₙ distingue r y s, y es más corta que cualquier cadena que distinga un par malo, así que {r, s} no es un par malo. Por tanto, el algoritmo los marca como distinguibles.</p>
+            <p>Pero el paso inductivo del algoritmo, al ver que δ(p, a₁) = r es distinguible de δ(q, a₁) = s, también marcaría {p, q}. Contradicción. Luego no existen pares malos, y todo par distinguible es marcado. ✷</p>
+        `
+    },
+
+    // ========== TEOREMA 4.23 ==========
+    {
+        id: "4.23",
+        texto: "La equivalencia de estados es transitiva. Es decir, si p ≡ q y q ≡ r, entonces p ≡ r.",
+        pista: "Si p y r fueran distinguibles, se sigue que o bien p y q, o bien q y r, también lo serían.",
+        clasificacion: "B",
+        demostracion: `
+            <p><strong>Demostración.</strong> Supongamos que p ≡ q y q ≡ r, pero p y r son distinguibles. Entonces existe una cadena w tal que δ(p, w) ∈ F y δ(r, w) ∉ F (o viceversa). Consideremos δ(q, w):</p>
+            <ul>
+                <li>Si δ(q, w) ∈ F, entonces q y r son distinguibles (contradicción).</li>
+                <li>Si δ(q, w) ∉ F, entonces p y q son distinguibles (contradicción).</li>
+            </ul>
+            <p>Por tanto, p y r no pueden ser distinguibles, luego son equivalentes. ✷</p>
+        `
+    },
+
+    // ========== TEOREMA 4.24 ==========
+    {
+        id: "4.24",
+        texto: "Si creamos para cada estado q de un AFD un bloque formado por q y todos los estados equivalentes a q, entonces los distintos bloques forman una partición del conjunto de estados. Todos los miembros de un bloque son equivalentes y ningún par de estados de bloques diferentes son equivalentes.",
+        pista: "La equivalencia es relación de equivalencia (reflexiva, simétrica, transitiva), por lo que sus clases de equivalencia forman una partición.",
+        clasificacion: "B",
+        demostracion: `
+            <p><strong>Demostración.</strong> La relación de equivalencia entre estados es, por definición, reflexiva (q ≡ q), simétrica (si p ≡ q entonces q ≡ p) y transitiva (Teorema 4.23). Por tanto, las clases de equivalencia (los bloques) forman una partición del conjunto de estados. Cada estado pertenece a exactamente una clase, todos los estados en una misma clase son equivalentes entre sí, y dos estados de clases distintas no son equivalentes. ✷</p>
+        `
+    },
+
+    // ========== TEOREMA 4.26 ==========
+    {
+        id: "4.26",
+        texto: "Si A es un AFD y M es el AFD construido mediante el algoritmo de minimización (agrupando estados equivalentes), entonces el número de estados de M es menor que el de cualquier AFD equivalente a A.",
+        pista: "Se demuestra que cualquier AFD equivalente debe tener al menos tantos estados como clases de equivalencia, porque cada clase requiere un estado distinto.",
+        clasificacion: "A",
+        demostracion: `
+            <p><strong>Demostración.</strong> Sea A un AFD y M su minimización por partición de estados equivalentes. Supongamos que existe otro AFD B equivalente a A con menos estados que M. Entonces, por el Teorema 4.24, los estados de M corresponden a las clases de equivalencia de A. Cada estado de B debe distinguir al menos una clase de equivalencia, pues si dos clases diferentes se fusionaran en un mismo estado de B, entonces B no podría distinguir cadenas que A sí distingue. Por tanto, B necesita al menos tantos estados como clases de equivalencia, es decir, tantos como estados tiene M. Luego M tiene el número mínimo de estados. ✷</p>
+        `
+    },
+
+    // ========== TEOREMA 5.7 ==========
+    {
+        id: "5.7",
+        texto: "L(G<sub>pal</sub>) es el conjunto de todos los palíndromos sobre {0, 1}.",
+        pista: "Demostración por doble inclusión usando inducción sobre la longitud de la cadena y sobre la derivación.",
+        clasificacion: "B",
+        demostracion: `
+            <p><strong>Demostración.</strong> Sea G<sub>pal</sub> la gramática con producciones P → ε | 0 | 1 | 0P0 | 1P1. Demostramos que w ∈ L(G<sub>pal</sub>) si y solo si w es un palíndromo (w = w<sup>R</sup>).</p>
+            <p><strong>Parte Si (w palíndromo ⇒ w ∈ L(G<sub>pal</sub>)):</strong> Inducción sobre |w|.</p>
+            <ul>
+                <li><strong>Base:</strong> |w| = 0 o 1: ε, 0, 1 se derivan directamente (P → ε, P → 0, P → 1).</li>
+                <li><strong>Paso:</strong> |w| ≥ 2. Como w es palíndromo, w = 0x0 o w = 1x1, y x es palíndromo. Por hipótesis inductiva, P ⇒* x. Luego P ⇒ 0P0 ⇒* 0x0 = w, o similar con 1.</li>
+            </ul>
+            <p><strong>Parte Sólo si (w ∈ L(G<sub>pal</sub>) ⇒ w palíndromo):</strong> Inducción sobre el número de pasos de la derivación.</p>
+            <ul>
+                <li><strong>Base:</strong> Un paso: P ⇒ ε, P ⇒ 0, P ⇒ 1, todos palíndromos.</li>
+                <li><strong>Paso:</strong> Si la derivación usa más de un paso, el primer paso debe ser P ⇒ 0P0 o P ⇒ 1P1. Luego w = 0x0 o 1x1, donde P ⇒* x en menos pasos. Por hipótesis inductiva, x es palíndromo, y entonces 0x0 y 1x1 también lo son. ✷</li>
+            </ul>
+        `
+    },
+
+    // ========== TEOREMA 5.12 ==========
+    {
+        id: "5.12",
+        texto: "Sea G = (V, T, P, S) una GIC. Si el procedimiento de inferencia recursiva dice que la cadena terminal w pertenece al lenguaje de la variable A, entonces existe un árbol de derivación con raíz A y resultado w.",
+        pista: "Demostración por inducción sobre el número de pasos de inferencia. Se construye el árbol a partir de la producción usada en el último paso.",
+        clasificacion: "A",
+        demostracion: `
+            <p><strong>Demostración.</strong> Inducción sobre el número de pasos de inferencia.</p>
+            <p><strong>BASE:</strong> Un paso. Entonces se usó el caso básico, luego existe una producción A → w (con w cadena de terminales). El árbol con raíz A y hojas w es válido (si w = ε, una hoja ε).</p>
+            <p><strong>PASO INDUCTIVO:</strong> Supongamos que w se infiere en n+1 pasos. El último paso usa una producción A → X₁X₂...Xₖ, donde cada Xᵢ es terminal o variable. Dividimos w = w₁w₂...wₖ, donde si Xᵢ es terminal, wᵢ = Xᵢ; si es variable, wᵢ pertenece al lenguaje de Xᵢ y se infirió en ≤ n pasos. Por hipótesis inductiva, para cada variable Xᵢ existe un árbol de raíz Xᵢ y resultado wᵢ. Construimos un árbol con raíz A, hijos X₁...Xₖ, y cada hijo es raíz del subárbol correspondiente (o hoja si es terminal). El resultado es w. ✷</p>
+        `
+    },
+
+    // ========== TEOREMA 5.14 ==========
+    {
+        id: "5.14",
+        texto: "Sea G = (V, T, P, S) una GIC. Si existe un árbol de derivación con raíz A y resultado w (w ∈ T*), entonces existe una derivación más a la izquierda A ⇒*<sub>lm</sub> w.",
+        pista: "Inducción sobre la altura del árbol. Se expanden los hijos de izquierda a derecha, reemplazando cada variable por su derivación izquierda.",
+        clasificacion: "A",
+        demostracion: `
+            <p><strong>Demostración.</strong> Inducción sobre la altura del árbol.</p>
+            <p><strong>BASE:</strong> Altura 1. Entonces A → w es una producción, y A ⇒<sub>lm</sub> w es una derivación izquierda de un paso.</p>
+            <p><strong>PASO INDUCTIVO:</strong> Altura n > 1. El árbol tiene raíz A, hijos X₁...Xₖ, y resultado w = w₁...wₖ, donde cada wᵢ es el resultado del subárbol con raíz Xᵢ (si Xᵢ es terminal, wᵢ = Xᵢ). Por hipótesis inductiva, para cada variable Xᵢ existe una derivación izquierda Xᵢ ⇒*<sub>lm</sub> wᵢ.</p>
+            <p>Construimos una derivación izquierda de w: primero A ⇒<sub>lm</sub> X₁X₂...Xₖ. Luego, para i = 1...k, expandimos Xᵢ de izquierda a derecha usando la derivación izquierda de wᵢ, manteniendo el resto de los símbolos sin tocar. Al final obtenemos w. ✷</p>
+        `
+    },
+
+    // ========== TEOREMA 5.16 ==========
+    {
+        id: "5.16",
+        texto: "Sea G = (V, T, P, S) una GIC. Si existe un árbol de derivación con raíz A y resultado w (w ∈ T*), entonces existe una derivación más a la derecha A ⇒*<sub>rm</sub> w.",
+        pista: "Análogo al Teorema 5.14, pero expandiendo los hijos de derecha a izquierda.",
+        clasificacion: "B",
+        demostracion: `
+            <p><strong>Demostración.</strong> La demostración es simétrica a la del Teorema 5.14, pero expandiendo los símbolos de la parte derecha de la producción en orden inverso (de derecha a izquierda). Se aplica inducción sobre la altura del árbol y se construye una derivación más a la derecha. Los detalles son idénticos intercambiando "izquierda" por "derecha". ✷</p>
+        `
     }
 ];
 
