@@ -452,6 +452,244 @@ const teoremas = [
         demostracion: `
             <p><strong>Demostración.</strong> La demostración es simétrica a la del Teorema 5.14, pero expandiendo los símbolos de la parte derecha de la producción en orden inverso (de derecha a izquierda). Se aplica inducción sobre la altura del árbol y se construye una derivación más a la derecha. Los detalles son idénticos intercambiando "izquierda" por "derecha". ✷</p>
         `
+    },
+        // ========== TEOREMA 5.18 ==========
+    {
+        id: "5.18",
+        texto: "Sea G = (V, T, P, S) una GIC. Si existe una derivación A ⇒*<sub>G</sub> w (w ∈ T*), entonces el procedimiento de inferencia recursiva determina que w pertenece al lenguaje de la variable A.",
+        pista: "Inducción sobre la longitud de la derivación. Se descompone el primer paso y se aplica la hipótesis inductiva a cada variable.",
+        clasificacion: "A",
+        demostracion: `
+            <p><strong>Demostración.</strong> Inducción sobre la longitud de la derivación A ⇒* w.</p>
+            <p><strong>BASE:</strong> Un paso. Entonces A → w es una producción, y el caso base de la inferencia recursiva lo descubre.</p>
+            <p><strong>PASO INDUCTIVO:</strong> Supongamos la derivación usa n+1 pasos: A ⇒ X₁X₂...Xₖ ⇒* w. Descomponemos w = w₁w₂...wₖ donde:</p>
+            <ul>
+                <li>Si Xᵢ es terminal, wᵢ = Xᵢ.</li>
+                <li>Si Xᵢ es variable, Xᵢ ⇒* wᵢ en ≤ n pasos. Por hipótesis inductiva, se infiere que wᵢ está en el lenguaje de Xᵢ.</li>
+            </ul>
+            <p>Luego, usando la producción A → X₁...Xₖ, el procedimiento de inferencia deduce que w₁...wₖ = w está en el lenguaje de A. ✷</p>
+        `
+    },
+
+    // ========== TEOREMA 5.29 ==========
+    {
+        id: "5.29",
+        texto: "Para toda GIC G y cadena w ∈ T*, w tiene dos árboles de derivación distintos si y solo si w tiene dos derivaciones a la izquierda distintas desde S.",
+        pista: "La correspondencia entre árboles y derivaciones izquierdas es biyectiva. Árboles distintos producen derivaciones izquierdas distintas y viceversa.",
+        clasificacion: "A",
+        demostracion: `
+            <p><strong>Demostración.</strong></p>
+            <p><strong>Parte Sólo-si (árboles distintos ⇒ derivaciones izquierdas distintas):</strong> En la construcción de una derivación izquierda a partir de un árbol (Teorema 5.14), si dos árboles difieren en algún nodo (usan producciones distintas), las derivaciones izquierdas construidas también difieren en ese punto.</p>
+            <p><strong>Parte Si (derivaciones izquierdas distintas ⇒ árboles distintos):</strong> Construimos el árbol a partir de la derivación izquierda expandiendo el nodo más a la izquierda en cada paso. Si dos derivaciones difieren en el primer paso donde usan producciones distintas, los árboles tendrán hijos distintos en ese nodo. Por tanto, los árboles son distintos. ✷</p>
+        `
+    },
+
+    // ========== TEOREMA 6.5 ==========
+    {
+        id: "6.5",
+        texto: "Si (q, x, α) ⇒*<sub>P</sub> (p, y, β), entonces para cualquier w ∈ Σ* y γ ∈ Γ*, (q, xw, αγ) ⇒*<sub>P</sub> (p, yw, βγ).",
+        pista: "Principio de inserción: se pueden añadir símbolos a la entrada y a la pila sin afectar la computación.",
+        clasificacion: "A",
+        demostracion: `
+            <p><strong>Demostración.</strong> Por inducción sobre el número de pasos de la secuencia (q, x, α) ⇒* (p, y, β). Cada movimiento está justificado por una transición de P. Al añadir w a la entrada y γ a la pila, las transiciones siguen siendo válidas porque no dependen de esos símbolos adicionales. Por tanto, la misma secuencia de movimientos es válida con (q, xw, αγ) como configuración inicial. ✷</p>
+        `
+    },
+
+    // ========== TEOREMA 6.6 ==========
+    {
+        id: "6.6",
+        texto: "Si (q, xw, α) ⇒*<sub>P</sub> (p, yw, β), entonces (q, x, α) ⇒*<sub>P</sub> (p, y, β).",
+        pista: "Principio de extracción: se pueden eliminar símbolos comunes de la entrada sin afectar la computación.",
+        clasificacion: "A",
+        demostracion: `
+            <p><strong>Demostración.</strong> Análogo al Teorema 6.5. Si los símbolos w en la entrada no son consumidos durante la computación (porque permanecen al final), la misma secuencia de movimientos es válida sin ellos. Por tanto, (q, x, α) ⇒* (p, y, β). ✷</p>
+        `
+    },
+
+    // ========== TEOREMA 6.9 ==========
+    {
+        id: "6.9",
+        texto: "Si L = N(P<sub>N</sub>) para un autómata a pila P<sub>N</sub>, entonces existe un autómata a pila P<sub>F</sub> tal que L = L(P<sub>F</sub>). Es decir, todo lenguaje aceptado por pila vacía también es aceptado por estado final.",
+        pista: "Se añade un marcador de fondo X₀ para detectar cuándo la pila está vacía, y se usa un nuevo estado final.",
+        clasificacion: "A",
+        demostracion: `
+            <p><strong>Demostración.</strong> Sea P<sub>N</sub> = (Q, Σ, Γ, δ<sub>N</sub>, q₀, Z₀). Construimos P<sub>F</sub> = (Q ∪ {p₀, p<sub>f</sub>}, Σ, Γ ∪ {X₀}, δ<sub>F</sub>, p₀, X₀, {p<sub>f</sub>}) donde:</p>
+            <ol>
+                <li>δ<sub>F</sub>(p₀, ε, X₀) = {(q₀, Z₀X₀)} — introduce el símbolo inicial de P<sub>N</sub>.</li>
+                <li>δ<sub>F</sub>(q, a, Y) contiene δ<sub>N</sub>(q, a, Y) para todo q ∈ Q, a ∈ Σ∪{ε}, Y ∈ Γ — simula P<sub>N</sub>.</li>
+                <li>δ<sub>F</sub>(q, ε, X₀) contiene (p<sub>f</sub>, ε) para todo q ∈ Q — detecta pila vacía.</li>
+            </ol>
+            <p>Si P<sub>N</sub> vacía su pila: (q₀, w, Z₀) ⇒* (q, ε, ε). Por el Teorema 6.5, (q₀, w, Z₀X₀) ⇒* (q, ε, X₀). Luego P<sub>F</sub> hace: (p₀, w, X₀) ⇒ (q₀, w, Z₀X₀) ⇒* (q, ε, X₀) ⇒ (p<sub>f</sub>, ε, ε). Así que w ∈ L(P<sub>F</sub>).</p>
+            <p>El recíproco es similar: la única forma de aceptar en P<sub>F</sub> es usando la regla (3), lo que implica que P<sub>N</sub> vació su pila. ✷</p>
+        `
+    },
+
+    // ========== TEOREMA 6.11 ==========
+    {
+        id: "6.11",
+        texto: "Sea L = L(P<sub>F</sub>) para un autómata a pila P<sub>F</sub>. Entonces existe un autómata a pila P<sub>N</sub> tal que L = N(P<sub>N</sub>). Es decir, todo lenguaje aceptado por estado final también es aceptado por pila vacía.",
+        pista: "Se añade un marcador X₀ y un estado p que vacía la pila cuando P<sub>F</sub> entra en estado de aceptación.",
+        clasificacion: "A",
+        demostracion: `
+            <p><strong>Demostración.</strong> Sea P<sub>F</sub> = (Q, Σ, Γ, δ<sub>F</sub>, q₀, Z₀, F). Construimos P<sub>N</sub> = (Q ∪ {p₀, p}, Σ, Γ ∪ {X₀}, δ<sub>N</sub>, p₀, X₀) donde:</p>
+            <ol>
+                <li>δ<sub>N</sub>(p₀, ε, X₀) = {(q₀, Z₀X₀)} — introduce Z₀.</li>
+                <li>δ<sub>N</sub>(q, a, Y) = δ<sub>F</sub>(q, a, Y) para todo q ∈ Q, a ∈ Σ∪{ε}, Y ∈ Γ — simula P<sub>F</sub>.</li>
+                <li>δ<sub>N</sub>(q, ε, Y) contiene (p, ε) para todo q ∈ F y todo Y ∈ Γ∪{X₀} — cuando P<sub>F</sub> acepta, empieza a vaciar.</li>
+                <li>δ<sub>N</sub>(p, ε, Y) = {(p, ε)} para todo Y ∈ Γ∪{X₀} — vacía toda la pila.</li>
+            </ol>
+            <p>La demostración es análoga a la del Teorema 6.9, pero en sentido inverso. ✷</p>
+        `
+    },
+
+    // ========== TEOREMA 6.13 ==========
+    {
+        id: "6.13",
+        texto: "Si un autómata a pila P se construye a partir de una GIC G mediante la construcción de la Figura 6.8 (simulación de derivaciones izquierdas), entonces N(P) = L(G).",
+        pista: "Se simulan las derivaciones más a la izquierda de G. La pila contiene la cola de la forma sentencial y la entrada contiene el prefijo no consumido.",
+        clasificacion: "A",
+        demostracion: `
+            <p><strong>Demostración.</strong> La construcción de P tiene dos reglas:</p>
+            <ol>
+                <li>Si A → β es una producción, P puede reemplazar A en la cima de la pila por β (consumiendo ε).</li>
+                <li>Si un terminal a está en la cima de la pila, P puede consumirlo de la entrada.</li>
+            </ol>
+            <p><strong>Parte Si (w ∈ L(G) ⇒ w ∈ N(P)):</strong> Si S ⇒*<sub>lm</sub> w, por inducción sobre la derivación izquierda, P simula cada paso: las producciones se aplican en la pila y los terminales se consumen de la entrada. Al final, la pila queda vacía y la entrada consumida, luego P acepta por pila vacía.</p>
+            <p><strong>Parte Sólo-si (w ∈ N(P) ⇒ w ∈ L(G)):</strong> Si P vacía su pila al leer w, la secuencia de movimientos corresponde a una derivación izquierda en G. Se demuestra por inducción sobre el número de movimientos que la pila contiene la cola de una forma sentencial izquierda. Al final, la pila vacía y entrada consumida implican S ⇒* w. ✷</p>
+        `
+    },
+
+    // ========== TEOREMA 6.14 ==========
+    {
+        id: "6.14",
+        texto: "Sea P = (Q, Σ, Γ, δ, q₀, Z₀) un autómata a pila. Entonces existe una GIC G tal que L(G) = N(P).",
+        pista: "Las variables de G son de la forma [pXq], que generan las cadenas que hacen que P pase de p a q extrayendo X.",
+        clasificacion: "A",
+        demostracion: `
+            <p><strong>Demostración.</strong> Construimos G = (V, Σ, R, S) donde:</p>
+            <ul>
+                <li>V = {S} ∪ { [pXq] | p, q ∈ Q, X ∈ Γ }</li>
+                <li>Producciones: S → [q₀Z₀p] para todo p ∈ Q</li>
+                <li>Si δ(q, a, X) contiene (r, Y₁Y₂...Yₖ), entonces para todo r₁,...,rₖ ∈ Q:
+                    <br>[qXrₖ] → a [rY₁r₁] [r₁Y₂r₂] ... [rₖ₋₁Yₖrₖ]</li>
+            </ul>
+            <p>Se demuestra (por inducción sobre movimientos/derivaciones) que:</p>
+            <pre>[qXp] ⇒* w ⇔ (q, w, X) ⇒* (p, ε, ε)</pre>
+            <p>Luego S ⇒* w ⇔ (q₀, w, Z₀) ⇒* (p, ε, ε) para algún p, es decir, w ∈ N(P). ✷</p>
+        `
+    },
+
+    // ========== TEOREMA 6.17 ==========
+    {
+        id: "6.17",
+        texto: "Si L es un lenguaje regular, entonces L = L(P) para algún autómata a pila determinista P.",
+        pista: "Un APD puede simular un AFD ignorando la pila. Solo se usa el estado.",
+        clasificacion: "B",
+        demostracion: `
+            <p><strong>Demostración.</strong> Sea A = (Q, Σ, δ<sub>A</sub>, q₀, F) un AFD. Construimos un APD P = (Q, Σ, {Z₀}, δ<sub>P</sub>, q₀, Z₀, F) con δ<sub>P</sub>(q, a, Z₀) = {(p, Z₀)} donde δ<sub>A</sub>(q, a) = p.</p>
+            <p>P simplemente simula A usando su estado, ignorando la pila. Por inducción sobre |w|, se demuestra que (q₀, w, Z₀) ⇒* (p, ε, Z₀) si y solo si δ<sub>A</sub>(q₀, w) = p. Como los estados de aceptación son los mismos, L(P) = L(A). ✷</p>
+        `
+    },
+
+    // ========== TEOREMA 6.19 ==========
+    {
+        id: "6.19",
+        texto: "Un lenguaje L es N(P) para algún autómata a pila P si y solo si L tiene la propiedad de prefijo y L = L(P') para algún APD P'. Es decir, la aceptación por pila vacía en APD corresponde a lenguajes con propiedad de prefijo aceptados por estado final.",
+        pista: "Teorema fundamental que relaciona APD por pila vacía y por estado final. La propiedad de prefijo evita ambigüedades.",
+        clasificacion: "A",
+        demostracion: `
+            <p><strong>Demostración.</strong> Este teorema es un resultado fundamental. La demostración completa es extensa, pero la idea es:</p>
+            <ul>
+                <li>Si L = N(P) con P determinista, entonces L tiene la propiedad de prefijo (ninguna cadena de L es prefijo de otra en L).</li>
+                <li>Si L tiene la propiedad de prefijo y L = L(P') para un APD P', entonces se puede modificar P' para que acepte por pila vacía añadiendo un marcador de final y vaciando la pila al final.</li>
+            </ul>
+            <p>La construcción es similar a la de los Teoremas 6.9 y 6.11, pero garantizando determinismo gracias a la propiedad de prefijo. ✷</p>
+        `
+    },
+
+    // ========== TEOREMA 6.20 ==========
+    {
+        id: "6.20",
+        texto: "Si L = N(P) para algún APD P, entonces L tiene una gramática independiente del contexto no ambigua.",
+        pista: "La construcción del Teorema 6.14 aplicada a un APD produce una GIC no ambigua, porque el determinismo garantiza derivaciones izquierdas únicas.",
+        clasificacion: "A",
+        demostracion: `
+            <p><strong>Demostración.</strong> Aplicamos la construcción del Teorema 6.14 a P. Las variables son [pXq]. Como P es determinista, para cada configuración (q, a, X) hay a lo sumo un movimiento. En la gramática, para cada producción [qXrₖ] → a [rY₁r₁]... sólo una secuencia de estados intermedios es consistente con la computación real de P. Por tanto, cada cadena w tiene una única derivación izquierda. Por el Teorema 5.29, si las derivaciones izquierdas son únicas, la gramática no es ambigua. ✷</p>
+        `
+    },
+
+    // ========== TEOREMA 6.21 ==========
+    {
+        id: "6.21",
+        texto: "Si L = L(P) para un APD P, entonces L tiene una GIC no ambigua.",
+        pista: "Se añade un marcador de final $ a L, se aplica el Teorema 6.19 para obtener un APD por pila vacía, luego el Teorema 6.20, y finalmente se elimina $ como variable.",
+        clasificacion: "A",
+        demostracion: `
+            <p><strong>Demostración.</strong> Sea $ un símbolo que no aparece en L. Definimos L$ = { w$ | w ∈ L }. L$ tiene la propiedad de prefijo (ninguna cadena en L$ es prefijo de otra en L$). Por el Teorema 6.19, L$ = N(P') para algún APD P'. Por el Teorema 6.20, existe una GIC no ambigua G' con L(G') = L$.</p>
+            <p>Ahora construimos G a partir de G' reemplazando $ por ε (tratando $ como variable y añadiendo $ → ε). Entonces L(G) = L. Si G tuviera dos derivaciones izquierdas para alguna w, entonces G' tendría dos derivaciones izquierdas para w$, contradiciendo la no ambigüedad de G'. Luego G es no ambigua. ✷</p>
+        `
+    },
+
+    // ========== TEOREMA 7.2 ==========
+    {
+        id: "7.2",
+        texto: "Sea G = (V, T, P, S) una GIC con L(G) ≠ ∅. Sea G₁ la gramática obtenida eliminando (1) símbolos no generadores y luego (2) símbolos no alcanzables. Entonces G₁ no tiene símbolos inútiles y L(G₁) = L(G).",
+        pista: "Dos pasos: primero eliminar no generadores, luego no alcanzables. El orden es importante.",
+        clasificacion: "B",
+        demostracion: `
+            <p><strong>Demostración.</strong> Sea G₂ la gramática tras eliminar no generadores. Si X permanece en G₁, entonces:</p>
+            <ol>
+                <li>X ⇒* w para algún w ∈ T* (porque es generador en G₂).</li>
+                <li>S ⇒* αXβ (porque es alcanzable en G₂).</li>
+            </ol>
+            <p>Como todos los símbolos en αXβ son generadores y alcanzables, la derivación αXβ ⇒* xwy es válida en G₁. Luego X es útil.</p>
+            <p>Para L(G₁) = L(G):</p>
+            <ul>
+                <li>L(G₁) ⊆ L(G): trivial (solo eliminamos producciones).</li>
+                <li>L(G) ⊆ L(G₁): si w ∈ L(G), la derivación S ⇒* w usa solo símbolos generadores y alcanzables, por lo que también es derivación en G₁.</li>
+            </ul>
+            <p>Por tanto, L(G₁) = L(G). ✷</p>
+        `
+    },
+
+    // ========== TEOREMA 7.4 ==========
+    {
+        id: "7.4",
+        texto: "El algoritmo que encuentra símbolos generadores (los que derivan en terminales) encuentra todos y solo los símbolos generadores.",
+        pista: "Demostración por inducción: (⇒) cada símbolo añadido deriva en terminales; (⇐) si X ⇒* w, se demuestra por inducción sobre la derivación que X es generador.",
+        clasificacion: "B",
+        demostracion: `
+            <p><strong>Demostración.</strong> El algoritmo es:</p>
+            <ol>
+                <li>Base: todos los terminales son generadores.</li>
+                <li>Paso: si A → α y todo símbolo en α es generador, entonces A es generador.</li>
+            </ol>
+            <p><strong>Parte (⇒):</strong> Si X es añadido, por inducción sobre el orden de adición, X ⇒* w para algún w ∈ T*.</p>
+            <p><strong>Parte (⇐):</strong> Si X ⇒* w, se demuestra por inducción sobre la longitud de la derivación:</p>
+            <ul>
+                <li>Base: 0 pasos ⇒ X es terminal (base del algoritmo).</li>
+                <li>Paso: X ⇒ α ⇒* w. Cada símbolo de α deriva en una subcadena terminal en menos pasos, así que son generadores. Luego el paso inductivo del algoritmo añade X.</li>
+            </ul>
+            <p>Por tanto, el algoritmo encuentra exactamente los generadores. ✷</p>
+        `
+    },
+
+    // ========== TEOREMA 7.6 ==========
+    {
+        id: "7.6",
+        texto: "El algoritmo que encuentra símbolos alcanzables (desde S) encuentra todos y solo los símbolos alcanzables.",
+        pista: "Demostración por inducción sobre el orden de descubrimiento. Se deja como ejercicio al lector.",
+        clasificacion: "B",
+        demostracion: `
+            <p><strong>Demostración.</strong> El algoritmo es:</p>
+            <ol>
+                <li>Base: S es alcanzable.</li>
+                <li>Paso: si A es alcanzable y A → α, entonces todos los símbolos en α son alcanzables.</li>
+            </ol>
+            <p><strong>Parte (⇒):</strong> Por inducción sobre el orden en que se añaden, cada símbolo añadido es alcanzable desde S.</p>
+            <p><strong>Parte (⇐):</strong> Si X es alcanzable, existe una derivación S ⇒* αXβ. Por inducción sobre la longitud de la derivación, X es añadido por el algoritmo.</p>
+            <p>La demostración detallada es análoga a la del Teorema 7.4. ✷</p>
+        `
     }
 ];
 
