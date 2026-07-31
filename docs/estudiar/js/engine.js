@@ -24,8 +24,8 @@
 
     // ---------- ESTADO ----------
     let cardsFiltradas = [];        // subconjunto según filtro
-    let indiceActual = 0;          // índice dentro de cardsFiltradas
-    let progreso = {};             // { id: { sabido: true/false } }
+    let indiceActual = 0;           // índice dentro de cardsFiltradas
+    let progreso = {};              // { id: { sabido: true/false } }
 
     // Referencias a elementos DOM
     const contenedor = document.getElementById('cardContainer');
@@ -55,14 +55,14 @@
         return progreso[id] && progreso[id].sabido === true;
     }
 
+    // Toggle: si estaba sabido → pasa a no sabido, y viceversa
     function toggleSabido(id) {
         if (!progreso[id]) progreso[id] = {};
         progreso[id].sabido = !progreso[id].sabido;
         guardarProgreso();
     }
 
-    // ---------- FUNCIONES DE RENDERIZADO Y FILTRADO ----------
-
+    // Aplicar filtro y actualizar la lista
     function aplicarFiltro() {
         const valor = filtroSelect.value;
         if (valor === 'all') {
@@ -100,6 +100,7 @@
         actualizarProgreso();
     }
 
+    // Renderizar la card actual (VERSIÓN CON DEMOSTRACIÓN Y TOGGLE)
     function renderCard() {
         if (cardsFiltradas.length === 0) return;
 
@@ -195,11 +196,12 @@
             });
         }
 
-        // Actualizar estado del botón "Marcar sabido"
+        // Actualizar estado del botón "Marcar sabido" (toggle)
         btnMarcar.textContent = sabido ? '❌ Marcar como NO sabido' : '✅ Marcar como sabido';
         btnMarcar.classList.toggle('btn-sabido-activo', sabido);
     }
 
+    // Actualizar barra de progreso y texto
     function actualizarProgreso() {
         const total = cardsFiltradas.length;
         if (total === 0) {
@@ -218,14 +220,7 @@
         progresoBarra.style.width = porcentaje + '%';
     }
 
-    // ---------- NAVEGACIÓN ----------
-
-    function irAnterior() {
-        if (cardsFiltradas.length === 0) return;
-        indiceActual = (indiceActual - 1 + cardsFiltradas.length) % cardsFiltradas.length;
-        renderCard();
-    }
-
+    // Cambiar a una card aleatoria (distinta de la actual si hay más de 1)
     function irAleatorio() {
         console.log("irAleatorio ejecutado. cardsFiltradas.length =", cardsFiltradas.length);
         if (cardsFiltradas.length <= 1) {
@@ -243,29 +238,36 @@
         } while (nuevoIndice === indiceActual && cardsFiltradas.length > 1);
         indiceActual = nuevoIndice;
         renderCard();
+        // Al cambiar, ocultamos pistas y soluciones automáticamente (se recrean en renderCard)
+    }
+
+    // Cambiar a anterior / siguiente (secuencial)
+    function irAnterior() {
+        if (cardsFiltradas.length === 0) return;
+        indiceActual = (indiceActual - 1 + cardsFiltradas.length) % cardsFiltradas.length;
+        renderCard();
     }
 
     // ---------- INICIALIZACIÓN ----------
-
     function init() {
         cargarProgreso();
 
         // Eventos
         filtroSelect.addEventListener('change', function() {
-            indiceActual = 0; // resetear al primer elemento del nuevo filtro
+            indiceActual = 0;
             aplicarFiltro();
         });
 
         btnAnterior.addEventListener('click', irAnterior);
-        // El botón "Siguiente" ahora solo usa irAleatorio (navegación aleatoria)
-        btnSiguiente.addEventListener('click', irAleatorio);
+        btnSiguiente.addEventListener('click', irAleatorio);  // aleatorio
 
+        // Toggle: al hacer clic, alterna el estado "sabido" del teorema actual
         btnMarcar.addEventListener('click', function() {
             if (cardsFiltradas.length === 0) return;
             const card = cardsFiltradas[indiceActual];
             toggleSabido(card.id);
-            renderCard();    // actualiza la card (muestra el badge de sabido)
-            actualizarProgreso(); // actualiza barra
+            renderCard();           // actualiza la card (badge y texto del botón)
+            actualizarProgreso();   // actualiza barra de progreso
         });
 
         // Aplicar filtro inicial (todos)
