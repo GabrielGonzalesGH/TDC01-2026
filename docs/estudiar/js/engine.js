@@ -1,14 +1,19 @@
 // ================================================================
-// ENGINE DE ESTUDIO (con toggle switch deslizante)
+// ENGINE DE ESTUDIO (reutilizable para teoremas, definiciones, etc.)
+// ================================================================
+// Depende de:
+//   - window.DATOS : array de objetos con {id, texto, pista, clasificacion}
+//   - localStorage con clave "estudio_PROGRESO" (se setea automáticamente)
 // ================================================================
 
 (function() {
     "use strict";
 
     // ---------- CONFIGURACIÓN ----------
-    const STORAGE_KEY = 'estudio_teoremas_progreso';
+    const STORAGE_KEY = 'estudio_teoremas_progreso'; // clave en Local Storage
     const DATA = window.DATOS;
 
+    // Verificar que existan datos
     if (!DATA || DATA.length === 0) {
         document.getElementById('cardContainer').innerHTML = `
             <div class="card-error">
@@ -18,11 +23,11 @@
     }
 
     // ---------- ESTADO ----------
-    let cardsFiltradas = [];
-    let indiceActual = 0;
-    let progreso = {};
+    let cardsFiltradas = [];        // subconjunto según filtro
+    let indiceActual = 0;           // índice dentro de cardsFiltradas
+    let progreso = {};              // { id: { sabido: true/false } }
 
-    // Referencias DOM
+    // Referencias a elementos DOM
     const contenedor = document.getElementById('cardContainer');
     const filtroSelect = document.getElementById('filtroClasificacion');
     const btnAnterior = document.getElementById('btnAnterior');
@@ -51,21 +56,30 @@
         return progreso[id] && progreso[id].sabido === true;
     }
 
+    // Toggle: si estaba sabido → pasa a no sabido, y viceversa
     function toggleSabido(id) {
         if (!progreso[id]) progreso[id] = {};
         progreso[id].sabido = !progreso[id].sabido;
         guardarProgreso();
     }
 
-    // Actualizar el switch y su etiqueta según el estado actual
-    function actualizarSwitch(id) {
-        const sabido = estaSabido(id);
+    // Actualizar el estado visual del switch según el teorema actual
+    function actualizarSwitch() {
+        if (cardsFiltradas.length === 0) return;
+        const card = cardsFiltradas[indiceActual];
+        const sabido = estaSabido(card.id);
         switchSabido.checked = sabido;
-        switchLabel.textContent = sabido ? '✅ Sabido' : '❌ No sabido';
-        switchLabel.classList.toggle('sabido', sabido);
+        switchLabel.textContent = sabido ? '✅ Aprendido' : '📘 Marcar como sabido';
+        // También podemos añadir/eliminar clase para estilo adicional
+        const switchContainer = switchSabido.closest('.switch-container');
+        if (sabido) {
+            switchContainer.classList.add('sabido');
+        } else {
+            switchContainer.classList.remove('sabido');
+        }
     }
 
-    // Aplicar filtro
+    // Aplicar filtro y actualizar la lista
     function aplicarFiltro() {
         const valor = filtroSelect.value;
         if (valor === 'all') {
@@ -74,6 +88,7 @@
             cardsFiltradas = DATA.filter(t => t.clasificacion === valor);
         }
 
+        // Si no hay cards con ese filtro, mostrar mensaje
         if (cardsFiltradas.length === 0) {
             contenedor.innerHTML = `
                 <div class="card-empty">
@@ -87,10 +102,12 @@
             return;
         }
 
+        // Habilitar botones
         btnAnterior.disabled = false;
         btnSiguiente.disabled = false;
         switchSabido.disabled = false;
 
+        // Asegurar que el índice sea válido
         if (indiceActual >= cardsFiltradas.length) {
             indiceActual = cardsFiltradas.length - 1;
         }
@@ -98,9 +115,10 @@
 
         renderCard();
         actualizarProgreso();
+        actualizarSwitch();
     }
 
-    // Renderizar la card
+    // Renderizar la card actual (VERSIÓN CON DEMOSTRACIÓN)
     function renderCard() {
         if (cardsFiltradas.length === 0) return;
 
@@ -108,9 +126,7 @@
         const sabido = estaSabido(card.id);
         const tieneDemo = card.demostracion && card.demostracion.trim() !== '';
 
-        // Actualizar el switch (fuera de la card)
-        actualizarSwitch(card.id);
-
+        // Construir HTML de la card
         const html = `
             <div class="card-body ${sabido ? 'card-sabido' : ''}">
                 <div class="card-id">
@@ -150,9 +166,11 @@
         `;
 
         contenedor.innerHTML = html;
+
+        // Actualizar contador
         contadorCards.textContent = `Card ${indiceActual + 1} / ${cardsFiltradas.length}`;
 
-        // Eventos de los botones internos (pista, solución, demo)
+        // ---- Eventos de los botones dentro de la card ----
         const btnPista = document.getElementById('btnMostrarPista');
         const pistaDiv = document.getElementById('pistaDiv');
         const btnSolucion = document.getElementById('btnMostrarSolucion');
@@ -195,9 +213,11 @@
                 }
             });
         }
+
+        // El switch se actualiza en actualizarSwitch() que se llama después de renderCard
     }
 
-    // Actualizar barra de progreso
+    // Actualizar barra de progreso y texto
     function actualizarProgreso() {
         const total = cardsFiltradas.length;
         if (total === 0) {
@@ -216,9 +236,11 @@
         progresoBarra.style.width = porcentaje + '%';
     }
 
-    // Navegación
+    // Cambiar a una card aleatoria (distinta de la actual si hay más de 1)
     function irAleatorio() {
+        console.log("irAleatorio ejecutado. cardsFiltradas.length =", cardsFiltradas.length);
         if (cardsFiltradas.length <= 1) {
+            // Mostrar un aviso en la interfaz
             const aviso = document.createElement('div');
             aviso.className = 'aviso-sin-teoremas';
             aviso.textContent = '📭 No hay más teoremas en esta lista. Agrega más o cambia el filtro.';
@@ -232,39 +254,51 @@
         } while (nuevoIndice === indiceActual && cardsFiltradas.length > 1);
         indiceActual = nuevoIndice;
         renderCard();
+        actualizarSwitch();  // actualizar el switch tras cambiar de card
+        // Al cambiar, ocultamos pistas y soluciones automáticamente (se recrean en renderCard)
     }
 
+    // Cambiar a anterior / siguiente (secuencial)
     function irAnterior() {
         if (cardsFiltradas.length === 0) return;
         indiceActual = (indiceActual - 1 + cardsFiltradas.length) % cardsFiltradas.length;
         renderCard();
+        actualizarSwitch();
     }
 
     // ---------- INICIALIZACIÓN ----------
     function init() {
         cargarProgreso();
 
+        // Eventos
         filtroSelect.addEventListener('change', function() {
             indiceActual = 0;
             aplicarFiltro();
         });
 
         btnAnterior.addEventListener('click', irAnterior);
-        btnSiguiente.addEventListener('click', irAleatorio);
+        btnSiguiente.addEventListener('click', irAleatorio);  // aleatorio
 
-        // Evento del switch: cuando se DESLIZA, cambia el estado
+        // Evento del switch: alterna el estado "sabido" del teorema actual
         switchSabido.addEventListener('change', function() {
             if (cardsFiltradas.length === 0) return;
             const card = cardsFiltradas[indiceActual];
-            toggleSabido(card.id);
-            renderCard();           // actualiza la card (badge y estilo)
+            // El switch ya cambió su estado (checked), lo sincronizamos con el progreso
+            const nuevoEstado = switchSabido.checked;
+            // Actualizamos el progreso para que coincida con el switch
+            if (!progreso[card.id]) progreso[card.id] = {};
+            progreso[card.id].sabido = nuevoEstado;
+            guardarProgreso();
+            renderCard();           // actualiza la card (badge y clase)
             actualizarProgreso();   // actualiza barra de progreso
-            actualizarSwitch(card.id); // actualiza etiqueta del switch
+            actualizarSwitch();     // actualiza la etiqueta del switch
         });
 
+        // Aplicar filtro inicial (todos)
         aplicarFiltro();
     }
 
+    // Arrancar cuando el DOM esté listo
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', init);
     } else {
