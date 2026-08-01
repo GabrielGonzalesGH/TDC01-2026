@@ -1,34 +1,31 @@
-/* ==============================================================
-   SWITCH DESLIZANTE (toggle switch)
-   ============================================================== */
-
+/* ============================================================
+   SWITCH DESLIZANTE (TOGGLE)
+   ============================================================ */
 .switch-container {
     display: flex;
     align-items: center;
-    gap: 0.8rem;
+    justify-content: center;
+    gap: 12px;
+    margin: 1rem 0 0.5rem;
+    padding: 0.5rem;
     background: #161b22;
+    border-radius: 40px;
     border: 1px solid #30363d;
-    border-radius: 30px;
-    padding: 0.3rem 1rem 0.3rem 1.2rem;
 }
 
 .switch-label {
-    font-size: 0.8rem;
-    color: #8b949e;
+    font-size: 0.9rem;
     font-weight: 500;
-    transition: color 0.2s;
-    white-space: nowrap;
-}
-
-.switch-label.sabido {
-    color: #7ee787;
+    color: #c9d1d9;
+    cursor: pointer;
+    user-select: none;
 }
 
 /* El switch en sí */
 .switch {
     position: relative;
     display: inline-block;
-    width: 50px;
+    width: 52px;
     height: 28px;
     flex-shrink: 0;
 }
@@ -39,7 +36,6 @@
     height: 0;
 }
 
-/* El slider (la pista y el botón redondo) */
 .slider {
     position: absolute;
     cursor: pointer;
@@ -48,39 +44,47 @@
     right: 0;
     bottom: 0;
     background-color: #30363d;
-    transition: 0.3s;
+    transition: .3s;
     border-radius: 28px;
 }
 
-.slider::before {
-    content: "";
+.slider:before {
     position: absolute;
+    content: "";
     height: 20px;
     width: 20px;
     left: 4px;
     bottom: 4px;
-    background-color: #c9d1d9;
-    transition: 0.3s;
+    background-color: #8b949e;
+    transition: .3s;
     border-radius: 50%;
 }
 
-/* Cuando está activado (sabido) */
+/* Cuando está activado (checked) */
 .switch input:checked + .slider {
     background-color: #2ea043;
 }
 
-.switch input:checked + .slider::before {
-    transform: translateX(22px);
+.switch input:checked + .slider:before {
+    transform: translateX(24px);
     background-color: #ffffff;
 }
 
-/* Hover para feedback */
-.switch input:hover + .slider {
+/* Efecto hover para feedback */
+.switch:hover .slider {
     box-shadow: 0 0 0 2px #2ea04380;
 }
 
-/* Deshabilitado */
-.switch input:disabled + .slider {
-    opacity: 0.4;
-    cursor: not-allowed;
+.switch input:focus + .slider {
+    box-shadow: 0 0 0 2px #2ea043;
+}
+
+/* Ajuste para el estado "sabido" del switch: se controla desde JS */
+.switch.sabido .slider {
+    background-color: #2ea043;
+}
+
+.switch.sabido .slider:before {
+    transform: translateX(24px);
+    background-color: #ffffff;
 }
