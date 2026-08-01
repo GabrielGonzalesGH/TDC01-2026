@@ -46,19 +46,19 @@
             <!-- El contenido se pinta con JavaScript -->
         </div>
 
-        <!-- Botones de acción con SWITCH DESLIZANTE -->
+        <!-- Barra de acción: Anterior y Siguiente -->
         <div class="action-bar">
             <button id="btnAnterior" class="btn-study" title="Teorema anterior">◀ Anterior</button>
             <button id="btnSiguiente" class="btn-study" title="Teorema aleatorio">🎲 Siguiente</button>
-            
-            <!-- Switch deslizante para "Marcar como sabido" -->
-            <div class="switch-container">
-                <span class="switch-label" id="switchLabel">❌ No sabido</span>
-                <label class="switch">
-                    <input type="checkbox" id="switchSabido">
-                    <span class="slider round"></span>
-                </label>
-            </div>
+        </div>
+
+        <!-- Switch "Marcar como sabido" en su propia línea -->
+        <div class="switch-container">
+            <label class="switch">
+                <input type="checkbox" id="switchSabido">
+                <span class="slider round"></span>
+            </label>
+            <span id="switchLabel" class="switch-label">Marcar como sabido</span>
         </div>
 
         <!-- Pie de página -->
