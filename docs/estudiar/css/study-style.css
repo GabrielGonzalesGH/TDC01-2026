@@ -1,41 +1,174 @@
-/* ============================================================
-   SWITCH DESLIZANTE (TOGGLE)
-   ============================================================ */
-.switch-container {
+/* ==============================================================
+   ESTILOS ESPECÍFICOS PARA LAS CARDS DE ESTUDIO
+   (Complementa el style.css raíz)
+   ============================================================== */
+
+.study-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 1.5rem 1rem;
+}
+
+.study-header {
+    text-align: center;
+    margin-bottom: 2rem;
+    border-bottom: 1px solid #30363d;
+    padding-bottom: 0.75rem;
+}
+.study-header h1 {
+    font-size: 2rem;
+    font-weight: 600;
+    background: linear-gradient(135deg, #79c0ff, #a5d6ff);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    margin: 0;
+}
+.study-sub {
     display: flex;
-    align-items: center;
     justify-content: center;
-    gap: 12px;
-    margin: 1rem 0 0.5rem;
-    padding: 0.5rem;
-    background: #161b22;
-    border-radius: 40px;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-top: 0.5rem;
+    font-size: 0.85rem;
+}
+
+/* Badges de clasificación */
+.badge {
+    display: inline-block;
+    padding: 0.15rem 0.7rem;
+    border-radius: 30px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    background: #21262d;
+    color: #8b949e;
     border: 1px solid #30363d;
 }
-
-.switch-label {
-    font-size: 0.9rem;
+.badge.A { background: #1f3a2f; color: #7ee787; border-color: #2ea043; }
+.badge.B { background: #3d2f1f; color: #facc15; border-color: #d29922; }
+.badge.C { background: #2d2d2d; color: #8b949e; border-color: #484f58; }
+.badge-sabido {
+    background: #1f3a2f;
+    color: #7ee787;
+    padding: 0.1rem 0.6rem;
+    border-radius: 30px;
+    font-size: 0.7rem;
     font-weight: 500;
-    color: #c9d1d9;
-    cursor: pointer;
-    user-select: none;
+    border: 1px solid #2ea043;
 }
 
-/* El switch en sí */
+/* Panel de control */
+.control-panel {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    background: #161b22;
+    border: 1px solid #30363d;
+    border-radius: 10px;
+    padding: 0.75rem 1.25rem;
+    margin-bottom: 1.5rem;
+}
+.filter-group {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+.filter-group label {
+    font-size: 0.8rem;
+    color: #8b949e;
+}
+.filter-group select {
+    background: #0d1117;
+    color: #c9d1d9;
+    border: 1px solid #30363d;
+    border-radius: 6px;
+    padding: 0.3rem 0.8rem;
+    font-size: 0.8rem;
+    cursor: pointer;
+}
+.progress-group {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    min-width: 150px;
+}
+.progress-group span {
+    font-size: 0.8rem;
+    color: #8b949e;
+    white-space: nowrap;
+}
+.progress-bar-bg {
+    flex: 1;
+    height: 8px;
+    background: #21262d;
+    border-radius: 10px;
+    overflow: hidden;
+    min-width: 60px;
+}
+.progress-bar-fill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, #2ea043, #7ee787);
+    border-radius: 10px;
+    transition: width 0.3s ease;
+}
+
+/* Card principal */
+.card-study {
+    background: #0d1117;
+    border: 1px solid #30363d;
+    border-radius: 16px;
+    padding: 1.5rem 1.8rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+    transition: border-color 0.2s;
+}
+.card-study.card-sabido {
+    border-color: #2ea043;
+    background: #0f1a14;
+}
+
+.card-body {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+}
+
+/* ID, badges y switch */
+.card-id {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    flex-wrap: wrap;
+    border-bottom: 1px solid #21262d;
+    padding-bottom: 0.6rem;
+}
+.id-text {
+    font-size: 1.6rem;
+    font-weight: 600;
+    color: #79c0ff;
+    font-family: var(--font-sans, sans-serif);
+}
+
+/* Switch deslizante (toggle) */
 .switch {
     position: relative;
     display: inline-block;
-    width: 52px;
-    height: 28px;
+    width: 48px;
+    height: 26px;
+    margin-left: auto; /* empuja a la derecha */
     flex-shrink: 0;
 }
-
 .switch input {
     opacity: 0;
     width: 0;
     height: 0;
 }
-
 .slider {
     position: absolute;
     cursor: pointer;
@@ -45,46 +178,212 @@
     bottom: 0;
     background-color: #30363d;
     transition: .3s;
-    border-radius: 28px;
+    border-radius: 26px;
 }
-
 .slider:before {
     position: absolute;
     content: "";
-    height: 20px;
-    width: 20px;
+    height: 18px;
+    width: 18px;
     left: 4px;
     bottom: 4px;
-    background-color: #8b949e;
+    background-color: white;
     transition: .3s;
     border-radius: 50%;
 }
-
-/* Cuando está activado (checked) */
-.switch input:checked + .slider {
+input:checked + .slider {
     background-color: #2ea043;
 }
-
-.switch input:checked + .slider:before {
-    transform: translateX(24px);
-    background-color: #ffffff;
+input:checked + .slider:before {
+    transform: translateX(22px);
+}
+.slider.round {
+    border-radius: 26px;
+}
+.slider.round:before {
+    border-radius: 50%;
 }
 
-/* Efecto hover para feedback */
-.switch:hover .slider {
-    box-shadow: 0 0 0 2px #2ea04380;
+/* Áreas de botones internos */
+.card-hint-area,
+.card-solution-area,
+.card-proof-area {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+.card-pista,
+.card-solucion,
+.card-demostracion {
+    background: #161b22;
+    border-radius: 8px;
+    padding: 0.8rem 1rem;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: #e6edf3;
+    overflow-x: auto;
+}
+.card-pista {
+    border-left: 3px solid #facc15;
+}
+.card-solucion {
+    border: 1px solid #30363d;
+}
+.card-demostracion {
+    border: 1px solid #4c2d7a;
+    background: #140d1f;
+}
+.demo-contenido pre {
+    background: #0b0612;
+    border: 1px solid #2d1a4a;
+    border-radius: 6px;
+    padding: 0.6rem 1rem;
+    font-family: 'JetBrains Mono', 'Fira Code', monospace;
+    font-size: 0.85rem;
+    color: #d4c4f0;
+    overflow-x: auto;
+    margin: 0.6rem 0;
+}
+.demo-contenido code {
+    background: #2d1a4a;
+    padding: 0.1rem 0.4rem;
+    border-radius: 4px;
+    color: #c084fc;
+    font-size: 0.9rem;
+}
+.demo-contenido p {
+    margin: 0.6rem 0;
+}
+.demo-contenido strong {
+    color: #a78bfa;
+}
+.demo-contenido em {
+    color: #facc15;
+    font-style: italic;
 }
 
-.switch input:focus + .slider {
-    box-shadow: 0 0 0 2px #2ea043;
+/* Botones generales */
+.btn-study {
+    background: #21262d;
+    border: 1px solid #30363d;
+    color: #c9d1d9;
+    padding: 0.4rem 1rem;
+    border-radius: 30px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.15s;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    width: fit-content;
+}
+.btn-study:hover:not(:disabled) {
+    background: #30363d;
+    border-color: #484f58;
+    transform: scale(0.98);
+}
+.btn-study:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+.btn-study.btn-hint {
+    background: #2d2a1a;
+    border-color: #d29922;
+    color: #facc15;
+}
+.btn-study.btn-hint:hover:not(:disabled) {
+    background: #3d351f;
+}
+.btn-study.btn-solution {
+    background: #1a2a3a;
+    border-color: #58a6ff;
+    color: #79c0ff;
+}
+.btn-study.btn-solution:hover:not(:disabled) {
+    background: #1f3a55;
+}
+.btn-study.btn-proof {
+    background: #2a1f3d;
+    border-color: #7c3aed;
+    color: #c084fc;
+}
+.btn-study.btn-proof:hover:not(:disabled) {
+    background: #3a2a55;
 }
 
-/* Ajuste para el estado "sabido" del switch: se controla desde JS */
-.switch.sabido .slider {
-    background-color: #2ea043;
+/* Barra de navegación inferior */
+.action-bar {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+    margin: 1rem 0 0.5rem;
+}
+.action-bar .btn-study {
+    background: #21262d;
+    border-color: #30363d;
+    color: #c9d1d9;
+    padding: 0.5rem 1.5rem;
+    font-size: 0.9rem;
+}
+.action-bar .btn-study:hover:not(:disabled) {
+    background: #30363d;
 }
 
-.switch.sabido .slider:before {
-    transform: translateX(24px);
-    background-color: #ffffff;
+/* Footer */
+.study-footer {
+    text-align: center;
+    margin-top: 2rem;
+    font-size: 0.75rem;
+    color: #484f58;
+    border-top: 1px solid #21262d;
+    padding-top: 1.2rem;
+}
+#contadorCards {
+    font-weight: 500;
+    color: #8b949e;
+}
+
+/* Mensajes de error / vacío */
+.card-error,
+.card-empty {
+    background: #0d1117;
+    border: 1px solid #da3633;
+    border-radius: 12px;
+    padding: 2rem;
+    text-align: center;
+    color: #f85149;
+}
+.card-empty {
+    border-color: #d29922;
+    color: #facc15;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+    .control-panel {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .progress-group {
+        width: 100%;
+    }
+    .card-study {
+        padding: 1rem;
+    }
+    .id-text {
+        font-size: 1.2rem;
+    }
+    .action-bar {
+        flex-direction: column;
+        align-items: center;
+    }
+    .btn-study {
+        width: 100%;
+        justify-content: center;
+    }
+    .switch {
+        margin-left: 0;
+    }
 }
